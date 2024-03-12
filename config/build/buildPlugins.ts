@@ -18,18 +18,18 @@ export function buildPlugins(options: BuildOptions):webpack.WebpackPluginInstanc
         }),
         new webpack.ProgressPlugin(),
         new MiniCssExtractPlugin({
-            filename: 'css/[name].css',
-            chunkFilename: 'css/[name].css',
+            filename: "css/[name].css",
+            chunkFilename: "css/[name].css",
         }),
         new webpack.DefinePlugin({
             __API__:JSON.stringify(apiUrl)
         })
-    ]
+    ];
     if(isDev) {
         plugin.push(
             new webpack.HotModuleReplacementPlugin(),
             new ReactRefreshPlugin({overlay:false})
-        )
+        );
     }
     return plugin;
 }

@@ -1,1 +1,1 @@
-console.log('petux');
+console.log("petux");

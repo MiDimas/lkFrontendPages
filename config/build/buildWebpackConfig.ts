@@ -12,15 +12,15 @@ export function buildWebpackConfig(options:BuildOptions): webpack.Configuration 
         mode,
         paths,
         isDev
-    } = options
+    } = options;
     return {
         mode,
         entry: () => paths.entry,
         output: {
-            filename: '[name].js',
+            filename: "[name].js",
             path: paths.build,
             clean: true,
-            publicPath: '/'
+            publicPath: "/"
         },
         plugins: buildPlugins(options),
         module: {
@@ -28,5 +28,5 @@ export function buildWebpackConfig(options:BuildOptions): webpack.Configuration 
         },
         resolve: buildResolvers(options),
         devServer: isDev ? buildDevServer(options) : undefined
-    }
+    };
 }

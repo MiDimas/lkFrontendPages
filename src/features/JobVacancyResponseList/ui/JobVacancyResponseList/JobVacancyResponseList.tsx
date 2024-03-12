@@ -1,23 +1,29 @@
-import {useEffect, useState} from "react";
-import {JVResponses} from "features/JobVacancyResponseList/model/types/JVResponses";
-import {getJVResponses} from "features/JobVacancyResponseList/model/services/getJVResponses/getJVResponses";
+import {useCallback, useEffect, useState} from "react";
+import {GetJVResponsesParams, JVResponses} from "../../model/types/JVResponses";
+import {getJVResponses} from "../../model/services/getJVResponses/getJVResponses";
 
 export const JobVacancyResponseList = () => {
     const [respList, setRespList] = useState<JVResponses[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    useEffect( () => {
-        if(respList.length === 0){
-            getJVResponses({}).then((response) =>{
-                    setIsLoading(false);
-                    if(response.result){
-                        setRespList(response.data ?? [])
-                    }
-            })
+    const [params, setParams] = useState<GetJVResponsesParams>({});
 
-        }
-    }, [respList]);
+
+    const getData = useCallback(
+        async () => {
+            const response = await getJVResponses(params);
+            setIsLoading(false);
+            if(response.result){
+                setRespList(response.data ?? []);
+            }
+        },
+        [params],
+    );
+
+    useEffect( () => {
+        getData();
+    }, [getData]);
     if(isLoading){
-        return <h3>Загрузка...</h3>
+        return <h3>Загрузка...</h3>;
     }
     return (
         <div>
@@ -27,4 +33,4 @@ export const JobVacancyResponseList = () => {
             }
         </div>
     );
-}
+};

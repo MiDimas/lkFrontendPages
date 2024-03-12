@@ -30,8 +30,8 @@ export interface ResponsesStructure<T> {
 
 export interface GetJVResponsesParams {
     limit?:number;
-    sort?: 'updated' | 'created' | 'fio' | 'id';
-    order?: 'ASC' | 'DESC';
+    sort?: "updated" | "created" | "fio" | "id";
+    order?: "ASC" | "DESC";
     page?: number;
     status?: number;
     worker?: number;
