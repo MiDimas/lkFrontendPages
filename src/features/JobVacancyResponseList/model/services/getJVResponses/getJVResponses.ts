@@ -1,20 +1,33 @@
-import {JVResponses, GetJVResponsesParams, ResponsesStructure} from "../../types/JVResponses";
+import {GetJVResponsesParams} from "../../types/JVResponsesSchema";
 import axios, {AxiosResponse} from "axios";
+import {addQueryParams} from "shared/lib/url/addQueryParams/addQueryParams";
+import {JVResponseSchema} from "entities/JVResponse";
 
 const api = __API__;
 
-export async function getJVResponses (props:GetJVResponsesParams): Promise<ResponsesStructure<JVResponses>> {
-    console.log(api);
-    const response = await axios.get<ResponsesStructure<JVResponses>,
-        AxiosResponse<ResponsesStructure<JVResponses>>
-    >(
-        `${__API__}/api/job-vacancy-response`,
-        {
-            params: {
-                ...props
+export async function getJVResponses (props:GetJVResponsesParams): Promise<ResponsesStructure<JVResponseSchema>> {
+
+    try {
+        addQueryParams<GetJVResponsesParams>(props);
+        const response = await axios.get<ResponsesStructure<JVResponseSchema>,
+            AxiosResponse<ResponsesStructure<JVResponseSchema>>
+        >(
+            `${__API__}/api/job-vacancy-response`,
+            {
+                params: {
+                    ...props
+                }
             }
-        }
-    );
-    console.log(response);
-    return response.data;
+        );
+
+        return response.data;
+    }
+    catch(e) {
+        return new Promise((resolve) => resolve({
+            result:0,
+            desc: "Ошибка на стороне клиента",
+            data: [],
+            info: {count:0}
+        }));
+    }
 }

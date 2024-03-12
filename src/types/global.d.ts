@@ -19,3 +19,14 @@ declare module "*.svg" {
 }
 
 declare const __API__: string;
+
+
+interface ResponsesStructure<T> {
+    result: number;
+    desc:string;
+    data?: T[] | [];
+    info: {
+        id?: number;
+        count: number;
+    }
+}

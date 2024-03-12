@@ -1,11 +1,17 @@
 import {useCallback, useEffect, useState} from "react";
-import {GetJVResponsesParams, JVResponses} from "../../model/types/JVResponses";
+import {GetJVResponsesParams} from "../../model/types/JVResponsesSchema";
 import {getJVResponses} from "../../model/services/getJVResponses/getJVResponses";
+import {loadJVQueryParams} from "../../model/services/loadJVQueryParams/loadJVQueryParams";
+import {JVResponseSchema} from "entities/JVResponse";
+import {JVResponseCard} from "entities/JVResponse/ui/JVResponseCard/JVResponseCard";
 
 export const JobVacancyResponseList = () => {
-    const [respList, setRespList] = useState<JVResponses[]>([]);
+    const [respList, setRespList] = useState<JVResponseSchema[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [params, setParams] = useState<GetJVResponsesParams>({});
+    const [params, setParams] = useState<GetJVResponsesParams>(
+        loadJVQueryParams(new URLSearchParams(window.location.search))
+    );
+
 
 
     const getData = useCallback(
@@ -19,16 +25,19 @@ export const JobVacancyResponseList = () => {
         [params],
     );
 
+
     useEffect( () => {
         getData();
     }, [getData]);
+
+
     if(isLoading){
         return <h3>Загрузка...</h3>;
     }
     return (
         <div>
             {respList.length
-                ? respList.map((elem) => <div key={elem.id}>{elem.fio}</div>)
+                ? respList.map((elem) => <JVResponseCard key={elem.id} response={elem}/>)
                 : "Данные отсутствуют"
             }
         </div>
