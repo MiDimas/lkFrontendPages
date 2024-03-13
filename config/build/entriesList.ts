@@ -1,8 +1,8 @@
 import path from "path";
+import fs from "fs";
 const entryPoints: Record<string, string> = {
     firstPage: "firstPage.tsx",
     secondPage: "secondPage.tsx"
-
 };
 
 export const entriesList = (src: string, page?: string): Record<string, string> => {
@@ -13,6 +13,14 @@ export const entriesList = (src: string, page?: string): Record<string, string> 
             return {
                 [page]: resolveJSFiles(page, entryPoints[page])
             };
+        }
+        else {
+            const filePath = resolveJSFiles(page, `${page}.tsx`);
+            if(fs.existsSync(resolveJSFiles(page)) && fs.existsSync(filePath)){
+                return {
+                    [page]: filePath
+                };
+            }
         }
     }
     Object.entries(entryPoints).map(([key, value]) => {
