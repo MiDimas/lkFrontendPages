@@ -58,5 +58,8 @@
         "react/no-array-index-key": "off",
         "midi-plugin-import/path-check": 2,
         "@typescript-eslint/no-unused-vars": 0
+    },
+    "globals": {
+        "__PHPDATA__": true
     }
 }

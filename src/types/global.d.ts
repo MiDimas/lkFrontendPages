@@ -19,8 +19,12 @@ declare module "*.svg" {
 }
 
 declare const __API__: string;
+declare const __PHPDATA__: User | undefined;
 
-
+interface  User {
+    id: number;
+    firstName: string;
+}
 interface ResponsesStructure<T> {
     result: number;
     desc:string;

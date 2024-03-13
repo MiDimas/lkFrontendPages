@@ -22,7 +22,7 @@ export function buildPlugins(options: BuildOptions):webpack.WebpackPluginInstanc
             chunkFilename: "css/[name].css",
         }),
         new webpack.DefinePlugin({
-            __API__:JSON.stringify(apiUrl)
+            __API__:JSON.stringify(apiUrl),
         })
     ];
     if(isDev) {
