@@ -3,8 +3,14 @@ import {GetJVResponsesParams} from "../../model/types/JVResponsesSchema";
 import {getJVResponses} from "../../model/services/getJVResponses/getJVResponses";
 import {loadJVQueryParams} from "../../model/services/loadJVQueryParams/loadJVQueryParams";
 import {JVResponseSchema} from "entities/JVResponse";
-import {JVResponseCard} from "entities/JVResponse/ui/JVResponseCard/JVResponseCard";
+
 import cls from "./JobVacancyResponsList.module.css";
+import {
+    JobVacancyResponseBlockList
+} from "../JobVacancyResponseBlockList/JobVacancyResponseBlockList";
+import {
+    JobVacancyResponseFilter
+} from "../JobVacancyResponseFilter/JobVacancyResponseFilter";
 
 interface JobVacancyResponseListProps {
     user?: User;
@@ -28,25 +34,26 @@ export const JobVacancyResponseList = (props: JobVacancyResponseListProps) => {
             if(response.result){
                 setRespList(response.data ?? []);
             }
+            console.log(response);
         },
         [params],
     );
 
 
     useEffect( () => {
+        setIsLoading(true);
         getData();
     }, [getData]);
 
 
-    if(isLoading){
-        return <h3>Загрузка...</h3>;
-    }
     return (
-        <div className={cls.list}>
-            {respList.length
-                ? respList.map((elem) => <JVResponseCard key={elem.id} response={elem}/>)
-                : "Данные отсутствуют"
-            }
+        <div className={cls.main}>
+            <JobVacancyResponseFilter
+                params={params}
+                setParams={setParams}
+                user={user}
+            />
+            <JobVacancyResponseBlockList isLoading={isLoading} list={respList} />
         </div>
     );
 };

@@ -1,0 +1,12 @@
+.Tabs {
+    display: flex;
+
+}
+.tabCard {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid silver
+}
+.selected {
+    background-color: chartreuse;
+}

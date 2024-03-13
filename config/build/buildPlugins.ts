@@ -23,6 +23,7 @@ export function buildPlugins(options: BuildOptions):webpack.WebpackPluginInstanc
         }),
         new webpack.DefinePlugin({
             __API__:JSON.stringify(apiUrl),
+            __DEV__:JSON.stringify(isDev)
         })
     ];
     if(isDev) {

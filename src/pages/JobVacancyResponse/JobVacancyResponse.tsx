@@ -9,11 +9,17 @@ export const JobVacancyResponse = () => {
             </div>
         );
     }
+    else if (__DEV__) {
+        return (
+            <div>
+                <JobVacancyResponseList user={{id: 555, firstName:"Димас"}} />
+            </div>
+        );
+    }
 
     return (
         <div>
-            {/*Not Authorized*/}
-            <JobVacancyResponseList />
+            Not Authorized
         </div>
     );
 };

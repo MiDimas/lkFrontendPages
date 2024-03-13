@@ -19,6 +19,7 @@ declare module "*.svg" {
 }
 
 declare const __API__: string;
+declare const __DEV__: boolean;
 declare const __PHPDATA__: User | undefined;
 
 interface  User {
