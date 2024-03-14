@@ -1,6 +1,6 @@
 import {createRoot} from "react-dom/client";
-import {JobVacancyResponse} from "pages/JobVacancyResponse/JobVacancyResponse";
+import {JobVacancyResponsePage} from "pages/JobVacancyResponsePage/JobVacancyResponsePage";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
-root.render(<JobVacancyResponse />);
+root.render(<JobVacancyResponsePage />);

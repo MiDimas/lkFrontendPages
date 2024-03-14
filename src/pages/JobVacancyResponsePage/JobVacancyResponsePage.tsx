@@ -1,7 +1,7 @@
 import {JobVacancyResponseList} from "features/JobVacancyResponseList";
 
 
-export const JobVacancyResponse = () => {
+export const JobVacancyResponsePage = () => {
     if(typeof __PHPDATA__ !== "undefined"){
         return (
             <div>

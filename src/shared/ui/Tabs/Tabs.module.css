@@ -1,12 +1,17 @@
 .Tabs {
     display: flex;
-
+    gap: 5px;
+    flex-wrap: wrap;
+    width: 100%;
 }
 .tabCard {
     padding: 20px;
     border-radius: 10px;
-    border: 1px solid silver
+    border: 1px solid silver;
+    cursor: pointer;
+    user-select:none;
 }
 .selected {
-    background-color: chartreuse;
+    background-color: #1e95d0;
+    color: #ffffff;
 }
