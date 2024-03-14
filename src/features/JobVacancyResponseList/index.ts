@@ -1,1 +1,1 @@
-export {JobVacancyResponseList} from "./ui/JobVacancyResponseList/JobVacancyResponseList";
+export {JobVacancyResponsesFrame} from "./ui/JobVacancyResponsesFrame/JobVacancyResponsesFrame";

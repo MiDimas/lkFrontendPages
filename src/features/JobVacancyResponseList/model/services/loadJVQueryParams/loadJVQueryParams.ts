@@ -14,10 +14,10 @@ export function loadJVQueryParams (
     // const category = Number(searchParams.get("category"));
     // const identifier = Number(searchParams.get("identifier"));
     return {
-        sort:  sort ? sort : undefined,
-        order: order ? order : undefined,
-        status: isNaN(status) || !status ? undefined : status,
-        worker: isNaN(worker) || !worker ? undefined : worker,
+        sort:  sort ? sort : "updated",
+        order: order ? order : "DESC",
+        status: isNaN(status) || !status ? 0 : status,
+        worker: isNaN(worker) || !worker ? 0 : worker,
         // category: isNaN(category) ? undefined : category,
         // identifier: isNaN(identifier) ? undefined : identifier,
     };

@@ -4,10 +4,10 @@ import {getJVResponses} from "../../model/services/getJVResponses/getJVResponses
 import {loadJVQueryParams} from "../../model/services/loadJVQueryParams/loadJVQueryParams";
 import {JVResponseSchema} from "entities/JVResponse";
 
-import cls from "./JobVacancyResponsList.module.css";
+import cls from "./JobVacancyResponsesFrame.module.css";
 import {
-    JobVacancyResponseBlockList
-} from "../JobVacancyResponseBlockList/JobVacancyResponseBlockList";
+    JobVacancyResponseList
+} from "entities/JVResponseList/ui/JobVacancyResponseList/JobVacancyResponseList";
 import {
     JobVacancyResponseFilter
 } from "../JobVacancyResponseFilter/JobVacancyResponseFilter";
@@ -15,7 +15,7 @@ import {
 interface JobVacancyResponseListProps {
     user?: User;
 }
-export const JobVacancyResponseList = (props: JobVacancyResponseListProps) => {
+export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => {
     const {
         user = {id: 0, firstName: "" }
     } = props;
@@ -52,8 +52,13 @@ export const JobVacancyResponseList = (props: JobVacancyResponseListProps) => {
                 params={params}
                 setParams={setParams}
                 user={user}
+                className={cls.filter}
             />
-            <JobVacancyResponseBlockList isLoading={isLoading} list={respList} />
+            <JobVacancyResponseList
+                isLoading={isLoading}
+                list={respList}
+                className={cls.list}
+            />
         </div>
     );
 };

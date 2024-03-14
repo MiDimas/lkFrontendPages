@@ -1,18 +1,21 @@
-import cls from "../JobVacancyResponseList/JobVacancyResponsList.module.css";
+import cls from "./JobVacancyResponseList.module.css";
 import {JVResponseCard} from "entities/JVResponse/ui/JVResponseCard/JVResponseCard";
 import {JVResponseSchema} from "entities/JVResponse";
+import {classNames} from "shared/lib/classNames/classNames";
 
 interface JobVacancyResponseBlockListProps {
     isLoading: boolean;
     list: JVResponseSchema[];
+    className?: string;
 }
-export const JobVacancyResponseBlockList = (props: JobVacancyResponseBlockListProps) => {
+export const JobVacancyResponseList = (props: JobVacancyResponseBlockListProps) => {
     const {
         isLoading,
-        list
+        list,
+        className
     } = props;
     return (
-        <div className={cls.list}>
+        <div className={classNames(cls.list, {}, [className])}>
             {isLoading
                 ? <h3 className={cls.list}>Загрузка...</h3>
                 : list.length
