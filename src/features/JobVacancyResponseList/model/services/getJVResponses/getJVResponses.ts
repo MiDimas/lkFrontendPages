@@ -3,15 +3,12 @@ import axios, {AxiosResponse} from "axios";
 import {addQueryParams} from "shared/lib/url/addQueryParams/addQueryParams";
 import {JVResponseSchema} from "entities/JVResponse";
 
-const api = __API__;
 
-export async function getJVResponses (props:GetJVResponsesParams): Promise<ResponsesStructure<JVResponseSchema>> {
+export async function getJVResponses (props:GetJVResponsesParams): Promise<ResponsesStructure<JVResponseSchema[]>> {
 
     try {
         addQueryParams<GetJVResponsesParams>(props);
-        const response = await axios.get<ResponsesStructure<JVResponseSchema>,
-            AxiosResponse<ResponsesStructure<JVResponseSchema>>
-        >(
+        const response = await axios.get<ResponsesStructure<JVResponseSchema[]>>(
             `${__API__}/api/job-vacancy-response`,
             {
                 params: {

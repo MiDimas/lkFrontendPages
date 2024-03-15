@@ -10,3 +10,7 @@ export interface GetJVResponsesParams {
 }
 export type JVSortSchema = "updated" | "created" | "fio" | "id";
 export type JVOrderSchema = "ASC" | "DESC";
+export type JVRStatusSchema = {
+    id: number;
+    name: string;
+}

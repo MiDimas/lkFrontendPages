@@ -5,6 +5,7 @@
     width: 100%;
     box-sizing: border-box;
     gap: 10px;
+    border-bottom: 1px solid silver;
 }
 .tabBlock {
     display: flex;

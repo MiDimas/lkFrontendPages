@@ -1,5 +1,5 @@
 import {TabItem, Tabs} from "shared/ui/Tabs/Tabs";
-import {GetJVResponsesParams, JVOrderSchema, JVSortSchema} from "../../model/types/JVResponsesSchema";
+import {GetJVResponsesParams, JVOrderSchema, JVRStatusSchema, JVSortSchema} from "../../model/types/JVResponsesSchema";
 import {Dispatch, SetStateAction, useCallback, useMemo, useState} from "react";
 import cls from "./JobVacancyResponseFilter.module.css";
 import {Select, SelectOption} from "shared/ui/Select/Select";
@@ -10,6 +10,7 @@ interface JobVacancyResponseFilterProps {
     setParams: Dispatch<SetStateAction<GetJVResponsesParams>>;
     user: User;
     className: string;
+    statuses?: JVRStatusSchema[];
 }
 
 export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => {
@@ -17,7 +18,8 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
         params,
         setParams,
         user,
-        className
+        className,
+        statuses
     } = props;
 
     const [isHidden, setIsHidden] = useState(true);
@@ -42,16 +44,23 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                 return prevState;
             });
         }, [setParams]);
-    const statusTabs: TabItem<number>[] = useMemo(() => ([
-        {
-            value: 0,
-            content: "Все"
-        },
-        {
-            value: 1,
-            content: "Новые"
+    const statusTabs: TabItem<number>[] = useMemo(() => {
+        const returned = [
+            {
+                value: 0,
+                content: "Все"
+            }
+        ];
+        if(statuses && statuses.length){
+            statuses.map(statusObj => {
+                returned.push({
+                    value: statusObj.id,
+                    content: statusObj.name
+                });
+            });
         }
-    ]), []);
+        return returned;
+    }, [statuses]);
     const statusValue = params.status;
     const changeStatus = useCallback(
         (tab: TabItem<number>) => {
@@ -144,7 +153,8 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                         value={statusValue}
                         onTabClick={changeStatus}
                     />
-                </div><div className={cls.tabBlock}>
+                </div>
+                <div className={cls.tabBlock}>
                     <span className={cls.titleTab}>Сортировать по:</span>
                     <Tabs
                         tabs={sortTabs}

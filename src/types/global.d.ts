@@ -29,7 +29,7 @@ interface  User {
 interface ResponsesStructure<T> {
     result: number;
     desc:string;
-    data?: T[] | [];
+    data?: T;
     info: {
         id?: number;
         count: number;

@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {GetJVResponsesParams} from "../../model/types/JVResponsesSchema";
+import {GetJVResponsesParams, JVRStatusSchema} from "../../model/types/JVResponsesSchema";
 import {getJVResponses} from "../../model/services/getJVResponses/getJVResponses";
 import {loadJVQueryParams} from "../../model/services/loadJVQueryParams/loadJVQueryParams";
 import {JVResponseSchema} from "entities/JVResponse";
@@ -11,6 +11,9 @@ import {
 import {
     JobVacancyResponseFilter
 } from "../JobVacancyResponseFilter/JobVacancyResponseFilter";
+import {getJVRStatuses} from "../../model/services/getJVRStatuses/getJVRStatuses";
+import {useInitialEffect} from "shared/lib/hooks/useInitialEffect/useInitialEffect";
+
 
 interface JobVacancyResponseListProps {
     user?: User;
@@ -24,6 +27,7 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
     const [params, setParams] = useState<GetJVResponsesParams>(
         loadJVQueryParams(new URLSearchParams(window.location.search))
     );
+    const [statuses, setStatuses] = useState<JVRStatusSchema[]>();
     console.log(user);
 
 
@@ -34,10 +38,19 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
             if(response.result){
                 setRespList(response.data ?? []);
             }
-            console.log(response);
         },
         [params],
     );
+    const getStatuses = useCallback(async () => {
+        const response = await getJVRStatuses();
+        if(response.result) {
+            setStatuses(response.data);
+        }
+    }, []);
+
+    useInitialEffect(() => {
+        getStatuses();
+    });
 
 
     useEffect( () => {
@@ -53,6 +66,7 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
                 setParams={setParams}
                 user={user}
                 className={cls.filter}
+                statuses={statuses}
             />
             <JobVacancyResponseList
                 isLoading={isLoading}
