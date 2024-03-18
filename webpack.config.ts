@@ -23,7 +23,7 @@ function createConfig(env: BuildEnv): webpack.Configuration {
         mode,
         paths,
         isDev,
-        apiUrl,
+        apiUrl: apiUrl === "auto" ? "" : apiUrl,
         port: PORT
     });
     return config;

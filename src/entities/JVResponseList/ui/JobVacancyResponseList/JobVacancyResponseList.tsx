@@ -7,19 +7,27 @@ interface JobVacancyResponseBlockListProps {
     isLoading: boolean;
     list: JVResponseSchema[];
     className?: string;
+    toWorkCallback?: (id: number)=>Promise<ResponsesStructure<null>>
 }
 export const JobVacancyResponseList = (props: JobVacancyResponseBlockListProps) => {
     const {
         isLoading,
         list,
-        className
+        className,
+        toWorkCallback
     } = props;
     return (
         <div className={classNames(cls.list, {}, [className])}>
             {isLoading
                 ? <h3 className={cls.list}>Загрузка...</h3>
                 : list.length
-                    ? list.map((elem) => <JVResponseCard key={elem.id} response={elem}/>)
+                    ? list.map((elem) => (
+                        <JVResponseCard
+                            key={elem.id}
+                            response={elem}
+                            toWorkCallback={toWorkCallback}
+                        />
+                    ))
                     : "Данные отсутствуют"
 
             }

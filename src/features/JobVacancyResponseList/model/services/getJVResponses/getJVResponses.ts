@@ -1,5 +1,5 @@
 import {GetJVResponsesParams} from "../../types/JVResponsesSchema";
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 import {addQueryParams} from "shared/lib/url/addQueryParams/addQueryParams";
 import {JVResponseSchema} from "entities/JVResponse";
 
@@ -16,7 +16,6 @@ export async function getJVResponses (props:GetJVResponsesParams): Promise<Respo
                 }
             }
         );
-
         return response.data;
     }
     catch(e) {
