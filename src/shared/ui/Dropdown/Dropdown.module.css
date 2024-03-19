@@ -10,6 +10,9 @@
     cursor: pointer;
     padding: 10px 20px;
     border-radius: 10px;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #D9D9D9;
 }
 .active {
     background-color: #1e95d0;
@@ -24,6 +27,8 @@
     padding: 20px 10px;
     background-color: #ffffff;
     border-radius: 10px;
+    display: grid;
+    grid-gap: 10px;
 }
 
 .optionTopLeft {

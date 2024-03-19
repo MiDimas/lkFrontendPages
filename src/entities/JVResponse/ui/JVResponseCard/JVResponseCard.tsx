@@ -35,12 +35,30 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
                 <Dropdown
                     className={cls.buttonToWork}
                     items={[
-                        {name: "Подумает"}
+                        {
+                            name: "Не дозвон",
+                            callBack: ()=> {changeStatusHandler(response.id, 3);}
+                        },
+                        {
+                            name: "Подумает",
+                            callBack: ()=> {changeStatusHandler(response.id, 4);}
+                        },
+                        {
+                            name: "Отказ",
+                            callBack: ()=> {changeStatusHandler(response.id, 5);}
+                        },
+                        {
+                            name: "Трудоустройство",
+                            callBack: ()=> {changeStatusHandler(response.id, 6);}
+                        }
                     ]}
                 >
                     Результат
                 </Dropdown>
             );
+        }
+        else {
+            return ;
         }
     };
 
