@@ -1,13 +1,14 @@
 .main {
     position: relative;
-    padding-top: 100px;
+    display: grid;
+    align-items: stretch;
+    height: calc(var(--vh, 1vh) * 100 - 100px);
+    overflow: hidden;
+    grid-template: auto 1fr / 1fr;
 }
 .filter {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
     background-color: #ffffff;
-    padding: 10px;
 }
 .list {
 

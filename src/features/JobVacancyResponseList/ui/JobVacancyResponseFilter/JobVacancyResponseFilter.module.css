@@ -16,14 +16,15 @@
 
 .visionBtn {
     transform: rotate(90deg);
+    padding: 10px;
 }
 .visionBtnActive {
     transform: rotate(-90deg);
 }
 
 .additional {
-    overflow: hidden;
-    height: 100vh;
+    overflow: auto;
+    height: calc(var(--vh, 1vh) * 100 - 180px);
     transition: 0.3s all ease;
     display: flex;
     flex-direction: column;
