@@ -1,13 +1,13 @@
 import axios from "axios";
 
 
-export async function takeToWork (id: number): Promise<ResponsesStructure<null>> {
+export async function changeStatus (id: number, status: number): Promise<ResponsesStructure<null>> {
     try {
         const response = await axios.patch<ResponsesStructure<null>>(
             `${__API__}/api/job-vacancy-response`,
             {
                 id,
-                status: 2
+                status: status
             }
         );
         console.log(response.data);

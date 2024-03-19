@@ -34,3 +34,8 @@
     justify-content: flex-end;
     gap: 10px
 }
+
+.buttonToWork {
+    cursor: pointer;
+    padding: 10px;
+}

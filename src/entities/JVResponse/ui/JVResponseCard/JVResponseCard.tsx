@@ -1,28 +1,53 @@
 import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 import cls from "./JVResponseCard.module.css";
 import {useCallback, useEffect, useState} from "react";
+import {Dropdown} from "shared/ui/Dropdown/Dropdown";
 
 interface JVResponseCardProps {
     response: JVResponseSchema
-    toWorkCallback?: (id: number) => Promise<ResponsesStructure<null>>
+    changeStatus?: (id: number, status:number) => Promise<ResponsesStructure<null>>
 }
 export const JVResponseCard = (props: JVResponseCardProps) => {
     const {
         response,
-        toWorkCallback
+        changeStatus
     } = props;
 
     const [resp, setResp] = useState<ResponsesStructure<null>>();
-    const toWorkHandler = useCallback(async(id:number) => {
-        if(toWorkCallback) {
-            const res = await toWorkCallback(id);
+    const changeStatusHandler = useCallback(async(id:number, status:number) => {
+        if(changeStatus) {
+            const res = await changeStatus(id, status);
             setResp(res);
         }
-    }, [toWorkCallback]);
+    }, [changeStatus]);
+
+    const mainButton = (status: number) => {
+        if(status === 1) {
+            return (<button
+                className={cls.buttonToWork}
+                onClick={() => changeStatusHandler(response.id, 2)}
+            >
+                В работу
+            </button>);
+        }
+        else if(status===2 ||  status===3 || status===4) {
+            return (
+                <Dropdown
+                    className={cls.buttonToWork}
+                    items={[
+                        {name: "Подумает"}
+                    ]}
+                >
+                    Результат
+                </Dropdown>
+            );
+        }
+    };
 
     useEffect(() => {
         console.log(resp);
     }, [resp]);
+
 
 
     return (
@@ -43,8 +68,14 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
                     <div><span>Телефон:</span><span>{response.phone || "нет данных" }</span></div>
                 </div>
                 <div  className={cls.buttonBlock}>
-                    <button>Подробнее</button>
-                    <button onClick={() => toWorkHandler(response.id)}>В работу</button>
+                    <button
+                        className={cls.buttonToWork}
+                    >
+                        Подробнее
+                    </button>
+                    {
+                        mainButton(response.status)
+                    }
                 </div>
             </div>
         </div>

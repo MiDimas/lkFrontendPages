@@ -13,7 +13,7 @@ import {
 } from "../JobVacancyResponseFilter/JobVacancyResponseFilter";
 import {getJVRStatuses} from "../../model/services/getJVRStatuses/getJVRStatuses";
 import {useInitialEffect} from "shared/lib/hooks/useInitialEffect/useInitialEffect";
-import {takeToWork} from "../../model/services/takeToWork/takeToWork";
+import {changeStatus} from "../../model/services/changeStatus/changeStatus";
 
 
 interface JobVacancyResponseListProps {
@@ -49,13 +49,14 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
         }
     }, []);
 
-    const toWorkHandler = useCallback(
-        async (id: number) => {
-            const res =  await takeToWork(id);
+    const changeStatusHandler = useCallback(
+        async (id: number, status: number) => {
+            const res =  await changeStatus(id, status);
             setIsLoading(true);
             getData();
             return res;
         }, [getData]);
+
 
 
     useInitialEffect(() => {
@@ -82,7 +83,7 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
                 isLoading={isLoading}
                 list={respList}
                 className={cls.list}
-                toWorkCallback={toWorkHandler}
+                changeStatus={changeStatusHandler}
             />
         </div>
     );
