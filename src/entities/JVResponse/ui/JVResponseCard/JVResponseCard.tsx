@@ -3,6 +3,7 @@ import cls from "./JVResponseCard.module.css";
 import {useCallback, useEffect,  useState} from "react";
 import {JVResponseMainInfo} from "../JVResponseMainInfo/JVResponseMainInfo";
 import {JVResponseActionButton} from "../JVResponseActionButton/JVResponseActionButton";
+import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAdditionalInfo";
 
 interface JVResponseCardProps {
     response: JVResponseSchema
@@ -15,6 +16,7 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
     } = props;
 
     const [resp, setResp] = useState<ResponsesStructure<null>>();
+    const [addVisible, setAddVisible] = useState<boolean>(false);
     const changeStatusHandler = useCallback(async(id:number, status:number) => {
         if(changeStatus) {
             const res = await changeStatus(id, status);
@@ -40,6 +42,9 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
                 <div  className={cls.buttonBlock}>
                     <button
                         className={cls.buttonToWork}
+                        onClick={()=>{
+                            setAddVisible((prevState)=> !prevState);
+                        }}
                     >
                         Подробнее
                     </button>
@@ -48,6 +53,16 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
                         status={response.status}
                         change={changeStatusHandler} />
                 </div>
+                <JVResponseAdditionalInfo
+                    visible={addVisible}
+                    workerName={response.workerName}
+                    birth_date={response.birth_date}
+                    countryName={response.countryName}
+                    identifierName={response.identifierName}
+                    createdDate={response.created_at}
+                    updatedDate={response.updated_at}
+                    comment={response.comment}
+                />
             </div>
         </div>
     );

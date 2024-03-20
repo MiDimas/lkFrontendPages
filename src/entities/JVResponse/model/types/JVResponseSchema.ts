@@ -14,6 +14,8 @@ export interface JVResponseSchema {
     created_at: string;
     updated_at: string;
     categoryName?: string;
+    countryName?: string;
     identifierName?: string;
     statusName?: string;
+    workerName?: string;
 }

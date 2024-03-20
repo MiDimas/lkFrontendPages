@@ -1,0 +1,43 @@
+.additionalBlock {
+    max-height: 0;
+    overflow: auto;
+    transition: all 0.3s ease;
+    background-color: #B7B4B4;
+    border-radius: 10px;
+    display:grid;
+    grid-gap: 10px;
+    grid-template: "c b"
+                   "m m"
+                   "r i"
+                   "d d";
+}
+.additionalBlock>div {
+    padding: 15px;
+    background-color: #d9d9d9;
+    border-radius: 10px;
+}
+.visible {
+    max-height: 500px;
+    padding: 10px;
+
+}
+.country {
+    grid-area: c;
+}
+.birthDate {
+    grid-area: b;
+}
+.comment {
+    grid-area: m;
+}
+.responser  {
+    grid-area: r;
+}
+.identifier {
+    grid-area: i;
+}
+.date {
+    grid-area: d;
+    display: flex;
+    justify-content: space-between;
+}
