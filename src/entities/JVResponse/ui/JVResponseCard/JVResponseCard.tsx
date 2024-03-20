@@ -4,17 +4,21 @@ import {useCallback, useEffect,  useState} from "react";
 import {JVResponseMainInfo} from "../JVResponseMainInfo/JVResponseMainInfo";
 import {JVResponseActionButton} from "../JVResponseActionButton/JVResponseActionButton";
 import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAdditionalInfo";
+import {JVResponseEditButton} from "../JVResponseEditButton/JVResponseEditButton";
 
 interface JVResponseCardProps {
-    response: JVResponseSchema
-    changeStatus?: (id: number, status:number) => Promise<ResponsesStructure<null>>
+    response: JVResponseSchema;
+    changeStatus?: (id: number, status:number) => Promise<ResponsesStructure<null>>;
+    user?: User;
 }
 export const JVResponseCard = (props: JVResponseCardProps) => {
     const {
         response,
-        changeStatus
+        changeStatus,
+        user
     } = props;
 
+    const [state, setState] = useState(response);
     const [resp, setResp] = useState<ResponsesStructure<null>>();
     const [addVisible, setAddVisible] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -41,6 +45,15 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
                     statusName={response.statusName}
                 />
                 <div  className={cls.buttonBlock}>
+                    {user?.id && user.id===state.worker
+                        ? (
+                            <JVResponseEditButton
+                                isEdit={isEdit}
+                                setIsEdit={setIsEdit}
+                            />
+                        )
+                        : ""
+                    }
                     <button
                         className={cls.buttonToWork}
                         onClick={()=>{
@@ -56,13 +69,17 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
                 </div>
                 <JVResponseAdditionalInfo
                     visible={addVisible}
-                    workerName={response.workerName}
-                    birth_date={response.birth_date}
-                    countryName={response.countryName}
-                    identifierName={response.identifierName}
-                    createdDate={response.created_at}
-                    updatedDate={response.updated_at}
-                    comment={response.comment}
+                    canEdit={isEdit}
+                    state={{
+                        workerName: state.workerName,
+                        birth_date: state.birth_date,
+                        countryName: state.countryName,
+                        identifierName: state.identifierName,
+                        createdDate: state.created_at,
+                        updatedDate: state.updated_at,
+                        comment: state.comment,
+                    }}
+                    setState={setState}
                 />
             </div>
         </div>

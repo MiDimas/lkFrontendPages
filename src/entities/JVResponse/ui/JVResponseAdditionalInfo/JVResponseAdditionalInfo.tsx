@@ -1,10 +1,10 @@
-import {memo} from "react";
+import {Dispatch, memo, SetStateAction, useCallback} from "react";
 import {classNames} from "shared/lib/classNames/classNames";
 import cls from "./JVResponseAdditionalInfo.module.css";
+import {Input} from "shared/ui/Input/Input";
+import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 
-interface JVResponseAdditionalInfoProps {
-    visible?: boolean;
-    className?: string;
+interface JVRCardAdditionalInfo {
     birth_date?: string;
     countryName?: string;
     workerName?: string;
@@ -13,10 +13,22 @@ interface JVResponseAdditionalInfoProps {
     updatedDate?:string;
     comment?:string;
 }
+interface JVResponseAdditionalInfoProps {
+    visible?: boolean;
+    canEdit?: boolean;
+    className?: string;
+    state?: JVRCardAdditionalInfo;
+    setState?: Dispatch<SetStateAction<JVResponseSchema>>
+}
 export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoProps) => {
     const {
         visible = true,
         className,
+        state = {},
+        canEdit,
+        setState
+    } = props;
+    const {
         birth_date,
         countryName,
         workerName,
@@ -24,7 +36,17 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
         createdDate,
         updatedDate,
         comment
-    } = props;
+    } = state;
+
+
+    const birthEdit = useCallback(
+        (birth_date:string) => {
+            setState?.(prevState => ({...prevState, birth_date}));
+        },
+        [setState],
+    );
+
+
     return (
         <div className={classNames(cls.additionalBlock, {
             [cls.visible]: visible
@@ -36,7 +58,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
             </div>
             <div className={cls.birthDate}>
                 <div>Дата рождения:</div>
-                <div>{birth_date || "Не указана"}</div>
+                <Input value={birth_date || "Не указана"} readOnly={!canEdit} onChange={birthEdit} />
             </div>
             <div className={cls.comment}>
                 <div>Комментарий к отклику: </div>

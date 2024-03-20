@@ -84,6 +84,7 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
                 list={respList}
                 className={cls.list}
                 changeStatus={changeStatusHandler}
+                user={user}
             />
         </div>
     );

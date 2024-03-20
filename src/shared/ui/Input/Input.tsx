@@ -1,5 +1,5 @@
 import {ChangeEventHandler, DetailedHTMLProps, InputHTMLAttributes, useCallback} from "react";
-
+import cls from "./Input.module.css";
 interface InputProps extends Omit<DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "onChange"
 >{
@@ -21,6 +21,7 @@ export const Input = (props: InputProps) => {
             }
         }, [onChange]);
     return <input
+        className={cls.input}
         readOnly={readonly}
         onChange={changeHandler}
         value={value}
