@@ -17,6 +17,7 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
 
     const [resp, setResp] = useState<ResponsesStructure<null>>();
     const [addVisible, setAddVisible] = useState<boolean>(false);
+    const [isEdit, setIsEdit] = useState<boolean>(false);
     const changeStatusHandler = useCallback(async(id:number, status:number) => {
         if(changeStatus) {
             const res = await changeStatus(id, status);
