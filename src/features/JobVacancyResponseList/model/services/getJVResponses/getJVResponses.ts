@@ -16,14 +16,15 @@ export async function getJVResponses (props:GetJVResponsesParams): Promise<Respo
                 }
             }
         );
+        console.log(response.data);
         return response.data;
     }
     catch(e) {
-        return new Promise((resolve) => resolve({
+        return {
             result:0,
             desc: "Ошибка на стороне клиента",
             data: [],
             info: {count:0}
-        }));
+        };
     }
 }

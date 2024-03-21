@@ -36,6 +36,10 @@
 .identifier {
     grid-area: i;
 }
+.input {
+    width: 100%;
+    box-sizing: border-box;
+}
 .date {
     grid-area: d;
     display: flex;

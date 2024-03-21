@@ -1,6 +1,6 @@
 import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 import cls from "./JVResponseCard.module.css";
-import {useCallback, useEffect,  useState} from "react";
+import {useCallback, useState} from "react";
 import {JVResponseMainInfo} from "../JVResponseMainInfo/JVResponseMainInfo";
 import {JVResponseActionButton} from "../JVResponseActionButton/JVResponseActionButton";
 import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAdditionalInfo";
@@ -49,12 +49,12 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
         <div className={cls.card}>
             <div className={cls.content}>
                 <JVResponseMainInfo
-                    fio={response.fio}
-                    job_title={response.job_title}
-                    email={response.email}
-                    phone={response.phone}
-                    category={response.category}
-                    statusName={response.statusName}
+                    fio={state.fio}
+                    job_title={state.jobTitle}
+                    email={state.email}
+                    phone={state.phone}
+                    category={state.category}
+                    statusName={state.statusName}
                 />
                 <div  className={cls.buttonBlock}>
                     {user?.id && user.id===state.worker
@@ -87,11 +87,12 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
                     canEdit={isEdit}
                     state={{
                         workerName: state.workerName,
-                        birth_date: state.birth_date,
+                        birthDate: state.birthDate,
+                        country: state.country,
                         countryName: state.countryName,
                         identifierName: state.identifierName,
-                        createdDate: state.created_at,
-                        updatedDate: state.updated_at,
+                        createdDate: state.createdAt,
+                        updatedDate: state.updatedAt,
                         comment: state.comment,
                     }}
                     setState={setState}

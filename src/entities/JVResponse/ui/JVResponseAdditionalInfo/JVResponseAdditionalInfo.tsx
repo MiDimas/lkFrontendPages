@@ -3,9 +3,11 @@ import {classNames} from "shared/lib/classNames/classNames";
 import cls from "./JVResponseAdditionalInfo.module.css";
 import {Input} from "shared/ui/Input/Input";
 import {JVResponseSchema} from "../../model/types/JVResponseSchema";
+import {Select, SelectOption} from "shared/ui/Select/Select";
 
 interface JVRCardAdditionalInfo {
-    birth_date?: string;
+    birthDate?: string;
+    country?: number;
     countryName?: string;
     workerName?: string;
     identifierName?: string;
@@ -20,6 +22,17 @@ interface JVResponseAdditionalInfoProps {
     state?: JVRCardAdditionalInfo;
     setState?: Dispatch<SetStateAction<JVResponseSchema>>
 }
+const countryList: SelectOption<number>[] =[
+    {
+        value: 0,
+        content: "Не указана",
+        disabled: true
+    },
+    {
+        value: 1,
+        content: "Россия"
+    }
+];
 export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoProps) => {
     const {
         visible = true,
@@ -29,7 +42,8 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
         setState
     } = props;
     const {
-        birth_date,
+        birthDate = "",
+        country,
         countryName,
         workerName,
         identifierName,
@@ -40,8 +54,21 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
 
 
     const birthEdit = useCallback(
-        (birth_date:string) => {
-            setState?.(prevState => ({...prevState, birth_date}));
+        (birthDate:string = "") => {
+            setState?.(prevState => ({...prevState, birthDate}));
+        },
+        [setState],
+    );
+    const countryEdit = useCallback(
+        (country:string|number = 0) => {
+            country = Number(country);
+            setState?.((prevState) => (
+                {
+                    ...prevState,
+                    country,
+                    countryName: countryList[country]["content"]
+                }))
+            ;
         },
         [setState],
     );
@@ -54,11 +81,18 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
 
             <div className={cls.country}>
                 <div>Страна:</div>
-                <div>{countryName || "Не указана"}</div>
+                {canEdit
+                    ? <Select value={country ?? 0} options={countryList} onChange={countryEdit}/>
+                    : <div>{countryName || "Не указана"}</div>
+                }
+
             </div>
             <div className={cls.birthDate}>
                 <div>Дата рождения:</div>
-                <Input value={birth_date || "Не указана"} readOnly={!canEdit} onChange={birthEdit} />
+                { canEdit ?
+                    <Input value={birthDate || ""} onChange={birthEdit} className={cls.input} />
+                    : <div>{birthDate ?? "Не указана"}</div>
+                }
             </div>
             <div className={cls.comment}>
                 <div>Комментарий к отклику: </div>

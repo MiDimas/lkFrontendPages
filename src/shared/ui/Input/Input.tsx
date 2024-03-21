@@ -1,10 +1,11 @@
 import {ChangeEventHandler, DetailedHTMLProps, InputHTMLAttributes, useCallback} from "react";
 import cls from "./Input.module.css";
+import {classNames} from "shared/lib/classNames/classNames";
 interface InputProps extends Omit<DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "onChange"
 >{
     readonly?:boolean;
-    value?: string;
+    value?: string | number;
     onChange?: (value: string) => void;
 }
 export const Input = (props: InputProps) => {
@@ -12,6 +13,7 @@ export const Input = (props: InputProps) => {
         readonly,
         value,
         onChange,
+        className,
         ...otherProps
     } = props;
     const changeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -21,7 +23,7 @@ export const Input = (props: InputProps) => {
             }
         }, [onChange]);
     return <input
-        className={cls.input}
+        className={classNames(cls.input, {}, [className])}
         readOnly={readonly}
         onChange={changeHandler}
         value={value}

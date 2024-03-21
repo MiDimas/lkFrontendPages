@@ -3,6 +3,8 @@ import axios from "axios";
 
 export async function changeData (state: JVResponseSchema): Promise<ResponsesStructure<null>> {
     try {
+        console.log(state);
+
         const response = await axios.put<ResponsesStructure<null>>(
             `${__API__}/api/job-vacancy-response`,
             {...state}

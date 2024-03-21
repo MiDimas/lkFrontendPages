@@ -1,5 +1,5 @@
 import {Dispatch, memo, SetStateAction, useCallback} from "react";
-import {JVResponseSchema} from "../../";
+import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 
 interface JVResponseEditButtonProps {
     isEdit: boolean;

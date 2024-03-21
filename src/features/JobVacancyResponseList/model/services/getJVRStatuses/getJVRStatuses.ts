@@ -1,5 +1,5 @@
 import {JVRStatusSchema} from "../../types/JVResponsesSchema";
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 
 
 export async function getJVRStatuses ():Promise<ResponsesStructure<JVRStatusSchema[]>> {
@@ -10,11 +10,11 @@ export async function getJVRStatuses ():Promise<ResponsesStructure<JVRStatusSche
         return response.data;
     }
     catch(e) {
-        return new Promise((resolve) => resolve({
+        return {
             result:0,
             desc: "Error",
             data: [],
             info: {count: 0}
-        }));
+        };
     }
 }

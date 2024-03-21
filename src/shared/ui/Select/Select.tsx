@@ -1,11 +1,12 @@
 import {ChangeEventHandler, DetailedHTMLProps, SelectHTMLAttributes, useCallback, useMemo} from "react";
 import cls from "./Select.module.css";
 import {classNames, Mods} from "shared/lib/classNames/classNames";
-export interface SelectOption<T extends string> {
+export interface SelectOption<T extends string|number> {
     value: T;
     content: string;
+    disabled?: boolean;
 }
-interface SelectProps<T extends string> extends Omit<DetailedHTMLProps<
+interface SelectProps<T extends string|number> extends Omit<DetailedHTMLProps<
     SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>, "onChange">{
     value?: T;
     options?: SelectOption<T>[];
@@ -15,7 +16,7 @@ interface SelectProps<T extends string> extends Omit<DetailedHTMLProps<
     onChange?: (value: T) => void;
 
 }
-export const Select = <T extends string>(props: SelectProps<T>) => {
+export const Select = <T extends string|number>(props: SelectProps<T>) => {
     const {
         value,
         options,
@@ -33,11 +34,12 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
     );
 
     const optionsList = useMemo(() => options?.map(
-        ({value, content}) =>  (
+        ({value, content, disabled}) =>  (
             <option
                 key={value}
                 value={value}
                 className={cls.option}
+                disabled={disabled}
             >
                 {content}
             </option>
