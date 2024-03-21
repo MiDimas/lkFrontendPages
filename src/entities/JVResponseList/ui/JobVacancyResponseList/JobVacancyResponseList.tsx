@@ -8,6 +8,7 @@ interface JobVacancyResponseBlockListProps {
     list: JVResponseSchema[];
     className?: string;
     changeStatus?: (id: number, status:number)=>Promise<ResponsesStructure<null>>;
+    updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
     user?: User;
 }
 export const JobVacancyResponseList = (props: JobVacancyResponseBlockListProps) => {
@@ -16,6 +17,7 @@ export const JobVacancyResponseList = (props: JobVacancyResponseBlockListProps) 
         list,
         className,
         changeStatus,
+        updateCard,
         user
     } = props;
     return (
@@ -29,6 +31,7 @@ export const JobVacancyResponseList = (props: JobVacancyResponseBlockListProps) 
                             response={elem}
                             changeStatus={changeStatus}
                             user={user}
+                            updateCard={updateCard}
                         />
                     ))
                     : "Данные отсутствуют"

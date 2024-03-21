@@ -14,6 +14,7 @@ import {
 import {getJVRStatuses} from "../../model/services/getJVRStatuses/getJVRStatuses";
 import {useInitialEffect} from "shared/lib/hooks/useInitialEffect/useInitialEffect";
 import {changeStatus} from "../../model/services/changeStatus/changeStatus";
+import {changeData} from "../../model/services/changeData/changeData";
 
 
 interface JobVacancyResponseListProps {
@@ -57,6 +58,15 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
             return res;
         }, [getData]);
 
+    const changeDataHandler = useCallback(
+        async(state: JVResponseSchema) => {
+            setIsLoading(true);
+            const res = await changeData(state);
+            setIsLoading(false);
+            return res;
+        }, []
+    );
+
 
 
     useInitialEffect(() => {
@@ -84,6 +94,7 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
                 list={respList}
                 className={cls.list}
                 changeStatus={changeStatusHandler}
+                updateCard={changeDataHandler}
                 user={user}
             />
         </div>

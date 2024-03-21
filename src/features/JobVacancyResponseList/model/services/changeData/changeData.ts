@@ -1,16 +1,12 @@
+import {JVResponseSchema} from "entities/JVResponse";
 import axios from "axios";
 
-
-export async function changeStatus (id: number, status: number): Promise<ResponsesStructure<null>> {
+export async function changeData (state: JVResponseSchema): Promise<ResponsesStructure<null>> {
     try {
-        const response = await axios.patch<ResponsesStructure<null>>(
+        const response = await axios.put<ResponsesStructure<null>>(
             `${__API__}/api/job-vacancy-response`,
-            {
-                id,
-                status: status
-            }
+            {...state}
         );
-        console.log(response.data);
         return response.data;
     }
     catch (e) {

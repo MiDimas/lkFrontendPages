@@ -10,28 +10,40 @@ interface JVResponseCardProps {
     response: JVResponseSchema;
     changeStatus?: (id: number, status:number) => Promise<ResponsesStructure<null>>;
     user?: User;
+    updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
 }
 export const JVResponseCard = (props: JVResponseCardProps) => {
     const {
         response,
         changeStatus,
-        user
+        user,
+        updateCard
     } = props;
 
     const [state, setState] = useState(response);
-    const [resp, setResp] = useState<ResponsesStructure<null>>();
     const [addVisible, setAddVisible] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const changeStatusHandler = useCallback(async(id:number, status:number) => {
         if(changeStatus) {
-            const res = await changeStatus(id, status);
-            setResp(res);
+            await changeStatus(id, status);
         }
     }, [changeStatus]);
+    const undoChangesHandler = useCallback( () => {
+        setState(response);
+    }, [response, setState] );
+    const saveChangesHandler = useCallback(
+        async (state: JVResponseSchema) => {
+            if(updateCard) {
+                const res = await updateCard(state);
+                console.log(res);
+                if(!res.result) {
+                    undoChangesHandler();
+                }
+            }
+        },
+        [updateCard, undoChangesHandler],
+    );
 
-    useEffect(() => {
-        console.log(resp);
-    }, [resp]);
 
     return (
         <div className={cls.card}>
@@ -50,6 +62,9 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
                             <JVResponseEditButton
                                 isEdit={isEdit}
                                 setIsEdit={setIsEdit}
+                                undoChange={undoChangesHandler}
+                                saveChange={saveChangesHandler}
+                                state={state}
                             />
                         )
                         : ""
