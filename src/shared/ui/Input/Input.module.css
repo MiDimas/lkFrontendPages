@@ -3,4 +3,6 @@
     outline: none;
     border: none;
     padding: 5px 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
 }

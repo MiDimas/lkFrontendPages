@@ -6,12 +6,14 @@ interface JVResponseActionButtonProps {
     id: number;
     status: number;
     change: (id:number, response: number) => void;
+    className?: string;
 }
 export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) => {
     const {
         id,
         status,
-        change
+        change,
+        className
     } = props;
     if(status === 1) {
         return (<button

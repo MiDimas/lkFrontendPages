@@ -1,20 +1,43 @@
 .mainCont {
     display: grid;
     grid-gap: 10px;
+    grid-template: "f f s"
+                   "j j c"
+                   "b b b"
+                   "b b b";
 }
-.top {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-.middle{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+.mainCont>div {
+    background-color: #f1f1f1;
+    padding: 5px;
+    border-radius: 10px;
 }
 .bottom{
+    grid-area: b;
     display: grid;
     gap: 5px;
+    grid-template: "e e"
+                   "p p";
 
+}
+.input {
+    width: 100%;
+}
+
+.fio {
+    grid-area: f;
+}
+.status {
+    grid-area: s;
+}
+.jobTitle {
+    grid-area: j;
+}
+.category {
+    grid-area: c;
+}
+.email {
+    grid-area: e;
+}
+.phone {
+    grid-area: p;
 }

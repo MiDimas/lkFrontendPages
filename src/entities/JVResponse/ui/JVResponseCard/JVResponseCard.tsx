@@ -1,6 +1,6 @@
 import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 import cls from "./JVResponseCard.module.css";
-import {useCallback, useState} from "react";
+import {memo, useCallback, useState} from "react";
 import {JVResponseMainInfo} from "../JVResponseMainInfo/JVResponseMainInfo";
 import {JVResponseActionButton} from "../JVResponseActionButton/JVResponseActionButton";
 import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAdditionalInfo";
@@ -12,7 +12,7 @@ interface JVResponseCardProps {
     user?: User;
     updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
 }
-export const JVResponseCard = (props: JVResponseCardProps) => {
+export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     const {
         response,
         changeStatus,
@@ -49,15 +49,19 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
         <div className={cls.card}>
             <div className={cls.content}>
                 <JVResponseMainInfo
-                    fio={state.fio}
-                    job_title={state.jobTitle}
-                    email={state.email}
-                    phone={state.phone}
-                    category={state.category}
-                    statusName={state.statusName}
+                    state={{
+                        fio: state.fio,
+                        jobTitle: state.jobTitle,
+                        email: state.email,
+                        phone: state.phone,
+                        categoryName: state.categoryName,
+                        statusName: state.statusName
+                    }}
+                    canEdit={isEdit}
+                    setState={setState}
                 />
                 <div  className={cls.buttonBlock}>
-                    {user?.id && user.id===state.worker
+                    {user?.id && user.id===state.worker && response.status < 5
                         ? (
                             <JVResponseEditButton
                                 isEdit={isEdit}
@@ -100,4 +104,5 @@ export const JVResponseCard = (props: JVResponseCardProps) => {
             </div>
         </div>
     );
-};
+});
+JVResponseCard.displayName = "JVResponseCard";
