@@ -1,9 +1,11 @@
-import {Dispatch, memo, SetStateAction, useCallback} from "react";
+import {Dispatch, memo, SetStateAction, useCallback, useMemo} from "react";
 import {classNames} from "shared/lib/classNames/classNames";
 import cls from "./JVResponseAdditionalInfo.module.css";
 import {Input} from "shared/ui/Input/Input";
 import {JVResponseSchema} from "../../model/types/JVResponseSchema";
-import {Select, SelectOption} from "shared/ui/Select/Select";
+
+import {CountrySelect} from "entities/Country/ui/CountrySelect/CountrySelect";
+import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 
 interface JVRCardAdditionalInfo {
     birthDate?: string;
@@ -20,26 +22,17 @@ interface JVResponseAdditionalInfoProps {
     canEdit?: boolean;
     className?: string;
     state?: JVRCardAdditionalInfo;
-    setState?: Dispatch<SetStateAction<JVResponseSchema>>
+    setState?: Dispatch<SetStateAction<JVResponseSchema>>;
+    countries?: CountrySchema[];
 }
-const countryList: SelectOption<number>[] =[
-    {
-        value: 0,
-        content: "Не указана",
-        disabled: true
-    },
-    {
-        value: 1,
-        content: "Россия"
-    }
-];
 export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoProps) => {
     const {
         visible = true,
         className,
         state = {},
         canEdit,
-        setState
+        setState,
+        countries
     } = props;
     const {
         birthDate = "",
@@ -52,6 +45,13 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
         comment
     } = state;
 
+    const normalizedCountry = useMemo<Record<number, string>>(() => {
+        const obj:Record<number, string> = {0: ""};
+        countries?.map(({id, name}) => {
+            obj[id] = name;
+        });
+        return obj;
+    }, [countries]);
 
     const birthEdit = useCallback(
         (birthDate:string = "") => {
@@ -59,6 +59,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
         },
         [setState],
     );
+
     const countryEdit = useCallback(
         (country:string|number = 0) => {
             country = Number(country);
@@ -66,13 +67,12 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
                 {
                     ...prevState,
                     country,
-                    countryName: countryList[country]["content"]
+                    countryName: normalizedCountry[country]
                 }))
             ;
         },
-        [setState],
+        [setState, normalizedCountry],
     );
-
 
     return (
         <div className={classNames(cls.additionalBlock, {
@@ -82,7 +82,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
             <div className={cls.country}>
                 <div>Страна:</div>
                 {canEdit
-                    ? <Select value={country ?? 0} options={countryList} onChange={countryEdit}/>
+                    ? <CountrySelect value={country ?? 0} options={countries} onChange={countryEdit}/>
                     : <div>{countryName || "Не указана"}</div>
                 }
 

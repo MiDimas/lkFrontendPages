@@ -16,7 +16,6 @@ export async function getJVResponses (props:GetJVResponsesParams): Promise<Respo
                 }
             }
         );
-        console.log(response.data);
         return response.data;
     }
     catch(e) {

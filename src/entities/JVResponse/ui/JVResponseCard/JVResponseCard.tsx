@@ -5,19 +5,22 @@ import {JVResponseMainInfo} from "../JVResponseMainInfo/JVResponseMainInfo";
 import {JVResponseActionButton} from "../JVResponseActionButton/JVResponseActionButton";
 import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAdditionalInfo";
 import {JVResponseEditButton} from "../JVResponseEditButton/JVResponseEditButton";
+import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 
 interface JVResponseCardProps {
     response: JVResponseSchema;
     changeStatus?: (id: number, status:number) => Promise<ResponsesStructure<null>>;
     user?: User;
     updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
+    countries?: CountrySchema[];
 }
 export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     const {
         response,
         changeStatus,
         user,
-        updateCard
+        updateCard,
+        countries
     } = props;
 
     const [state, setState] = useState(response);
@@ -100,6 +103,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                         comment: state.comment,
                     }}
                     setState={setState}
+                    countries={countries}
                 />
             </div>
         </div>

@@ -15,6 +15,8 @@ import {getJVRStatuses} from "../../model/services/getJVRStatuses/getJVRStatuses
 import {useInitialEffect} from "shared/lib/hooks/useInitialEffect/useInitialEffect";
 import {changeStatus} from "../../model/services/changeStatus/changeStatus";
 import {changeData} from "../../model/services/changeData/changeData";
+import {getCountries} from "entities/Country/model/services/getCountries/getCountries";
+import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 
 
 interface JobVacancyResponseListProps {
@@ -30,6 +32,7 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
         loadJVQueryParams(new URLSearchParams(window.location.search))
     );
     const [statuses, setStatuses] = useState<JVRStatusSchema[]>();
+    const [countries, setCountries] = useState<CountrySchema[]>();
     console.log(user);
 
 
@@ -49,6 +52,17 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
             setStatuses(response.data);
         }
     }, []);
+
+    const getCountriesHandler = useCallback(
+        async () => {
+            const response = await getCountries();
+            if(response.result) {
+                setCountries(response.data);
+            }
+        },
+        [],
+    );
+
 
     const changeStatusHandler = useCallback(
         async (id: number, status: number) => {
@@ -71,6 +85,7 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
 
     useInitialEffect(() => {
         getStatuses();
+        getCountriesHandler();
     });
 
 
@@ -78,7 +93,6 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
         setIsLoading(true);
         getData();
     }, [getData]);
-
 
     return (
         <div className={cls.main}>
@@ -96,6 +110,7 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
                 changeStatus={changeStatusHandler}
                 updateCard={changeDataHandler}
                 user={user}
+                countries={countries}
             />
         </div>
     );
