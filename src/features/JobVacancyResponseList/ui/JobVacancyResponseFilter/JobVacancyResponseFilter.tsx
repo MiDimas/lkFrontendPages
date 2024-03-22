@@ -44,6 +44,33 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                 return prevState;
             });
         }, [setParams]);
+
+    const categoryTabs: TabItem<number>[] = useMemo<TabItem<number>[]>(() => ([
+        {
+            value: 0,
+            content: "Все категории"
+        },
+        {
+            value: 1,
+            content: "Сайт"
+        },
+        {
+            value: 2,
+            content: "Рекомендации"
+        },
+    ]), []);
+    const categoryValue = params.category;
+    const changeCategory = useCallback(
+        (tab: TabItem<number>) => {
+            setParams((prevState) => {
+                if(prevState.category !== tab.value){
+                    return{...prevState, category: tab.value};
+                }
+                return prevState;
+            });
+        }, [setParams]
+    );
+
     const statusTabs: TabItem<number>[] = useMemo(() => {
         const returned = [
             {
@@ -147,6 +174,13 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                 [cls.hidden]: isHidden
             }, [])}>
                 <div className={cls.tabBlock}>
+                    <span className={cls.titleTab}>Категория:</span>
+                    <Tabs
+                        tabs={categoryTabs}
+                        value={categoryValue}
+                        onTabClick={changeCategory}
+                    />
+                </div><div className={cls.tabBlock}>
                     <span className={cls.titleTab}>Статус:</span>
                     <Tabs
                         tabs={statusTabs}
