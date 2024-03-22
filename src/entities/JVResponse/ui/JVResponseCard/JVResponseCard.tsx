@@ -37,14 +37,17 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     const saveChangesHandler = useCallback(
         async (state: JVResponseSchema) => {
             if(updateCard) {
-                const res = await updateCard(state);
-                console.log(res);
-                if(!res.result) {
-                    undoChangesHandler();
+                if(JSON.stringify(response) !== JSON.stringify(state)){
+                    const res = await updateCard(state);
+                    console.log(res);
+                    if(!res.result) {
+                        undoChangesHandler();
+                    }
                 }
+
             }
         },
-        [updateCard, undoChangesHandler],
+        [updateCard, undoChangesHandler, response],
     );
 
 

@@ -1,6 +1,7 @@
 import {Dispatch, memo, SetStateAction, useCallback} from "react";
 import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 import cls from "./JVResponseEditButton.module.css";
+import {classNames} from "shared/lib/classNames/classNames";
 
 interface JVResponseEditButtonProps {
     isEdit: boolean;
@@ -46,12 +47,13 @@ export const JVResponseEditButton = memo(
         return (
             <>
                 <button
-                    className={cls.btns}
+                    className={classNames(cls.btns, {}, [className])}
                     onClick={() => {
                         saveHandler(state);
                     }}
                 >Сохранить</button>
-                <button className={cls.btns} onClick={undoHandler}>Отменить</button>
+                <button className={classNames(cls.btns, {}, [className])}
+                    onClick={undoHandler}>Отменить</button>
             </>
         );
     });
