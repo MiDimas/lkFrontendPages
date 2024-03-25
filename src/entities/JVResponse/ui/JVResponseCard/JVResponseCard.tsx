@@ -7,12 +7,14 @@ import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAd
 import {JVResponseEditButton} from "../JVResponseEditButton/JVResponseEditButton";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 
+
 interface JVResponseCardProps {
     response: JVResponseSchema;
     changeStatus?: (id: number, status:number) => Promise<ResponsesStructure<null>>;
     user?: User;
     updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
     countries?: CountrySchema[];
+    removeWorker?: (id: number) => Promise<ResponsesStructure<null>>;
 }
 export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     const {
@@ -20,7 +22,8 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
         changeStatus,
         user,
         updateCard,
-        countries
+        countries,
+        removeWorker
     } = props;
 
     const [state, setState] = useState(response);
@@ -91,6 +94,18 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                         id={response.id}
                         status={response.status}
                         change={changeStatusHandler} />
+                    {response.status !== 1 && removeWorker
+                        ? (
+                            <button
+                                className={cls.buttonToWork}
+                                onClick={()=> {
+                                    removeWorker(response.id);
+                                }}>
+                                Сброс
+                            </button>
+                        )
+                        : ""
+                    }
                 </div>
                 <JVResponseAdditionalInfo
                     visible={addVisible}

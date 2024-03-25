@@ -17,14 +17,17 @@ import {changeStatus} from "../../model/services/changeStatus/changeStatus";
 import {changeData} from "../../model/services/changeData/changeData";
 import {getCountries} from "entities/Country/model/services/getCountries/getCountries";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
+import {removeWorker} from "../../model/services/removeWorker/removeWorker";
 
 
 interface JobVacancyResponseListProps {
     user?: User;
+    head?: boolean;
 }
 export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => {
     const {
-        user = {id: 0, firstName: "" }
+        user = {id: 0, firstName: "" },
+        head
     } = props;
     const [respList, setRespList] = useState<JVResponseSchema[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -63,7 +66,6 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
         [],
     );
 
-
     const changeStatusHandler = useCallback(
         async (id: number, status: number) => {
             const res =  await changeStatus(id, status);
@@ -79,6 +81,19 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
             setIsLoading(false);
             return res;
         }, []
+    );
+
+    const removeWorkerHandler = useCallback(
+        async(id: number) => {
+            const res = await removeWorker(id);
+            if(res.result === 0) {
+                return res;
+            }
+            setIsLoading(true);
+            getData();
+            return res;
+        },
+        [getData],
     );
 
 
@@ -111,6 +126,7 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
                 updateCard={changeDataHandler}
                 user={user}
                 countries={countries}
+                removeWorker={head ? removeWorkerHandler : undefined}
             />
         </div>
     );

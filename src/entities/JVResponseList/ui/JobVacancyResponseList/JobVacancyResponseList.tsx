@@ -10,6 +10,7 @@ interface JobVacancyResponseBlockListProps {
     className?: string;
     changeStatus?: (id: number, status:number)=>Promise<ResponsesStructure<null>>;
     updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
+    removeWorker?: (id: number) => Promise<ResponsesStructure<null>>;
     user?: User;
     countries?: CountrySchema[];
 }
@@ -20,6 +21,7 @@ export const JobVacancyResponseList = (props: JobVacancyResponseBlockListProps) 
         className,
         changeStatus,
         updateCard,
+        removeWorker,
         user,
         countries
     } = props;
@@ -36,6 +38,7 @@ export const JobVacancyResponseList = (props: JobVacancyResponseBlockListProps) 
                             user={user}
                             updateCard={updateCard}
                             countries={countries}
+                            removeWorker={removeWorker}
                         />
                     ))
                     : "Данные отсутствуют"
