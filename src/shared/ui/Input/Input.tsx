@@ -7,6 +7,7 @@ interface InputProps extends Omit<DetailedHTMLProps<
     readonly?:boolean;
     value?: string | number;
     onChange?: (value: string) => void;
+    label?: string;
 }
 export const Input = (props: InputProps) => {
     const {
@@ -14,6 +15,7 @@ export const Input = (props: InputProps) => {
         value,
         onChange,
         className,
+        label,
         ...otherProps
     } = props;
     const changeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -22,11 +24,27 @@ export const Input = (props: InputProps) => {
                 onChange(event.target.value);
             }
         }, [onChange]);
-    return <input
-        className={classNames(cls.input, {}, [className])}
-        readOnly={readonly}
-        onChange={changeHandler}
-        value={value}
-        {...otherProps}
-    />;
+    if(label){
+        return (
+            <label>
+                <span>{label}</span>
+                <input
+                    className={classNames(cls.input, {}, [className])}
+                    readOnly={readonly}
+                    onChange={changeHandler}
+                    value={value}
+                    {...otherProps}
+                />
+            </label>
+        );
+    }
+    return (
+        <input
+            className={classNames(cls.input, {}, [className])}
+            readOnly={readonly}
+            onChange={changeHandler}
+            value={value}
+            {...otherProps}
+        />
+    );
 };

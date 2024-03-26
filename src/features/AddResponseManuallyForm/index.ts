@@ -1,0 +1,1 @@
+export {AddResponseManuallyForm} from "./ui/AddResponseManuallyForm/AddResponseManuallyForm";

@@ -76,11 +76,16 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
 
     const changeDataHandler = useCallback(
         async(state: JVResponseSchema) => {
-            setIsLoading(true);
             const res = await changeData(state);
-            setIsLoading(false);
+            if(res.result){
+                respList.forEach((value, index)  => {
+                    if(value.id === state.id){
+                        respList[index] = state;
+                    }
+                });
+            }
             return res;
-        }, []
+        }, [respList]
     );
 
     const removeWorkerHandler = useCallback(

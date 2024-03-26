@@ -1,7 +1,6 @@
 import path from "path";
 import fs from "fs";
 const entryPoints: Record<string, string> = {
-    firstPage: "firstPage.tsx",
     secondPage: "secondPage.tsx"
 };
 
