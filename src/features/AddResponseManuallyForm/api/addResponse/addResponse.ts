@@ -5,7 +5,7 @@ export async function addResponse (params: AddResponseSchema): Promise<Responses
     try {
         const res = await axios.post<ResponsesStructure<null>>(
             `${__API__}/api/job-vacancy-response`,
-            params
+            {...params, category: 3}
         );
         return res.data;
     }

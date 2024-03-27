@@ -14,6 +14,7 @@ interface SelectProps<T extends string|number> extends Omit<DetailedHTMLProps<
     className?: string;
     readonly?: boolean;
     onChange?: (value: T) => void;
+    defaultValue?:string;
 
 }
 export const Select = <T extends string|number>(props: SelectProps<T>) => {
@@ -23,7 +24,9 @@ export const Select = <T extends string|number>(props: SelectProps<T>) => {
         label,
         className,
         readonly,
-        onChange
+        onChange,
+        defaultValue,
+        ...otherValue
     } = props;
 
     const changeHandler: ChangeEventHandler<HTMLSelectElement> = useCallback(
@@ -33,18 +36,30 @@ export const Select = <T extends string|number>(props: SelectProps<T>) => {
         [onChange],
     );
 
-    const optionsList = useMemo(() => options?.map(
-        ({value, content, disabled}) =>  (
-            <option
-                key={value}
-                value={value}
-                className={cls.option}
-                disabled={disabled}
-            >
-                {content}
-            </option>
-        )
-    ), [options] );
+    const optionsList = useMemo(() => {
+        const list = [];
+        if(defaultValue) {
+            list.push(
+                <option
+                    key={defaultValue}
+                    value={0 as T}
+                    disabled
+                >{defaultValue}</option>);
+        }
+        options?.map(
+            ({value, content, disabled}) => {
+                list.push(<option
+                    key={value}
+                    value={value}
+                    className={cls.option}
+                    disabled={disabled}
+                >
+                    {content}
+                </option>);
+            }
+        );
+        return list;
+    }, [options, defaultValue] );
 
     const mods:Mods = {
         [cls.readonly]: readonly
@@ -54,7 +69,7 @@ export const Select = <T extends string|number>(props: SelectProps<T>) => {
         return (
             <label className={classNames(cls.mainBlock, mods, [className])}>
                 <span className={cls.label}>{label}</span>
-                <select value={value} className={cls.select} onChange={changeHandler}>
+                <select value={value} className={cls.select} onChange={changeHandler} {...otherValue}>
                     {optionsList}
                 </select>
             </label>
@@ -65,6 +80,7 @@ export const Select = <T extends string|number>(props: SelectProps<T>) => {
             className={classNames(cls.mainBlock, {}, [className, cls.select])}
             onChange={changeHandler}
             value={value}
+            {...otherValue}
         >
             {optionsList}
         </select>
