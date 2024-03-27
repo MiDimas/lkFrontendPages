@@ -1,4 +1,4 @@
-import {ChangeEventHandler, DetailedHTMLProps, SelectHTMLAttributes, useCallback, useMemo} from "react";
+import {ChangeEventHandler, DetailedHTMLProps, memo, SelectHTMLAttributes, useCallback, useMemo} from "react";
 import cls from "./Select.module.css";
 import {classNames, Mods} from "shared/lib/classNames/classNames";
 export interface SelectOption<T extends string|number> {
@@ -15,9 +15,9 @@ interface SelectProps<T extends string|number> extends Omit<DetailedHTMLProps<
     readonly?: boolean;
     onChange?: (value: T) => void;
     defaultValue?:string;
-
+    defaultDisabled?:boolean;
 }
-export const Select = <T extends string|number>(props: SelectProps<T>) => {
+const Select =<T extends string|number>(props: SelectProps<T>) => {
     const {
         value,
         options,
@@ -26,6 +26,7 @@ export const Select = <T extends string|number>(props: SelectProps<T>) => {
         readonly,
         onChange,
         defaultValue,
+        defaultDisabled,
         ...otherValue
     } = props;
 
@@ -41,9 +42,9 @@ export const Select = <T extends string|number>(props: SelectProps<T>) => {
         if(defaultValue) {
             list.push(
                 <option
-                    key={defaultValue}
                     value={0 as T}
-                    disabled
+                    key={defaultValue}
+                    disabled={defaultDisabled}
                 >{defaultValue}</option>);
         }
         options?.map(
@@ -59,7 +60,7 @@ export const Select = <T extends string|number>(props: SelectProps<T>) => {
             }
         );
         return list;
-    }, [options, defaultValue] );
+    }, [options, defaultValue, defaultDisabled] );
 
     const mods:Mods = {
         [cls.readonly]: readonly
@@ -86,3 +87,5 @@ export const Select = <T extends string|number>(props: SelectProps<T>) => {
         </select>
     );
 };
+const MemoSelect = memo(Select) as <T extends string|number>(props:SelectProps<T>) => JSX.Element;
+export {MemoSelect as Select};

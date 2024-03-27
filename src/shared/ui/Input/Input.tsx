@@ -1,4 +1,4 @@
-import {ChangeEventHandler, DetailedHTMLProps, InputHTMLAttributes, useCallback} from "react";
+import {ChangeEventHandler, DetailedHTMLProps, InputHTMLAttributes, memo, useCallback} from "react";
 import cls from "./Input.module.css";
 import {classNames} from "shared/lib/classNames/classNames";
 interface InputProps extends Omit<DetailedHTMLProps<
@@ -9,7 +9,7 @@ interface InputProps extends Omit<DetailedHTMLProps<
     onChange?: (value: string) => void;
     label?: string;
 }
-export const Input = (props: InputProps) => {
+export const Input = memo((props: InputProps) => {
     const {
         readonly,
         value,
@@ -47,4 +47,6 @@ export const Input = (props: InputProps) => {
             {...otherProps}
         />
     );
-};
+});
+
+Input.displayName="Input";

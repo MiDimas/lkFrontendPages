@@ -7,6 +7,7 @@ import {AddResponseSchema, IdentifiersSchema} from "../../model/types/AddRespons
 import {useInitialEffect} from "shared/lib/hooks/useInitialEffect/useInitialEffect";
 import {getIdentifiers} from "../../api/getIdentifiers/getIdentifiers";
 import {Select, SelectOption} from "shared/ui/Select/Select";
+import {addIdentifier} from "../../api/addIdentifier/addIdentifier";
 interface AddResponseManuallyFormProps {
     className?: string;
 }
@@ -18,6 +19,7 @@ export const AddResponseManuallyForm = (props: AddResponseManuallyFormProps) => 
     const [response, setResponse] = useState<AddResponseSchema>();
     const [isLoading, setIsLoading] = useState(false);
     const [identifiersList, setIdentifiersList] = useState<IdentifiersSchema[]>();
+    const [newIdentifier, setNewIdentifier] = useState<string>("");
 
     const sendHandler = useCallback(async (params?: AddResponseSchema) => {
         setIsLoading(true);
@@ -83,6 +85,22 @@ export const AddResponseManuallyForm = (props: AddResponseManuallyFormProps) => 
         [setResponse],
     );
 
+    const changeNewIdentifier =useCallback(
+        (value: string="") => {
+            setNewIdentifier(value);
+        }, [setNewIdentifier]
+    );
+    const addIdentifierHandler = useCallback(
+        async (value?:string) => {
+            if(value) {
+                const res = await addIdentifier(value);
+                if(res.result){
+                    loadIdentifiers();
+                }
+                setNewIdentifier("");
+            }
+        }, [loadIdentifiers, setNewIdentifier]
+    );
 
     useInitialEffect(() => {
         loadIdentifiers();
@@ -107,25 +125,25 @@ export const AddResponseManuallyForm = (props: AddResponseManuallyFormProps) => 
                 className={cls.input}
                 label="ФИО"
                 onChange={changeFio}
-                value={response?.fio}
+                value={response?.fio || ""}
             />
             <Input
                 className={cls.input}
                 label="Должность"
                 onChange={changeJobTitle}
-                value={response?.jobTitle}
+                value={response?.jobTitle || ""}
             />
             <Input
                 className={cls.input}
                 label="Телефон"
                 onChange={changePhone}
-                value={response?.phone}
+                value={response?.phone || ""}
             />
             <Input
                 className={cls.input}
                 label="Email"
                 onChange={changeEmail}
-                value={response?.email}
+                value={response?.email || ""}
             />
             <Select label="Идентификатор"
                 value={response?.identifier}
@@ -137,6 +155,16 @@ export const AddResponseManuallyForm = (props: AddResponseManuallyFormProps) => 
                 sendHandler(response);
             }}>
                 Записать отклик
+            </button>
+
+            <Input
+                label={"Добавить идентификатор"}
+                className={cls.input}
+                value={newIdentifier}
+                onChange={changeNewIdentifier}
+            />
+            <button onClick={() => addIdentifierHandler(newIdentifier)}>
+                Добавить новый идентификатор
             </button>
         </div>
     );

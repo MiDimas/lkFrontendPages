@@ -140,7 +140,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
     ]), []);
     const orderValue = params.order;
     const changeOrder = useCallback(
-        (select: JVOrderSchema) => {
+        (select?: JVOrderSchema) => {
             setParams((prevState) => {
                 if(prevState.order !== select) {
                     return (

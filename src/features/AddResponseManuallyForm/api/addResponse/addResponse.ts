@@ -7,6 +7,7 @@ export async function addResponse (params: AddResponseSchema): Promise<Responses
             `${__API__}/api/job-vacancy-response`,
             {...params, category: 3}
         );
+        console.log(params);
         return res.data;
     }
     catch (e) {

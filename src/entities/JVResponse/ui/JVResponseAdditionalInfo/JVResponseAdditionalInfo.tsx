@@ -3,7 +3,6 @@ import {classNames} from "shared/lib/classNames/classNames";
 import cls from "./JVResponseAdditionalInfo.module.css";
 import {Input} from "shared/ui/Input/Input";
 import {JVResponseSchema} from "../../model/types/JVResponseSchema";
-
 import {CountrySelect} from "entities/Country/ui/CountrySelect/CountrySelect";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 
