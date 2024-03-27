@@ -68,7 +68,7 @@ const Select =<T extends string|number>(props: SelectProps<T>) => {
 
     if(label) {
         return (
-            <label className={classNames(cls.mainBlock, mods, [className])}>
+            <label className={classNames("", mods, [className])}>
                 <span className={cls.label}>{label}</span>
                 <select value={value} className={cls.select} onChange={changeHandler} {...otherValue}>
                     {optionsList}
@@ -78,7 +78,7 @@ const Select =<T extends string|number>(props: SelectProps<T>) => {
     }
     return (
         <select
-            className={classNames(cls.mainBlock, {}, [className, cls.select])}
+            className={classNames(cls.select, {}, [className, cls.select])}
             onChange={changeHandler}
             value={value}
             {...otherValue}

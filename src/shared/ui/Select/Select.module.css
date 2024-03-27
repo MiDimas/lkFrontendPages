@@ -1,3 +1,10 @@
 .mainBlock {
-    cursor:pointer;
+
+}
+.label {
+    cursor: pointer;
+    user-select: none;
+}
+.select {
+    cursor: pointer;
 }

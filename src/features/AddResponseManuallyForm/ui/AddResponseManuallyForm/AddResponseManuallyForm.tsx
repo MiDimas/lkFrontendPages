@@ -151,9 +151,11 @@ export const AddResponseManuallyForm = (props: AddResponseManuallyFormProps) => 
                 onChange={changeIdentifier}
                 defaultValue={"Нет информации"}
             />
-            <button onClick={() => {
-                sendHandler(response);
-            }}>
+            <button
+                className={cls.button}
+                onClick={() => {
+                    sendHandler(response);
+                }}>
                 Записать отклик
             </button>
 
@@ -163,7 +165,9 @@ export const AddResponseManuallyForm = (props: AddResponseManuallyFormProps) => 
                 value={newIdentifier}
                 onChange={changeNewIdentifier}
             />
-            <button onClick={() => addIdentifierHandler(newIdentifier)}>
+            <button
+                className={cls.button}
+                onClick={() => addIdentifierHandler(newIdentifier)}>
                 Добавить новый идентификатор
             </button>
         </div>

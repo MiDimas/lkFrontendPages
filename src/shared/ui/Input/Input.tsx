@@ -27,7 +27,7 @@ export const Input = memo((props: InputProps) => {
     if(label){
         return (
             <label>
-                <span>{label}</span>
+                <span className={cls.label}>{label}</span>
                 <input
                     className={classNames(cls.input, {}, [className])}
                     readOnly={readonly}
