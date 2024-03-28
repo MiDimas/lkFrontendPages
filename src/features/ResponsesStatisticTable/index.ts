@@ -1,0 +1,1 @@
+export {ResponsesStatisticTable} from "./ui/ResponsesStatisticTable/ResponsesStatisticTable";
