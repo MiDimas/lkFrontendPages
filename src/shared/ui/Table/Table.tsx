@@ -4,10 +4,8 @@ interface Column<T extends string | number> {
     id?: T;
     name?: string;
 }
-type OptionalRecord<K extends string | number, T> = {
-    [P in K]?: T;
-} ;
-interface Row<T extends string|number> {
+
+export interface Row<T extends string|number> {
     cells?: OptionalRecord<T, string|number>;
 }
 interface TableProps<T extends string | number> {
