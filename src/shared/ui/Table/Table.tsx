@@ -22,6 +22,7 @@ export const Table = <T extends string | number>(props:TableProps<T>) => {
         total
     } = props;
     const [totalCount, setTotalCount] = useState<OptionalRecord<T,number>>();
+    const [isFirst, setIsFirst] = useState(true);
     const createHead = useMemo(() => {
         const head: JSX.Element[] = [];
         const listIndex: T[] = [];
@@ -37,19 +38,25 @@ export const Table = <T extends string | number>(props:TableProps<T>) => {
     }, [cols]);
 
 
-    const createRow = useCallback(({cells}:Row<T>, key:number) => {
+    const createRow = useCallback(({cells}:Row<T>, key:number, isCount=total) => {
         const res = createHead.colIndexList.map((value) => {
+            if(isFirst && total) {
+                setTotalCount(prevState => ({...prevState, [value]: 0}));
+            }
             if (cells){
-                if(total){
+                if(total && isCount){
                     if(typeof cells[value] === "number") {
-                        setTotalCount((prevState = {}) => ({
-                            ...prevState,
-                            [value]:  Number(prevState[value]) + Number(cells[value])
-                        }));
+
+                        setTotalCount((prevState:OptionalRecord<T, number> = {}) => {
+                            return {
+                                ...prevState,
+                                [value]: cells[value]
+                            };
+                        });
                     }
                 }
                 return (
-                    <td key={`${cells[value]}${value}`} id={String(value)}>
+                    <td key={`${key}${cells[value]}${value}`} id={String(value)}>
                         {
                             cells[value] || "---"
                         }
@@ -61,6 +68,7 @@ export const Table = <T extends string | number>(props:TableProps<T>) => {
             }
 
         });
+        setIsFirst(false);
         return (
             <tr key={`table${key}`}>
                 {res}
@@ -68,11 +76,13 @@ export const Table = <T extends string | number>(props:TableProps<T>) => {
         );
 
 
-    }, [createHead, total]);
+    }, [createHead, total, isFirst]);
 
     const createRows = useMemo(() => {
+        console.log(rows);
         return rows?.map((row, index) => createRow(row, index));
     }, [rows, createRow]);
+
     return (
         <table>
             <thead>
@@ -83,6 +93,24 @@ export const Table = <T extends string | number>(props:TableProps<T>) => {
             <tbody>
                 {createRows}
             </tbody>
+            { total && totalCount &&
+                (
+                    <tfoot>
+                        <tr>
+                            {
+                                createHead.colIndexList.map((value, index) => (
+                                    <td key={`footer${totalCount[value]}${value}`} id={String(value)}>
+                                        {index !== 0
+                                            ? totalCount[value] || "---"
+                                            : "Всего"
+                                        }
+                                    </td>
+                                ))
+                            }
+                        </tr>
+                    </tfoot>
+                )
+            }
         </table>
     );
 };
