@@ -1,4 +1,4 @@
-import {useCallback, useMemo} from "react";
+import {useCallback, useMemo, useState} from "react";
 
 interface Column<T extends string | number> {
     id?: T;
@@ -12,14 +12,16 @@ interface TableProps<T extends string | number> {
     className?: string;
     cols?: Column<T>[];
     rows?: Row<T>[];
-    total?: T[]
+    total?: boolean
 }
 export const Table = <T extends string | number>(props:TableProps<T>) => {
     const {
         className,
         cols,
-        rows
+        rows,
+        total
     } = props;
+    const [totalCount, setTotalCount] = useState<OptionalRecord<T,number>>();
     const createHead = useMemo(() => {
         const head: JSX.Element[] = [];
         const listIndex: T[] = [];
@@ -38,6 +40,14 @@ export const Table = <T extends string | number>(props:TableProps<T>) => {
     const createRow = useCallback(({cells}:Row<T>, key:number) => {
         const res = createHead.colIndexList.map((value) => {
             if (cells){
+                if(total){
+                    if(typeof cells[value] === "number") {
+                        setTotalCount((prevState = {}) => ({
+                            ...prevState,
+                            [value]:  Number(prevState[value]) + Number(cells[value])
+                        }));
+                    }
+                }
                 return (
                     <td key={`${cells[value]}${value}`} id={String(value)}>
                         {
@@ -58,7 +68,7 @@ export const Table = <T extends string | number>(props:TableProps<T>) => {
         );
 
 
-    }, [createHead]);
+    }, [createHead, total]);
 
     const createRows = useMemo(() => {
         return rows?.map((row, index) => createRow(row, index));

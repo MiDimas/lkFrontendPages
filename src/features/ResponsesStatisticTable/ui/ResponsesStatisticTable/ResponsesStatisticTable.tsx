@@ -30,8 +30,9 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
             loadStatistic();
         }
     );
-    const rowsList = useMemo<Row<"0" | "2" | "3" | "4" | "5" | "6" >[] | undefined>(() => {
-        const rows:Row<"0" | "2" | "3" | "4" | "5" | "6" >[] = [];
+    const rowsList = useMemo<Row<"0" | "2" | "3" | "4" | "5" | "6" | "10" >[] | undefined>(() => {
+        const rows:Row<"0" | "2" | "3" | "4" | "5" | "6" | "10" >[] = [];
+
         statisticList?.map(({firstname, statistic}) => {
             if(firstname==="Новые отклики"){
                 if(statistic){
@@ -45,7 +46,9 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
                 return;
             }
             const statisticParse: OptionalRecord<string, number> = JSON.parse(statistic);
-            rows.push({cells: {"0":firstname, ...statisticParse}});
+            rows.push({cells: {"0":firstname, ...statisticParse,
+                "10": Object.values(statisticParse).reduce((prev =0, cur=0) => (prev + cur))
+            }});
             return;
         });
         return rows;
@@ -64,9 +67,11 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
                     {id:"4", name:"Подумает"},
                     {id:"5", name:"Отказ"},
                     {id:"6", name:"Трудоустройство"},
+                    {id:"10", name:"Всего"},
                 ]}
                
                 rows={rowsList}
+                total
             />
             <div>Новых откликов: {newResponses}</div>
         </div>
