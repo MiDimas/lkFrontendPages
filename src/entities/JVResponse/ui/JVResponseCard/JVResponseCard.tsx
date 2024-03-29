@@ -93,6 +93,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                     <JVResponseActionButton
                         id={response.id}
                         status={response.status}
+                        owner={user && user.id===state.worker}
                         change={changeStatusHandler} />
                     {response.status !== 1 && removeWorker
                         ? (

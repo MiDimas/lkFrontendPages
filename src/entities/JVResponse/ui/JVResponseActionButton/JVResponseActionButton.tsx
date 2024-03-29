@@ -7,13 +7,15 @@ interface JVResponseActionButtonProps {
     status: number;
     change: (id:number, response: number) => void;
     className?: string;
+    owner?:boolean;
 }
 export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) => {
     const {
         id,
         status,
         change,
-        className
+        className,
+        owner
     } = props;
     if(status === 1) {
         return (<button
@@ -23,7 +25,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
             В работу
         </button>);
     }
-    else if(status===2 ||  status===3 || status===4) {
+    else if((status===2 ||  status===3 || status===4) && owner ) {
         return (
             <Dropdown
                 className={cls.buttonToWork}
