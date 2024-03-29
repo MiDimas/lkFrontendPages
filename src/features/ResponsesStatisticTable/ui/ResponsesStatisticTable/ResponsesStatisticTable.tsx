@@ -3,6 +3,7 @@ import {useInitialEffect} from "shared/lib/hooks/useInitialEffect/useInitialEffe
 import {useCallback, useMemo, useState} from "react";
 import {ResponsesStatisticSchema} from "../../model/types/ResponsesStatisticSchema";
 import {getAllStatistic} from "../../api/getAllStatistic/getAllStatistic";
+import cls from"./ResponsesStatisticTable.module.css";
 
 interface ResponsesStatisticTableProps {
     user?:User;
@@ -32,7 +33,6 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
     );
     const rowsList = useMemo<Row<"0" | "2" | "3" | "4" | "5" | "6" | "10" >[] | undefined>(() => {
         const rows:Row<"0" | "2" | "3" | "4" | "5" | "6" | "10" >[] = [];
-
         statisticList?.map(({firstname, statistic}) => {
             if(firstname==="Новые отклики"){
                 if(statistic){
@@ -58,7 +58,7 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
         return  <div>Loading ...</div>;
     }
     return (
-        <div>
+        <div className={cls.table}>
             <Table
                 cols={[
                     {id:"0", name:"Сотрудник"},
@@ -69,9 +69,19 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
                     {id:"6", name:"Трудоустройство"},
                     {id:"10", name:"Всего"},
                 ]}
+                columnClassNames={{
+                    "0": cls.worker,
+                    "2": cls.inWork,
+                    "3": cls.notAvailable,
+                    "4": cls.thinking,
+                    "5": cls.reject,
+                    "6": cls.success,
+                    "10": cls.total,
+                }}
                
                 rows={rowsList}
                 total
+                diffRow
             />
             <div>Новых откликов: {newResponses}</div>
         </div>

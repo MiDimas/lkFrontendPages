@@ -1,10 +1,13 @@
 import {useCallback, useMemo, useState} from "react";
+import cls from "./Table.module.css";
+import {classNames} from "shared/lib/classNames/classNames";
 
 interface Column<T extends string | number> {
     id?: T;
     name?: string;
+    className?: string;
 }
-
+type ColumnClasses<T extends string | number> = OptionalRecord<T, string>
 export interface Row<T extends string|number> {
     cells?: OptionalRecord<T, string|number>;
 }
@@ -12,53 +15,77 @@ interface TableProps<T extends string | number> {
     className?: string;
     cols?: Column<T>[];
     rows?: Row<T>[];
-    total?: boolean
+    total?: boolean;
+    columnClassNames?: ColumnClasses<T>;
+    cellsClassNames?:string;
+    placeholder?: string;
+    diffRow?: boolean;
+    diffCol?: boolean;
 }
 export const Table = <T extends string | number>(props:TableProps<T>) => {
     const {
         className,
         cols,
         rows,
-        total
+        total,
+        columnClassNames,
+        cellsClassNames,
+        placeholder = "---",
+        diffRow,
+        diffCol
     } = props;
     const [totalCount, setTotalCount] = useState<OptionalRecord<T,number>>();
-    const [isFirst, setIsFirst] = useState(true);
     const createHead = useMemo(() => {
         const head: JSX.Element[] = [];
         const listIndex: T[] = [];
         if(cols){
-            cols.map(({id, name}) => {
+            cols.map(({id, name}, index) => {
                 if(typeof id !== "undefined") {
-                    head.push(<th key={id} scope="col" id={String(id)}>{name}</th>);
+                    head.push(<th
+                        key={id} scope="col"
+                        id={String(id)}
+                        className={classNames(cls.cell, {
+                            [cls.diff]: diffCol && Boolean(index%2)
+                        }, [cellsClassNames, columnClassNames? columnClassNames[id]:""])}
+                    >{name}</th>);
                     listIndex.push(id);
+                    if(total){
+                        setTotalCount((prevState) => (
+                            {...prevState, [id]: 0}
+                        ));
+
+                    }
                 }
             });
         }
         return {head, colIndexList: listIndex};
-    }, [cols]);
+    }, [cols, total, columnClassNames, cellsClassNames, diffCol]);
 
 
-    const createRow = useCallback(({cells}:Row<T>, key:number, isCount=total) => {
-        const res = createHead.colIndexList.map((value) => {
-            if(isFirst && total) {
-                setTotalCount(prevState => ({...prevState, [value]: 0}));
-            }
+    const createRow = useCallback(({cells}:Row<T>, key:number) => {
+        const res = createHead.colIndexList.map((value, index) => {
             if (cells){
-                if(total && isCount){
+                if(total){
                     if(typeof cells[value] === "number") {
-
-                        setTotalCount((prevState:OptionalRecord<T, number> = {}) => {
+                        setTotalCount((prevState = {}) => {
+                            const prevVal = prevState[value]??0 ;
                             return {
                                 ...prevState,
-                                [value]: cells[value]
+                                [value]: Number(cells[value]) + prevVal
                             };
                         });
                     }
                 }
                 return (
-                    <td key={`${key}${cells[value]}${value}`} id={String(value)}>
+                    <td
+                        key={`${key}${cells[value]}${value}`}
+                        id={String(value)}
+                        className={classNames(cls.cell,
+                            {[cls.diff]: diffCol && Boolean(index%2)},
+                            [cellsClassNames, columnClassNames? columnClassNames[value]:""])}
+                    >
                         {
-                            cells[value] || "---"
+                            cells[value] || placeholder
                         }
                     </td>
                 );
@@ -68,24 +95,25 @@ export const Table = <T extends string | number>(props:TableProps<T>) => {
             }
 
         });
-        setIsFirst(false);
         return (
-            <tr key={`table${key}`}>
+            <tr
+                className={classNames(cls.row, {[cls.diffRow]: diffRow && Boolean(key%2)}, [])}
+                key={`table${key}`}
+            >
                 {res}
             </tr>
         );
 
 
-    }, [createHead, total, isFirst]);
+    }, [createHead, total, columnClassNames, placeholder,  diffRow, diffCol, cellsClassNames]);
 
     const createRows = useMemo(() => {
-        console.log(rows);
         return rows?.map((row, index) => createRow(row, index));
     }, [rows, createRow]);
 
     return (
-        <table>
-            <thead>
+        <table className={classNames(cls.table, {}, [className])}>
+            <thead className={cls.head}>
                 <tr>
                     {createHead.head}
                 </tr>
@@ -95,13 +123,19 @@ export const Table = <T extends string | number>(props:TableProps<T>) => {
             </tbody>
             { total && totalCount &&
                 (
-                    <tfoot>
+                    <tfoot className={cls.foot}>
                         <tr>
                             {
                                 createHead.colIndexList.map((value, index) => (
-                                    <td key={`footer${totalCount[value]}${value}`} id={String(value)}>
+                                    <td
+                                        key={`footer${totalCount[value]}${value}`}
+                                        id={String(value)}
+                                        className={classNames(cls.cell,
+                                            {[cls.diff]: diffCol && Boolean(index%2)},
+                                            [cellsClassNames, columnClassNames? columnClassNames[value]:""])}
+                                    >
                                         {index !== 0
-                                            ? totalCount[value] || "---"
+                                            ? totalCount[value] || placeholder
                                             : "Всего"
                                         }
                                     </td>

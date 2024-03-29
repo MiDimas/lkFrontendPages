@@ -1,0 +1,25 @@
+.table{
+    display: grid;
+    text-align: center;
+}
+.worker {
+    background-color: #ffffff;
+}
+.inWork{
+    background-color: #ececc2;
+}
+.notAvailable {
+    background-color: #f5e6bf;
+}
+.thinking {
+    background-color: #ebfdf8;
+}
+.reject {
+    background-color: #fff0eb;
+}
+.success {
+    background-color: #efffe5;
+}
+.total {
+    background-color: #89c3e0;
+}

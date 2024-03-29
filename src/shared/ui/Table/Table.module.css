@@ -1,0 +1,27 @@
+.table {
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+.head {
+    border-bottom: 2px solid gray;
+}
+.row {
+    border: 1px solid silver;
+    position: relative;
+}
+.cell {
+    border: 1px solid silver;
+    text-align: center;
+    padding: 5px;
+    background-color: #ffffff;
+    filter: brightness(1);
+}
+.diff {
+    filter: brightness(0.95);
+}
+.diffRow{
+    filter: brightness(0.95);
+}
+.foot {
+    border-top: 3px solid gray;
+}
