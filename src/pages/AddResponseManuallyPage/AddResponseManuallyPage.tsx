@@ -7,7 +7,7 @@ export const AddResponseManuallyPage = () => {
     if(typeof __PHPDATA__ !== "undefined"){
         return (
             <Page>
-                { haveRole(["9", "10"])
+                { haveRole(["1", "8"])
                     ? <AddResponseManually user={__PHPDATA__} />
                     : <div>У вас недостаточно прав</div>
                 }
@@ -17,7 +17,7 @@ export const AddResponseManuallyPage = () => {
     else if (__DEV__) {
         return (
             <Page>
-                { haveRole(["9", "10"])
+                { haveRole(["1", "8"])
                     ? <AddResponseManually user={{id: 555, firstName:"Димас"}} />
                     : <div>У вас недостаточно прав</div>
                 }

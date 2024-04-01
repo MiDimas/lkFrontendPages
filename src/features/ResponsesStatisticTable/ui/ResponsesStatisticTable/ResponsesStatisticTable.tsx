@@ -3,7 +3,7 @@ import {useInitialEffect} from "shared/lib/hooks/useInitialEffect/useInitialEffe
 import {useCallback, useMemo, useState} from "react";
 import {ResponsesStatisticSchema} from "../../model/types/ResponsesStatisticSchema";
 import {getAllStatistic} from "../../api/getAllStatistic/getAllStatistic";
-import cls from"./ResponsesStatisticTable.module.css";
+import cls from "./ResponsesStatisticTable.module.css";
 
 interface ResponsesStatisticTableProps {
     user?:User;
@@ -81,7 +81,6 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
                
                 rows={rowsList}
                 total
-                diffRow
             />
             <div>Новых откликов: {newResponses}</div>
         </div>
