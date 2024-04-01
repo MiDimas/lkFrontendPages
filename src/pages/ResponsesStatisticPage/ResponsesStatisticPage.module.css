@@ -1,4 +1,0 @@
-.page {
-    height: calc(var(--vh, 1vh) * 100 - 100px);
-    overflow: auto;
-}

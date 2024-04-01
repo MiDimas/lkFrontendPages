@@ -1,41 +1,34 @@
 import {haveRole} from "shared/lib/localStorage/roles";
 import {AddResponseManually} from "widgets/AddResponseManually";
-import cls from "./AddResponseManuallyPage.module.css";
+import {Page} from "widgets/Page";
 
 
 export const AddResponseManuallyPage = () => {
     if(typeof __PHPDATA__ !== "undefined"){
         return (
-            <>
+            <Page>
                 { haveRole(["9", "10"])
-                    ? <div className={cls.page}>
-                        <AddResponseManually user={__PHPDATA__} />
-
-                    </div>
+                    ? <AddResponseManually user={__PHPDATA__} />
                     : <div>У вас недостаточно прав</div>
                 }
-            </>
+            </Page>
         );
     }
     else if (__DEV__) {
         return (
-            <>
+            <Page>
                 { haveRole(["9", "10"])
-                    ? (
-                        <div className={cls.page}>
-                            <AddResponseManually user={{id: 555, firstName:"Димас"}} />
-                        </div>
-                    )
+                    ? <AddResponseManually user={{id: 555, firstName:"Димас"}} />
                     : <div>У вас недостаточно прав</div>
                 }
 
-            </>
+            </Page>
         );
     }
 
     return (
-        <div className={cls.page}>
-            Not Authorized
-        </div>
+        <Page>
+            <div>Not Authorized</div>
+        </Page>
     );
 };
