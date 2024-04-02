@@ -16,7 +16,7 @@ export const JobVacancyResponsePage = () => {
         return (
             <>
                 { haveRole(["9", "10"])
-                    ? <JobVacancyResponsesFrame user={{id: 555, firstName:"Димас"}} head/>
+                    ? <JobVacancyResponsesFrame user={{id: 555, firstName:"Димас"}} head={haveRole(10)}/>
                     : <div>У вас недостаточно прав</div>
                 }
 

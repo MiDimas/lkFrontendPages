@@ -2,6 +2,7 @@ import {GetJVResponsesParams} from "../../types/JVResponsesSchema";
 import axios from "axios";
 import {addQueryParams} from "shared/lib/url/addQueryParams/addQueryParams";
 import {JVResponseSchema} from "entities/JVResponse";
+import {dateFormatter} from "shared/lib/helpers/dateFormatter/dateFormatter";
 
 
 export async function getJVResponses (props:GetJVResponsesParams): Promise<ResponsesStructure<JVResponseSchema[]>> {
@@ -16,6 +17,15 @@ export async function getJVResponses (props:GetJVResponsesParams): Promise<Respo
                 }
             }
         );
+        if(response.data.result === 1){
+            response.data.data?.forEach(({birthDate, createdAt, updatedAt}, index) => {
+                if (response.data.data){
+                    response.data.data[index].birthDate = dateFormatter(birthDate);
+                    response.data.data[index].createdAt = dateFormatter(createdAt, false);
+                    response.data.data[index].updatedAt = dateFormatter(updatedAt, false);
+                }
+            });
+        }
         return response.data;
     }
     catch(e) {
