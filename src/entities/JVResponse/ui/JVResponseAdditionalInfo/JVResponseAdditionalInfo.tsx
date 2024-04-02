@@ -1,10 +1,11 @@
-import {Dispatch, memo, SetStateAction, useCallback, useMemo} from "react";
+import {Dispatch, memo, SetStateAction, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {classNames} from "shared/lib/classNames/classNames";
 import cls from "./JVResponseAdditionalInfo.module.css";
 import {Input} from "shared/ui/Input/Input";
 import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 import {CountrySelect} from "entities/Country/ui/CountrySelect/CountrySelect";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
+import {dateMask} from "shared/lib/helpers/masks/dateMask";
 
 interface JVRCardAdditionalInfo {
     birthDate?: string;
@@ -43,6 +44,8 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
         updatedDate,
         comment
     } = state;
+    const birthRef = useRef<HTMLInputElement>(null);
+    const [bPos, setBPos] = useState(0);
 
     const normalizedCountry = useMemo<Record<number, string>>(() => {
         const obj:Record<number, string> = {0: ""};
@@ -53,12 +56,25 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
     }, [countries]);
 
     const birthEdit = useCallback(
-        (birthDate:string = "") => {
-            setState?.(prevState => ({...prevState, birthDate}));
+        (birthDate:string = "", 
+            target?: EventTarget & HTMLInputElement,
+        ) => {
+            const startPos = target?.selectionStart ?? null;
+            setState?.(prevState => ({...prevState, birthDate: dateMask(birthDate)}));
+
+            if(birthRef.current){
+                setBPos(startPos??0);
+
+            }
         },
         [setState],
     );
-
+    useEffect(() => {
+        if(birthRef.current!==null) {
+            birthRef.current.selectionStart = bPos;
+            birthRef.current.selectionEnd = bPos;
+        }
+    }, [bPos]);
     const countryEdit = useCallback(
         (country:string|number = 0) => {
             country = Number(country);
@@ -89,8 +105,8 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
             <div className={cls.birthDate}>
                 <div>Дата рождения:</div>
                 { canEdit ?
-                    <Input value={birthDate || ""} onChange={birthEdit} className={cls.input} />
-                    : <div>{birthDate ?? "Не указана"}</div>
+                    <Input ref={birthRef} value={birthDate || ""} onChange={birthEdit} className={cls.input}  />
+                    : <div>{birthDate || "Не указана"}</div>
                 }
             </div>
             <div className={cls.comment}>

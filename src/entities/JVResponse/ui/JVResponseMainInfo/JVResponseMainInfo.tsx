@@ -2,6 +2,7 @@ import cls from "./JVResponseMainInfo.module.css";
 import {Dispatch, memo, SetStateAction, useCallback} from "react";
 import {JVResponseSchema} from "../../";
 import {Input} from "shared/ui/Input/Input";
+import {classNames} from "shared/lib/classNames/classNames";
 interface JVRCardMainInfo {
     fio: string;
     jobTitle: string;
@@ -58,10 +59,10 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
 
 
     return (
-        <div className={cls.mainCont}>
+        <div className={classNames(cls.mainCont, {}, [className])}>
             <div className={cls.fio}>
                 {canEdit
-                    ? <Input value={fio} onChange={fioEdit} className={cls.input}/>
+                    ? <Input value={fio} onChange={fioEdit} className={cls.input} placeholder="ФИО"/>
                     :<div>{fio}</div>
                 }
             </div>
@@ -70,7 +71,7 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
             </div>
             <div className={cls.jobTitle}>
                 {canEdit
-                    ? <Input value={jobTitle} onChange={jobTitleEdit} className={cls.input}/>
+                    ? <Input value={jobTitle} onChange={jobTitleEdit} className={cls.input} placeholder="Должность"/>
                     : <div>{jobTitle}</div>
                 }
             </div>

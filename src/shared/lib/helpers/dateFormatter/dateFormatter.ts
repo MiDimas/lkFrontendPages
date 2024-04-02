@@ -1,6 +1,6 @@
-export function dateFormatter (dateFromDB?:string, short:boolean=true ):string {
+export function dateFormatter (dateFromDB?:string, short:boolean=true ):string{
     if(!dateFromDB || dateFromDB === "0000-00-00"){
-        return "-.-.-";
+        return "";
     }
     dateFromDB = dateFromDB.replace(" ", "T");
     const date = new Date(dateFromDB);

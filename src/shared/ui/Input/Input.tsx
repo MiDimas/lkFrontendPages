@@ -1,4 +1,13 @@
-import {ChangeEventHandler, DetailedHTMLProps, InputHTMLAttributes, memo, useCallback} from "react";
+import {
+    ChangeEventHandler,
+    DetailedHTMLProps,
+    Dispatch, forwardRef,
+    InputHTMLAttributes,
+    memo,
+    SetStateAction,
+    useCallback,
+    useState
+} from "react";
 import cls from "./Input.module.css";
 import {classNames} from "shared/lib/classNames/classNames";
 interface InputProps extends Omit<DetailedHTMLProps<
@@ -6,47 +15,53 @@ interface InputProps extends Omit<DetailedHTMLProps<
 >{
     readonly?:boolean;
     value?: string | number;
-    onChange?: (value: string) => void;
+    onChange?: (
+        value: string,
+        target?: EventTarget & HTMLInputElement
+    ) => void;
     label?: string;
 }
-export const Input = memo((props: InputProps) => {
-    const {
-        readonly,
-        value,
-        onChange,
-        className,
-        label,
-        ...otherProps
-    } = props;
-    const changeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
-        (event) => {
-            if(onChange) {
-                onChange(event.target.value);
-            }
-        }, [onChange]);
-    if(label){
+export const Input = memo(forwardRef<HTMLInputElement, InputProps>(
+    (props, ref) => {
+        const {
+            readonly,
+            value,
+            onChange,
+            className,
+            label,
+            ...otherProps
+        } = props;
+        const changeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
+            (event) => {
+                if(onChange) {
+                    onChange(event.target.value, event.target);
+                }
+            }, [onChange]);
+        if(label){
+            return (
+                <label>
+                    <span className={cls.label}>{label}</span>
+                    <input
+                        className={classNames(cls.input, {}, [className])}
+                        readOnly={readonly}
+                        ref={ref}
+                        onChange={changeHandler}
+                        value={value}
+                        {...otherProps}
+                    />
+                </label>
+            );
+        }
         return (
-            <label>
-                <span className={cls.label}>{label}</span>
-                <input
-                    className={classNames(cls.input, {}, [className])}
-                    readOnly={readonly}
-                    onChange={changeHandler}
-                    value={value}
-                    {...otherProps}
-                />
-            </label>
+            <input
+                className={classNames(cls.input, {}, [className])}
+                readOnly={readonly}
+                onChange={changeHandler}
+                value={value}
+                ref={ref}
+                {...otherProps}
+            />
         );
-    }
-    return (
-        <input
-            className={classNames(cls.input, {}, [className])}
-            readOnly={readonly}
-            onChange={changeHandler}
-            value={value}
-            {...otherProps}
-        />
-    );
-});
+    }));
 
 Input.displayName="Input";
