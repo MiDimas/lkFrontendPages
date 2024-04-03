@@ -1,6 +1,5 @@
 export function dateMask (date: string): string {
     const lastChar = date.length? date[date.length-1] : "";
-    console.log(lastChar);
     date = date.replace(/\D/g, "").substring(0,8);
     const day = date.substring(0,2);
     const month = date.substring(2,4);

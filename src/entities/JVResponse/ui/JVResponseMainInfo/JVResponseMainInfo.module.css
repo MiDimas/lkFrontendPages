@@ -41,3 +41,7 @@
 .phone {
     grid-area: p;
 }
+
+.warn {
+    background: #ffc3c3;
+}

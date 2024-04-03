@@ -7,7 +7,6 @@ import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAd
 import {JVResponseEditButton} from "../JVResponseEditButton/JVResponseEditButton";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 
-
 interface JVResponseCardProps {
     response: JVResponseSchema;
     changeStatus?: (id: number, status:number) => Promise<ResponsesStructure<null>>;

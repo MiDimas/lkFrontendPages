@@ -64,7 +64,6 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
 
             if(birthRef.current){
                 setBPos(startPos??0);
-
             }
         },
         [setState],
