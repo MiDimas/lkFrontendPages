@@ -25,6 +25,7 @@ interface JVResponseAdditionalInfoProps {
     setState?: Dispatch<SetStateAction<JVResponseSchema>>;
     countries?: CountrySchema[];
 }
+
 export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoProps) => {
     const {
         visible = true,
@@ -46,7 +47,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
     } = state;
     const birthRef = useRef<HTMLInputElement>(null);
     const [bPos, setBPos] = useState(0);
-
+    const [validBirth, setValidBirth] = useState(true);
     const normalizedCountry = useMemo<Record<number, string>>(() => {
         const obj:Record<number, string> = {0: ""};
         countries?.map(({id, name}) => {
@@ -60,13 +61,22 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
             target?: EventTarget & HTMLInputElement,
         ) => {
             const startPos = target?.selectionStart ?? null;
-            setState?.(prevState => ({...prevState, birthDate: dateMask(birthDate)}));
+            const endPos = target?.selectionEnd ?? null;
+            console.log({startPos, endPos});
+            birthDate = dateMask(birthDate);
+            setState?.(prevState => ({...prevState, birthDate}));
 
             if(birthRef.current){
-                setBPos(startPos??0);
+                if(startPos === 2 || startPos === 5) {
+                    setBPos(startPos+1);
+                }
+                else {
+                    setBPos(startPos??0);
+                }
             }
+            setValidBirth(birthDate.length === 10 || birthDate.length ===0);
         },
-        [setState],
+        [setState, setBPos, setValidBirth],
     );
     useEffect(() => {
         if(birthRef.current!==null) {
@@ -74,6 +84,12 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
             birthRef.current.selectionEnd = bPos;
         }
     }, [bPos]);
+
+    useEffect(() => {
+        if(canEdit) {
+            setValidBirth(true);
+        }
+    }, [canEdit, setValidBirth]);
     const countryEdit = useCallback(
         (country:string|number = 0) => {
             country = Number(country);
@@ -103,8 +119,13 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
             </div>
             <div className={cls.birthDate}>
                 <div>Дата рождения:</div>
-                { canEdit ?
-                    <Input ref={birthRef} value={birthDate || ""} onChange={birthEdit} className={cls.input}  />
+                { canEdit ? (
+                    <Input
+                        ref={birthRef}
+                        value={birthDate || ""}
+                        onChange={birthEdit}
+                        className={classNames(cls.input, {[cls.warn]: !validBirth}, [])}
+                    />)
                     : <div>{birthDate || "Не указана"}</div>
                 }
             </div>

@@ -44,3 +44,7 @@
     display: flex;
     justify-content: space-between;
 }
+
+.warn {
+    background: #ffc3c3;
+}

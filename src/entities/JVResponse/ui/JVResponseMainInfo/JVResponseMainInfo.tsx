@@ -78,7 +78,8 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
     );
     const phoneEdit = useCallback(
         (phone: string) => {
-            setState?.((prev) => ({...prev, phone: phoneMask(phone)}));
+            phone=phoneMask(phone);
+            setState?.((prev) => ({...prev, phone}));
             setValid((prev) =>({
                 ...prev,
                 phone: phone ? phoneValidator(phone) : (!!state.email?.length)
