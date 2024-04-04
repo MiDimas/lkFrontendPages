@@ -6,6 +6,7 @@ import {JVResponseActionButton} from "../JVResponseActionButton/JVResponseAction
 import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAdditionalInfo";
 import {JVResponseEditButton} from "../JVResponseEditButton/JVResponseEditButton";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
+import {validateUpdate} from "../../lib/validate/validateUpdate";
 
 interface JVResponseCardProps {
     response: JVResponseSchema;
@@ -35,21 +36,27 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     }, [changeStatus]);
     const undoChangesHandler = useCallback( () => {
         setState(response);
-    }, [response, setState] );
+        setIsEdit(false);
+    }, [response, setState, setIsEdit] );
     const saveChangesHandler = useCallback(
         async (state: JVResponseSchema) => {
             if(updateCard) {
                 if(JSON.stringify(response) !== JSON.stringify(state)){
+                    if(validateUpdate(state)){
+                        return;
+                    }
                     const res = await updateCard(state);
                     console.log(res);
                     if(!res.result) {
                         undoChangesHandler();
+                        return;
                     }
+                    setIsEdit(false);
                 }
 
             }
         },
-        [updateCard, undoChangesHandler, response],
+        [updateCard, undoChangesHandler, response, setIsEdit],
     );
 
 

@@ -1,12 +1,14 @@
 import cls from "./JVResponseMainInfo.module.css";
 import {Dispatch, memo, SetStateAction, useCallback, useEffect, useState} from "react";
-import {JVResponseSchema} from "../../";
+import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 import {Input} from "shared/ui/Input/Input";
 import {classNames} from "shared/lib/classNames/classNames";
 import {phoneMask} from "shared/lib/helpers/masks/phoneMask";
 import {emailMask} from "shared/lib/helpers/masks/emailMask";
-import {emailValidator} from "shared/lib/helpers/validators/emailValidator";
-import {phoneValidator} from "shared/lib/helpers/validators/phoneValidator";
+import {validateFio} from "../../lib/validate/validateFio";
+import {validateJobTitle} from "../../lib/validate/validateJobTitle";
+import {validateEmail} from "../../lib/validate/validateEmail";
+import {validatePhone} from "../../lib/validate/validatePhone";
 interface JVRCardMainInfo {
     fio: string;
     jobTitle: string;
@@ -51,7 +53,7 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
             setState?.((prevState) => ({...prevState, fio}));
             setValid((prev) => ({
                 ...prev,
-                fio: fio.trim().length > 5
+                fio: validateFio(fio)
             }));
         },
         [setState],
@@ -61,7 +63,7 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
             setState?.((prev) => ({...prev, jobTitle}));
             setValid((prev) => ({
                 ...prev,
-                jobTitle: jobTitle.trim().length > 4
+                jobTitle: validateJobTitle(jobTitle),
             }));
         }, [setState]
     );
@@ -71,7 +73,7 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
             setState?.((prevState) => ({...prevState, email}));
             setValid((prev) =>({
                 ...prev,
-                email: email ? emailValidator(email) : (!!state.phone?.length)
+                email: validateEmail(email, state.phone)
             }));
         },
         [setState, state.phone],
@@ -82,7 +84,7 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
             setState?.((prev) => ({...prev, phone}));
             setValid((prev) =>({
                 ...prev,
-                phone: phone ? phoneValidator(phone) : (!!state.email?.length)
+                phone: validatePhone(phone, state.email)
             }));
         }, [setState, state.email]
     );

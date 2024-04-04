@@ -26,14 +26,12 @@ export const JVResponseEditButton = memo(
             if(undoChange) {
                 undoChange();
             }
-            setIsEdit(false);
-        }, [undoChange, setIsEdit]);
+        }, [undoChange]);
         const saveHandler = useCallback((state?:JVResponseSchema) => {
             if(saveChange && state) {
                 saveChange(state);
             }
-            setIsEdit(false);
-        }, [saveChange, setIsEdit]);
+        }, [saveChange]);
         if(!isEdit) {
             return(
                 <button

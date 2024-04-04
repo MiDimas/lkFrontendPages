@@ -1,11 +1,11 @@
 export interface JVResponseSchema {
     id: number;
-    fio: string;
-    email?: string;
-    phone?: string;
-    birthDate?: string;
-    country?: number;
-    jobTitle: string;
+    fio: string; //обязательное поле
+    email?: string; // Нужно чтобы было хотя бы одно из двух
+    phone?: string; //
+    birthDate?: string; //если есть хоть что то валидировать
+    country?: number; // если осуществлялось изменения то записывать
+    jobTitle: string; //обязательное поле
     status: number;
     worker?: number;
     comment?: string;
