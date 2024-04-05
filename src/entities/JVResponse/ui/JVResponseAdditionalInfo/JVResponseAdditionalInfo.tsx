@@ -6,6 +6,7 @@ import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 import {CountrySelect} from "entities/Country/ui/CountrySelect/CountrySelect";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 import {dateMask} from "shared/lib/helpers/masks/dateMask";
+import {validateDate} from "../../lib/validate/validateDate";
 
 interface JVRCardAdditionalInfo {
     birthDate?: string;
@@ -74,7 +75,13 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
                     setBPos(startPos??0);
                 }
             }
-            setValidBirth(birthDate.length === 10 || birthDate.length ===0);
+            const validDate = birthDate.length === 10 || birthDate.length ===0;
+            if(validDate) {
+                setValidBirth(validateDate(birthDate));
+            }
+            else {
+                setValidBirth(false);
+            }
         },
         [setState, setBPos, setValidBirth],
     );
@@ -123,6 +130,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
                     <Input
                         ref={birthRef}
                         value={birthDate || ""}
+                        placeholder="ДД.ММ.ГГГГ"
                         onChange={birthEdit}
                         className={classNames(cls.input, {[cls.warn]: !validBirth}, [])}
                     />)
