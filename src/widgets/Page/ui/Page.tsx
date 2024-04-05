@@ -13,6 +13,7 @@ export const Page = (props: PageProps) => {
     return (
         <div
             className={classNames(cls.page, {}, [className])} {...otherProps}
+            id="page"
         >
             {children}
         </div>

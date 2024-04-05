@@ -7,6 +7,8 @@ import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAd
 import {JVResponseEditButton} from "../JVResponseEditButton/JVResponseEditButton";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 import {validateUpdate} from "../../lib/validate/validateUpdate";
+import {PopUpMessage} from "shared/ui/PopUpMessage/PopUpMessage";
+import {usePopUpMsg} from "shared/lib/hooks/usePopUpMsg/usePopUpMsg";
 
 interface JVResponseCardProps {
     response: JVResponseSchema;
@@ -29,6 +31,8 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     const [state, setState] = useState(response);
     const [addVisible, setAddVisible] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
+    const {Component, setMessage} = usePopUpMsg(2000);
+
     const changeStatusHandler = useCallback(async(id:number, status:number) => {
         if(changeStatus) {
             await changeStatus(id, status);
@@ -42,26 +46,42 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
         async (state: JVResponseSchema) => {
             if(updateCard) {
                 if(JSON.stringify(response) !== JSON.stringify(state)){
-                    if(validateUpdate(state)){
+                    if(!validateUpdate(state)){
+                        setMessage({
+                            text: "Не заполнены или неправильно, заполнены обязательные поля!",
+                            severity: "warning"
+                        });
                         return;
                     }
                     const res = await updateCard(state);
                     console.log(res);
                     if(!res.result) {
+                        setMessage({
+                            text: res.desc,
+                            severity: "error"
+                        });
                         undoChangesHandler();
                         return;
                     }
+                    setMessage({
+                        text: res.desc,
+                        severity: "success"
+                    });
                     setIsEdit(false);
                 }
+                setMessage({
+                    text: "Не обнаружено никаких изменений", severity: "warning"
+                });
 
             }
         },
-        [updateCard, undoChangesHandler, response, setIsEdit],
+        [updateCard, undoChangesHandler, response, setIsEdit, setMessage],
     );
 
 
     return (
         <div className={cls.card}>
+            <Component />
             <div className={cls.content}>
                 <JVResponseMainInfo
                     state={{
