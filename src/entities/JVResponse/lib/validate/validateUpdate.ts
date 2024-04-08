@@ -11,5 +11,5 @@ export const validateUpdate = (state: JVResponseSchema) => {
     const validEmail = validateEmail(state.email, state.phone);
     const validPhone = validatePhone(state.phone, state.phone);
     const validDate = validateDate(state.birthDate);
-    return validFio && validJobTitle && validPhone && validEmail;
+    return validFio && validJobTitle && validPhone && validEmail && validDate;
 };

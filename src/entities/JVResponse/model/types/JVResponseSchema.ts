@@ -18,4 +18,5 @@ export interface JVResponseSchema {
     identifierName?: string;
     statusName?: string;
     workerName?: string;
+    lastComment?: string;
 }

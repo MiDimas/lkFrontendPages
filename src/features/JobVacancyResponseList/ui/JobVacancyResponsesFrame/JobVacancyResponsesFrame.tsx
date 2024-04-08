@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {memo, useCallback, useEffect, useState} from "react";
 import {GetJVResponsesParams, JVRStatusSchema} from "../../model/types/JVResponsesSchema";
 import {getJVResponses} from "../../model/services/getJVResponses/getJVResponses";
 import {loadJVQueryParams} from "../../model/services/loadJVQueryParams/loadJVQueryParams";
@@ -24,7 +24,7 @@ interface JobVacancyResponseListProps {
     user?: User;
     head?: boolean;
 }
-export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => {
+export const JobVacancyResponsesFrame = memo((props: JobVacancyResponseListProps) => {
     const {
         user = {id: 0, firstName: "" },
         head
@@ -135,4 +135,6 @@ export const JobVacancyResponsesFrame = (props: JobVacancyResponseListProps) => 
             />
         </div>
     );
-};
+});
+
+JobVacancyResponsesFrame.displayName = "JobVacancyResponsesFrame";
