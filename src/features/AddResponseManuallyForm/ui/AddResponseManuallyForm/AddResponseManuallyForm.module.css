@@ -1,3 +1,4 @@
+
 .form{
     display: grid;
     gap: 10px;
@@ -14,4 +15,7 @@
     display: inline-block;
     margin: auto;
     min-width: 220px;
+}
+.err {
+    background-color: #ffcccc;
 }

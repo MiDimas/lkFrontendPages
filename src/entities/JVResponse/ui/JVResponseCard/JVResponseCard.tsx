@@ -68,6 +68,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                         severity: "success"
                     });
                     setIsEdit(false);
+                    return;
                 }
                 setMessage({
                     text: "Не обнаружено никаких изменений", severity: "warning"
