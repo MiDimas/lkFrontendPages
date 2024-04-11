@@ -12,6 +12,7 @@ export function loadJVQueryParams (
     const status = Number(searchParams.get("status"));
     const worker = Number(searchParams.get("worker"));
     const category = Number(searchParams.get("category"));
+    const page = Number(searchParams.get("page"));
     // const identifier = Number(searchParams.get("identifier"));
     return {
         sort:  sort ? sort : "updated",
@@ -19,6 +20,7 @@ export function loadJVQueryParams (
         status: isNaN(status) || !status ? 0 : status,
         worker: isNaN(worker) || !worker ? 0 : worker,
         category: isNaN(category) || !category? 0 : category,
+        page: isNaN(page) || !page ? 1 : page
         // identifier: isNaN(identifier) ? undefined : identifier,
     };
 

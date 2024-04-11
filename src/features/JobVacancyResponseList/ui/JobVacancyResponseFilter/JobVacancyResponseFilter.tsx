@@ -4,6 +4,8 @@ import {Dispatch, SetStateAction, useCallback, useMemo, useState} from "react";
 import cls from "./JobVacancyResponseFilter.module.css";
 import {Select, SelectOption} from "shared/ui/Select/Select";
 import {classNames} from "shared/lib/classNames/classNames";
+import {PaginationMenu} from "shared/ui/PaginationMenu/PaginationMenu";
+import {JVResponseInfoSchema} from "entities/JVResponse";
 
 interface JobVacancyResponseFilterProps {
     params: GetJVResponsesParams;
@@ -11,6 +13,7 @@ interface JobVacancyResponseFilterProps {
     user: User;
     className: string;
     statuses?: JVRStatusSchema[];
+    info?: JVResponseInfoSchema;
 }
 
 export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => {
@@ -19,7 +22,8 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
         setParams,
         user,
         className,
-        statuses
+        statuses,
+        info,
     } = props;
 
     const [isHidden, setIsHidden] = useState(true);
@@ -152,7 +156,17 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
         },
         [setParams],
     );
+    const changePage = useCallback(
+        (page?: number) => {
+            setParams((prevState) => {
+                if(prevState.page !== page){
+                    return {...prevState, page: page};
 
+                }
+                return prevState;
+            });
+        }, [setParams]
+    );
 
     return (
         <div className={classNames(cls.filter, {}, [className])}>
@@ -163,12 +177,21 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                     onTabClick={changeWorker}
                 />
             </div>
-            <button
-                className={classNames(cls.visionBtn , {
-                    [cls.visionBtnActive]: !isHidden,
-                }, [])}
-                onClick={() => setIsHidden((p) => !p)}
-            >{">"}</button>
+            <div>
+                {info &&
+                    <PaginationMenu
+                        lastPage={info.pagesCount}
+                        onChangePage={changePage}
+                        selectedPage={params.page}
+                    />
+                }
+                <button
+                    className={classNames(cls.visionBtn , {
+                        [cls.visionBtnActive]: !isHidden,
+                    }, [])}
+                    onClick={() => setIsHidden((p) => !p)}
+                >{">"}</button>
+            </div>
 
             <div className={classNames(cls.additional, {
                 [cls.hidden]: isHidden

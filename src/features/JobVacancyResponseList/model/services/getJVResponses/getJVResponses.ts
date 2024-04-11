@@ -1,11 +1,14 @@
 import {GetJVResponsesParams} from "../../types/JVResponsesSchema";
 import axios from "axios";
 import {addQueryParams} from "shared/lib/url/addQueryParams/addQueryParams";
-import {JVResponseSchema} from "entities/JVResponse";
+import {JVResponseInfoSchema, JVResponseSchema} from "entities/JVResponse";
 import {dateFormatter} from "shared/lib/helpers/dateFormatter/dateFormatter";
 
 
-export async function getJVResponses (props:GetJVResponsesParams): Promise<ResponsesStructure<JVResponseSchema[]>> {
+export async function getJVResponses (props:GetJVResponsesParams): Promise<ResponsesStructure<
+        JVResponseSchema[],
+    JVResponseInfoSchema
+>> {
 
     try {
         addQueryParams<GetJVResponsesParams>(props);
@@ -13,7 +16,8 @@ export async function getJVResponses (props:GetJVResponsesParams): Promise<Respo
             `${__API__}/api/job-vacancy-response`,
             {
                 params: {
-                    ...props
+                    ...props,
+                    limit:10
                 }
             }
         );

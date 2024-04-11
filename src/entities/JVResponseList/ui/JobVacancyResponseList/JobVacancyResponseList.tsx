@@ -1,5 +1,5 @@
 import cls from "./JobVacancyResponseList.module.css";
-import {JVResponseCard} from "entities/JVResponse/ui/JVResponseCard/JVResponseCard";
+import {JVResponseCard} from "entities/JVResponse";
 import {JVResponseSchema} from "entities/JVResponse";
 import {classNames} from "shared/lib/classNames/classNames";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";

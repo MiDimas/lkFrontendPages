@@ -26,14 +26,16 @@ interface  User {
     id: number;
     firstName: string;
 }
-interface ResponsesStructure<T> {
+
+interface ResponsesInfoStructure {
+    id?: number;
+    count: number;
+}
+interface ResponsesStructure<T, I extends ResponsesInfoStructure = ResponsesInfoStructure> {
     result: number;
     desc:string;
     data?: T;
-    info: {
-        id?: number;
-        count: number;
-    }
+    info: I;
 }
 type OptionalRecord<K extends string | number, T> = {
     [P in K]?: T;

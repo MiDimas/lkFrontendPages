@@ -20,3 +20,8 @@ export interface JVResponseSchema {
     workerName?: string;
     lastComment?: string;
 }
+export interface JVResponseInfoSchema extends ResponsesInfoStructure{
+    totalCount?: number;
+    pagesCount?: number;
+    hasNext?: boolean;
+}

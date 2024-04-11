@@ -18,6 +18,7 @@ import {changeData} from "../../model/services/changeData/changeData";
 import {getCountries} from "entities/Country/model/services/getCountries/getCountries";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 import {removeWorker} from "../../model/services/removeWorker/removeWorker";
+import {JVResponseInfoSchema} from "entities/JVResponse/model/types/JVResponseSchema";
 
 
 interface JobVacancyResponseListProps {
@@ -30,6 +31,7 @@ export const JobVacancyResponsesFrame = memo((props: JobVacancyResponseListProps
         head
     } = props;
     const [respList, setRespList] = useState<JVResponseSchema[]>([]);
+    const [info, setInfo] = useState<JVResponseInfoSchema>();
     const [isLoading, setIsLoading] = useState(true);
     const [params, setParams] = useState<GetJVResponsesParams>(
         loadJVQueryParams(new URLSearchParams(window.location.search))
@@ -37,6 +39,7 @@ export const JobVacancyResponsesFrame = memo((props: JobVacancyResponseListProps
     const [statuses, setStatuses] = useState<JVRStatusSchema[]>();
     const [countries, setCountries] = useState<CountrySchema[]>();
     console.log(user);
+    console.log(info);
 
 
     const getData = useCallback(
@@ -45,6 +48,7 @@ export const JobVacancyResponsesFrame = memo((props: JobVacancyResponseListProps
             setIsLoading(false);
             if(response.result){
                 setRespList(response.data ?? []);
+                setInfo(response.info);
             }
         },
         [params],
@@ -113,7 +117,6 @@ export const JobVacancyResponsesFrame = memo((props: JobVacancyResponseListProps
         setIsLoading(true);
         getData();
     }, [getData]);
-
     return (
         <div className={cls.main}>
             <JobVacancyResponseFilter
@@ -122,6 +125,7 @@ export const JobVacancyResponsesFrame = memo((props: JobVacancyResponseListProps
                 user={user}
                 className={cls.filter}
                 statuses={statuses}
+                info={info}
             />
             <JobVacancyResponseList
                 isLoading={isLoading}
