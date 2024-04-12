@@ -1,8 +1,5 @@
-import {
-    GetJVResponsesParams,
-    JVOrderSchema,
-    JVSortSchema
-} from "../../types/JVResponsesSchema";
+import {GetJVResponsesParams, JVOrderSchema, JVSortSchema} from "../../types/JVResponsesSchema";
+import {initQueryJVRParams} from "./initQueryJVRParams";
 
 export function loadJVQueryParams (
     searchParams: URLSearchParams,
@@ -15,12 +12,12 @@ export function loadJVQueryParams (
     const page = Number(searchParams.get("page"));
     // const identifier = Number(searchParams.get("identifier"));
     return {
-        sort:  sort ? sort : "updated",
-        order: order ? order : "DESC",
-        status: isNaN(status) || !status ? 0 : status,
-        worker: isNaN(worker) || !worker ? 0 : worker,
-        category: isNaN(category) || !category? 0 : category,
-        page: isNaN(page) || !page ? 1 : page
+        sort:  sort ? sort : initQueryJVRParams.sort,
+        order: order ? order : initQueryJVRParams.order,
+        status: isNaN(status) || !status ? initQueryJVRParams.status : status,
+        worker: isNaN(worker) || !worker ? initQueryJVRParams.worker : worker,
+        category: isNaN(category) || !category? initQueryJVRParams.category : category,
+        page: isNaN(page) || !page ? initQueryJVRParams.page : page
         // identifier: isNaN(identifier) ? undefined : identifier,
     };
 

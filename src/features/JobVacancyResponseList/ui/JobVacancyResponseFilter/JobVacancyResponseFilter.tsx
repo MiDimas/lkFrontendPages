@@ -6,6 +6,10 @@ import {Select, SelectOption} from "shared/ui/Select/Select";
 import {classNames} from "shared/lib/classNames/classNames";
 import {PaginationMenu} from "shared/ui/PaginationMenu/PaginationMenu";
 import {JVResponseInfoSchema} from "entities/JVResponse";
+import {
+    initQueryJVRParams,
+    stringInitQueryJVRParams
+} from "../../model/services/loadJVQueryParams/initQueryJVRParams";
 
 interface JobVacancyResponseFilterProps {
     params: GetJVResponsesParams;
@@ -26,6 +30,13 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
         info,
     } = props;
 
+    const isDefaultFilters = JSON.stringify({
+        ...params,
+        page: initQueryJVRParams.page,
+        sort: initQueryJVRParams.sort,
+        order: initQueryJVRParams.order
+    }) === stringInitQueryJVRParams;
+
     const [isHidden, setIsHidden] = useState(true);
 
     const workerTabs: TabItem<number>[] = useMemo(() => ([
@@ -43,7 +54,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
         (tab: TabItem<number>) => {
             setParams((prevState) => {
                 if(prevState.worker !== tab.value) {
-                    return {...prevState, worker:tab.value};
+                    return {...prevState, worker:tab.value, page:1};
                 }
                 return prevState;
             });
@@ -68,7 +79,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
         (tab: TabItem<number>) => {
             setParams((prevState) => {
                 if(prevState.category !== tab.value){
-                    return{...prevState, category: tab.value};
+                    return{...prevState, category: tab.value, page:1};
                 }
                 return prevState;
             });
@@ -97,7 +108,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
         (tab: TabItem<number>) => {
             setParams((prevState) => {
                 if(prevState.status !== tab.value) {
-                    return {...prevState, status:tab.value};
+                    return {...prevState, status:tab.value, page:1};
                 }
                 return prevState;
             });
@@ -123,7 +134,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
             setParams((prevState) => {
                 if(prevState.sort !== tab.value) {
                     return (
-                        {...prevState, sort: tab.value}
+                        {...prevState, sort: tab.value, page: 1}
                     );
                 }
                 return prevState;
@@ -148,7 +159,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
             setParams((prevState) => {
                 if(prevState.order !== select) {
                     return (
-                        {...prevState, order: select}
+                        {...prevState, order: select, page:1}
                     );
                 }
                 return prevState;
@@ -168,6 +179,14 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
         }, [setParams]
     );
 
+    const resetParams = useCallback(
+        () => {
+            setParams(initQueryJVRParams);
+        },
+        [setParams],
+    );
+
+
     return (
         <div className={classNames(cls.filter, {}, [className])}>
             <div className={cls.tabBlock}>
@@ -177,7 +196,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                     onTabClick={changeWorker}
                 />
             </div>
-            <div>
+            <div className={cls.mainBtns}>
                 {info &&
                     <PaginationMenu
                         lastPage={info.pagesCount}
@@ -192,6 +211,12 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                     onClick={() => setIsHidden((p) => !p)}
                 >{">"}</button>
             </div>
+            {!isDefaultFilters && (
+                <button onClick={resetParams} className={cls.resetFilters}>
+                    Сбросить фильтры
+                </button>
+            )
+            }
 
             <div className={classNames(cls.additional, {
                 [cls.hidden]: isHidden

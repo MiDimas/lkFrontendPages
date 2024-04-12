@@ -1,0 +1,16 @@
+.button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #1e95d0;
+    color: white;
+    cursor: default;
+}
+
+.unselect {
+    user-select: none;
+}

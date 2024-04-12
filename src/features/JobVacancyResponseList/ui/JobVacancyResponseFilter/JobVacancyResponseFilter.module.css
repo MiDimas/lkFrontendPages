@@ -14,9 +14,21 @@
     gap: 10px
 }
 
+.mainBtns {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.resetFilters {
+    cursor: pointer;
+}
+
 .visionBtn {
     transform: rotate(90deg);
     padding: 10px;
+    cursor: pointer;
 }
 .visionBtnActive {
     transform: rotate(-90deg);
