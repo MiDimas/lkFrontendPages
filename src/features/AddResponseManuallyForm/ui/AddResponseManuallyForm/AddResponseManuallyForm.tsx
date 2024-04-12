@@ -17,6 +17,7 @@ import {emailMask} from "shared/lib/helpers/masks/emailMask";
 import {validateEmail} from "../../lib/validate/validateEmail";
 interface AddResponseManuallyFormProps {
     className?: string;
+    userData: User;
 }
 const initialValid = {
     fio: false,
@@ -26,10 +27,14 @@ const initialValid = {
 };
 export const AddResponseManuallyForm = (props: AddResponseManuallyFormProps) => {
     const {
-        className
+        className,
+        userData
     } = props;
 
-    const [response, setResponse] = useState<AddResponseSchema>();
+    const initResponse = useMemo<AddResponseSchema>(() => ({
+        reference: userData.id
+    }), [userData]);
+    const [response, setResponse] = useState<AddResponseSchema>(initResponse);
     const [isLoading, setIsLoading] = useState(false);
     const [identifiersList, setIdentifiersList] = useState<IdentifiersSchema[]>();
     const [newIdentifier, setNewIdentifier] = useState<string>("");
@@ -45,10 +50,10 @@ export const AddResponseManuallyForm = (props: AddResponseManuallyFormProps) => 
             params || {}
         );
         if(res.result===1){
-            setResponse({});
+            setResponse(initResponse);
         }
         setIsLoading(false);
-    }, [setIsLoading]);
+    }, [setIsLoading, initResponse]);
 
 
     const loadIdentifiers = useCallback(

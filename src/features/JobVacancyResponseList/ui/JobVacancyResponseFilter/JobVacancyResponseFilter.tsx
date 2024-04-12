@@ -73,6 +73,10 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
             value: 2,
             content: "Рекомендации"
         },
+        {
+            value: 3,
+            content: "Пресс-служба"
+        },
     ]), []);
     const categoryValue = params.category;
     const changeCategory = useCallback(

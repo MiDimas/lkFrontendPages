@@ -9,4 +9,5 @@ export interface AddResponseSchema {
     phone?: string;
     email?: string;
     identifier?: number;
+    reference?: number;
 }

@@ -7,7 +7,6 @@ import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAd
 import {JVResponseEditButton} from "../JVResponseEditButton/JVResponseEditButton";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 import {validateUpdate} from "../../lib/validate/validateUpdate";
-import {PopUpMessage} from "shared/ui/PopUpMessage/PopUpMessage";
 import {usePopUpMsg} from "shared/lib/hooks/usePopUpMsg/usePopUpMsg";
 
 interface JVResponseCardProps {
@@ -147,6 +146,9 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                         createdDate: state.createdAt,
                         updatedDate: state.updatedAt,
                         comment: state.comment,
+                        category:state.category,
+                        referenceName:state.referenceName,
+                        lastComment:state.lastComment,
                     }}
                     setState={setState}
                     countries={countries}

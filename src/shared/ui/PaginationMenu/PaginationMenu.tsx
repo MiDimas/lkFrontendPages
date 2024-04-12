@@ -32,7 +32,6 @@ export function PaginationMenu (props: PaginationMenu) {
             const initStart = selectedPage - 2>1 ? selectedPage-2: 1;
             const maxValue = lastPage>5 ? 4 :lastPage-1;
             const startVal = initStart +4 >lastPage ? lastPage-maxValue : initStart ;
-            console.log({initStart, startVal});
 
             if(startVal >2) {
                 res.push(renderButton(1));

@@ -1,7 +1,7 @@
 import {AddResponseManuallyForm} from "features/AddResponseManuallyForm";
 
 interface AddResponseManuallyProps {
-    user?: User;
+    user: User;
 }
 export const AddResponseManually = (props: AddResponseManuallyProps) => {
     const {
@@ -10,7 +10,7 @@ export const AddResponseManually = (props: AddResponseManuallyProps) => {
 
     return (
         <>
-            <AddResponseManuallyForm/>
+            <AddResponseManuallyForm userData={user}/>
         </>
     );
 };

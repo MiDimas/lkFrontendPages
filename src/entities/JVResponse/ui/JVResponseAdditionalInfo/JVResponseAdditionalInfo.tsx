@@ -17,6 +17,9 @@ interface JVRCardAdditionalInfo {
     createdDate?:string;
     updatedDate?:string;
     comment?:string;
+    category?: number;
+    referenceName?: string;
+    lastComment?: string;
 }
 interface JVResponseAdditionalInfoProps {
     visible?: boolean;
@@ -25,6 +28,7 @@ interface JVResponseAdditionalInfoProps {
     state?: JVRCardAdditionalInfo;
     setState?: Dispatch<SetStateAction<JVResponseSchema>>;
     countries?: CountrySchema[];
+
 }
 
 export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoProps) => {
@@ -44,7 +48,10 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
         identifierName,
         createdDate,
         updatedDate,
-        comment
+        comment,
+        category,
+        referenceName,
+        lastComment,
     } = state;
     const birthRef = useRef<HTMLInputElement>(null);
     const [bPos, setBPos] = useState(0);
@@ -110,7 +117,6 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
         },
         [setState, normalizedCountry],
     );
-
     return (
         <div className={classNames(cls.additionalBlock, {
             [cls.visible]: visible
@@ -139,7 +145,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
             </div>
             <div className={cls.comment}>
                 <div>Комментарий к отклику: </div>
-                <div>{comment || "Отсутствует"}</div>
+                <div className={cls.newline}>{comment || "Отсутствует"}</div>
             </div>
             <div className={cls.responser}>
                 <div>Ответственный:</div>
@@ -149,7 +155,18 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
                 <div>Идентификатор:</div>
                 <div>{identifierName || "Отсутствует"}</div>
             </div>
-
+            <div className={cls.message}>
+                <div>Последний комментарий по отклику:</div>
+                <div className={cls.newline}>{lastComment}</div>
+            </div>
+            { category && category !== 1 &&
+            (
+                <div className={cls.recommend}>
+                    <div>{category === 2 ? "Рекомендатель:" : "Внес:"}</div>
+                    <div>{referenceName || "Не указано"}</div>
+                </div>
+            )
+            }
             <div className={cls.date}>
                 <div>Создано: {createdDate || "--.--.----"}</div>
                 <div>Обновлено: {updatedDate || "--.--.----"}</div>

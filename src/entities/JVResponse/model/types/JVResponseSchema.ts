@@ -11,6 +11,7 @@ export interface JVResponseSchema {
     comment?: string;
     category?: number;
     identifier?: number;
+    reference?: number;
     createdAt: string;
     updatedAt: string;
     categoryName?: string;
@@ -19,6 +20,7 @@ export interface JVResponseSchema {
     statusName?: string;
     workerName?: string;
     lastComment?: string;
+    referenceName?: string;
 }
 export interface JVResponseInfoSchema extends ResponsesInfoStructure{
     totalCount?: number;

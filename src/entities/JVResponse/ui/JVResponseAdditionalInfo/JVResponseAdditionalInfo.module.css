@@ -9,6 +9,7 @@
     grid-template: "c b"
                    "m m"
                    "r i"
+                   "e o"
                    "d d";
 }
 .additionalBlock>div {
@@ -39,6 +40,12 @@
 .input {
     width: 100%;
 }
+.recommend {
+    grid-area: o;
+}
+.message {
+    grid-area: e;
+}
 .date {
     grid-area: d;
     display: flex;
@@ -47,4 +54,7 @@
 
 .warn {
     background: #ffc3c3;
+}
+.newline{
+    white-space: pre-line;
 }
