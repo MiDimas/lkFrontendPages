@@ -2,6 +2,7 @@ import {JobVacancyResponsesFrame} from "features/JobVacancyResponseList";
 import {haveRole} from "shared/lib/localStorage/roles";
 import {Page} from "widgets/Page";
 import {PopUpMessage} from "shared/ui/PopUpMessage/PopUpMessage";
+import {Modal} from "shared/ui/Modal/Modal";
 
 export const JobVacancyResponsePage = () => {
     if(typeof __PHPDATA__ !== "undefined"){
@@ -21,6 +22,7 @@ export const JobVacancyResponsePage = () => {
                     ? <JobVacancyResponsesFrame user={{id: 555, firstName:"Димас"}} head={haveRole(10)}/>
                     : <div>У вас недостаточно прав</div>
                 }
+                <Modal>Hello</Modal>
             </Page>
         );
     }
