@@ -1,6 +1,7 @@
 import {memo} from "react";
 import cls from "../JVResponseCard/JVResponseCard.module.css";
 import {Dropdown} from "shared/ui/Dropdown/Dropdown";
+import {classNames} from "shared/lib/classNames/classNames";
 
 interface JVResponseActionButtonProps {
     id: number;
@@ -28,7 +29,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
     else if((status===2 ||  status===3 || status===4) && owner ) {
         return (
             <Dropdown
-                className={cls.buttonToWork}
+                className={classNames(cls.buttonToWork, {}, [className])}
                 items={[
                     {
                         name: "Не дозвон",

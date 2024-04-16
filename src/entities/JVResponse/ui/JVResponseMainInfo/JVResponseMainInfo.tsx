@@ -129,27 +129,27 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
             </div>
             <div className={cls.bottom}>
                 <div className={cls.email}>
-                    <span>Почта:</span>
                     {canEdit
                         ? (
                             <Input
                                 className={classNames("", {[cls.warn]: !valid.email}, [])}
                                 value={email || ""}
                                 onChange={emailEdit}
+                                placeholder="Email"
                             />)
-                        :<span>{email || "нет данных" }</span>
+                        :<span>{email || "не указан email" }</span>
                     }
                 </div>
                 <div className={cls.phone}>
-                    <span>Телефон:</span>
                     {canEdit
                         ? (
                             <Input
                                 value={phone || ""}
                                 className={classNames("", {[cls.warn]: !valid.phone}, [])}
                                 onChange={phoneEdit}
+                                placeholder="Телефон"
                             />)
-                        : <span>{phone || "нет данных" }</span>
+                        : <span>{phone || "не указан телефон" }</span>
                     }
                 </div>
             </div>
