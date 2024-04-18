@@ -11,7 +11,7 @@ import {usePopUpMsg} from "shared/lib/hooks/usePopUpMsg/usePopUpMsg";
 
 interface JVResponseCardProps {
     response: JVResponseSchema;
-    changeStatus?: (id: number, status:number) => Promise<ResponsesStructure<null>>;
+    changeStatus?: (id: number, status:number, comment?:string|null) => Promise<ResponsesStructure<null>>;
     user?: User;
     updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
     countries?: CountrySchema[];
@@ -32,11 +32,12 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const {Component, setMessage} = usePopUpMsg(2000);
 
-    const changeStatusHandler = useCallback(async(id:number, status:number) => {
+    const changeStatusHandler = useCallback(async(id:number, status:number, comment: string|null=null) => {
         if(changeStatus) {
-            await changeStatus(id, status);
+            await changeStatus(id, status, comment);
         }
     }, [changeStatus]);
+
     const undoChangesHandler = useCallback( () => {
         setState(response);
         setIsEdit(false);
@@ -120,7 +121,8 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                         id={response.id}
                         status={response.status}
                         owner={user && user.id===state.worker}
-                        change={changeStatusHandler} />
+                        change={changeStatusHandler}
+                    />
                     {response.status !== 1 && removeWorker
                         ? (
                             <button

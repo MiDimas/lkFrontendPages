@@ -8,7 +8,7 @@ interface JobVacancyResponseBlockListProps {
     isLoading: boolean;
     list: JVResponseSchema[];
     className?: string;
-    changeStatus?: (id: number, status:number)=>Promise<ResponsesStructure<null>>;
+    changeStatus?: (id: number, status:number, comment?:string|null)=>Promise<ResponsesStructure<null>>;
     updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
     removeWorker?: (id: number) => Promise<ResponsesStructure<null>>;
     user?: User;

@@ -1,0 +1,17 @@
+.form {
+    display: grid;
+    gap: 5px;
+}
+.textArea {
+    resize: none;
+    width: 250px;
+    height: 100px;
+}
+.buttonBlock {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 5px;
+}
+.button {
+    padding: 10px;
+}

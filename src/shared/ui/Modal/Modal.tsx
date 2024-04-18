@@ -1,20 +1,35 @@
-import {ReactNode} from "react";
+import {ReactNode, useCallback} from "react";
 import {Portal} from "shared/ui/Portal/Portal";
 import cls from "./Modal.module.css";
-import {classNames} from "shared/lib/classNames/classNames";
+import {classNames, Mods} from "shared/lib/classNames/classNames";
 
 interface ModalProps {
     children?:ReactNode;
-    className?: string
+    className?: string;
+    onClose?: ()=>void;
+    isOpen?: boolean;
 }
 export function Modal (props: ModalProps) {
     const {
         children,
-        className
+        className,
+        onClose,
+        isOpen
     } = props;
+    const closeHandler = useCallback(
+        () => {
+            if(onClose){
+                onClose();
+            }
+        }, [onClose]
+    );
+    const mods: Mods = {
+        [cls.open]: isOpen
+    };
     return (
         <Portal >
-            <div className={cls.back}>
+            <div className={classNames(cls.modal, mods)}>
+                <div className={cls.overlay} onClick={closeHandler}></div>
                 <div className={classNames(cls.content, {}, [className])}>
                     {children}
                 </div>

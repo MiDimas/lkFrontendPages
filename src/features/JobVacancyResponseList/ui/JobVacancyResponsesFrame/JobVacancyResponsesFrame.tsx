@@ -71,8 +71,8 @@ export const JobVacancyResponsesFrame = memo((props: JobVacancyResponseListProps
     );
 
     const changeStatusHandler = useCallback(
-        async (id: number, status: number) => {
-            const res =  await changeStatus(id, status);
+        async (id: number, status: number, comment:string|null = null) => {
+            const res =  await changeStatus(id, status, comment);
             setIsLoading(true);
             getData();
             return res;
