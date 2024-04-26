@@ -31,8 +31,8 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
             loadStatistic();
         }
     );
-    const rowsList = useMemo<Row<"0" | "2" | "3" | "4" | "5" | "6" | "10" >[] | undefined>(() => {
-        const rows:Row<"0" | "2" | "3" | "4" | "5" | "6" | "10" >[] = [];
+    const rowsList = useMemo<Row<"0" | "2" | "3" | "4" | "5" | "6" | "1" >[] | undefined>(() => {
+        const rows:Row<"0" | "2" | "3" | "4" | "5" | "6" | "1" >[] = [];
         statisticList?.map(({firstname, statistic}) => {
             if(firstname==="Новые отклики"){
                 if(statistic){
@@ -47,7 +47,7 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
             }
             const statisticParse: OptionalRecord<string, number> = JSON.parse(statistic);
             rows.push({cells: {"0":firstname, ...statisticParse,
-                "10": Object.values(statisticParse).reduce((prev =0, cur=0) => (prev + cur))
+                "1": Object.values(statisticParse).reduce((prev =0, cur=0) => (prev + cur))
             }});
             return;
         });
@@ -62,21 +62,21 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
             <Table
                 cols={[
                     {id:"0", name:"Сотрудник"},
+                    {id:"1", name:"Всего"},
                     {id:"2", name:"В работе"},
                     {id:"3", name:"Не дозвон"},
                     {id:"4", name:"Подумает"},
                     {id:"5", name:"Отказ"},
                     {id:"6", name:"Трудоустройство"},
-                    {id:"10", name:"Всего"},
                 ]}
                 columnClassNames={{
                     "0": cls.worker,
+                    "1": cls.total,
                     "2": cls.inWork,
                     "3": cls.notAvailable,
                     "4": cls.thinking,
                     "5": cls.reject,
                     "6": cls.success,
-                    "10": cls.total,
                 }}
                
                 rows={rowsList}

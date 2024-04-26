@@ -3,7 +3,6 @@ import {GetJVResponsesParams, JVRStatusSchema} from "../../model/types/JVRespons
 import {getJVResponses} from "../../model/services/getJVResponses/getJVResponses";
 import {loadJVQueryParams} from "../../model/services/loadJVQueryParams/loadJVQueryParams";
 import {JVResponseSchema} from "entities/JVResponse";
-
 import cls from "./JobVacancyResponsesFrame.module.css";
 import {
     JobVacancyResponseList
