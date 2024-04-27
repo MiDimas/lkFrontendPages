@@ -41,7 +41,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
         </button>);
     }
 
-    else if((status===2 ||  status===3 || status===4) && owner ) {
+    else if((status===2 ||  status===3 || status===4 || status===7) && owner ) {
         return (
             <>
                 <Dropdown
@@ -62,6 +62,10 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                         {
                             name: "Трудоустройство",
                             callBack: ()=> {changeStatus(6);}
+                        },
+                        {
+                            name: "Сообщение",
+                            callBack: ()=> {changeStatus(7);}
                         }
                     ]}
                 >

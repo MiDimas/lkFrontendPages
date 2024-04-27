@@ -6,7 +6,7 @@ export function loadJVQueryParams (
 ):GetJVResponsesParams {
     const sort = searchParams.get("sort") as JVSortSchema;
     const order  = searchParams.get("order") as JVOrderSchema;
-    const status = Number(searchParams.get("status"));
+    const status = Number(searchParams.get("status") ?? "1");
     const worker = Number(searchParams.get("worker"));
     const category = Number(searchParams.get("category"));
     const page = Number(searchParams.get("page"));
