@@ -54,7 +54,13 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
         (tab: TabItem<number>) => {
             setParams((prevState) => {
                 if(prevState.worker !== tab.value) {
-                    return {...prevState, worker:tab.value, page:1};
+                    if(tab.value === 0 ){
+                        return {...prevState, worker: tab.value, status:1, page: 1};
+                    }
+                    return {...prevState,
+                        worker:tab.value,
+                        status: prevState.status===1 ? 0: prevState.status ,
+                        page:1};
                 }
                 return prevState;
             });

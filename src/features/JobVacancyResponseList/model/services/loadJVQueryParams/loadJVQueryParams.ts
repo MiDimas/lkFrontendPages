@@ -14,7 +14,7 @@ export function loadJVQueryParams (
     return {
         sort:  sort ? sort : initQueryJVRParams.sort,
         order: order ? order : initQueryJVRParams.order,
-        status: isNaN(status) || !status ? initQueryJVRParams.status : status,
+        status: isNaN(status) || (!status && status!==0) ? initQueryJVRParams.status : status,
         worker: isNaN(worker) || !worker ? initQueryJVRParams.worker : worker,
         category: isNaN(category) || !category? initQueryJVRParams.category : category,
         page: isNaN(page) || !page ? initQueryJVRParams.page : page
