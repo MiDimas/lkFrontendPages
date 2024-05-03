@@ -2,6 +2,10 @@
     display: grid;
     text-align: center;
 }
+.new {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
 .worker {
     background-color: #ffffff;
 }
@@ -10,6 +14,9 @@
 }
 .notAvailable {
     background-color: #f5e6bf;
+}
+.message {
+    background-color: #f5ecbf;
 }
 .thinking {
     background-color: #ebfdf8;

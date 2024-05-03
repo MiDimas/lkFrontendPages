@@ -31,8 +31,8 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
             loadStatistic();
         }
     );
-    const rowsList = useMemo<Row<"0" | "2" | "3" | "4" | "5" | "6" | "1" >[] | undefined>(() => {
-        const rows:Row<"0" | "2" | "3" | "4" | "5" | "6" | "1" >[] = [];
+    const rowsList = useMemo<Row<"0" | "2" | "3" | "4" | "5" | "6" | "1" | "7">[] | undefined>(() => {
+        const rows:Row<"0" | "2" | "3" | "4" | "5" | "6" | "1" | "7" >[] = [];
         statisticList?.map(({firstname, statistic}) => {
             if(firstname==="Новые отклики"){
                 if(statistic){
@@ -59,12 +59,14 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
     }
     return (
         <div className={cls.table}>
+            <div className={cls.new}>Новых откликов: {newResponses}</div>
             <Table
                 cols={[
                     {id:"0", name:"Сотрудник"},
                     {id:"1", name:"Всего"},
                     {id:"2", name:"В работе"},
                     {id:"3", name:"Не дозвон"},
+                    {id:"7", name:"Сообщение"},
                     {id:"4", name:"Подумает"},
                     {id:"5", name:"Отказ"},
                     {id:"6", name:"Трудоустройство"},
@@ -74,15 +76,15 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
                     "1": cls.total,
                     "2": cls.inWork,
                     "3": cls.notAvailable,
+                    "7": cls.message,
                     "4": cls.thinking,
                     "5": cls.reject,
                     "6": cls.success,
                 }}
-               
+                diffRow
                 rows={rowsList}
                 total
             />
-            <div>Новых откликов: {newResponses}</div>
         </div>
 
     );
