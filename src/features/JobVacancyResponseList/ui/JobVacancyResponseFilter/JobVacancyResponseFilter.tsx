@@ -231,6 +231,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                         tabs={categoryTabs}
                         value={categoryValue}
                         onTabClick={changeCategory}
+                        className={cls.tabs}
                     />
                 </div><div className={cls.tabBlock}>
                     <span className={cls.titleTab}>Статус:</span>
@@ -238,6 +239,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                         tabs={statusTabs}
                         value={statusValue}
                         onTabClick={changeStatus}
+                        className={cls.tabs}
                     />
                 </div>
                 <div className={cls.tabBlock}>
@@ -246,6 +248,7 @@ export const JobVacancyResponseFilter =(props:JobVacancyResponseFilterProps) => 
                         tabs={sortTabs}
                         value={sortValue}
                         onTabClick={changeSort}
+                        className={cls.tabs}
                     />
                 </div>
                 <div className={cls.tabBlock}>
