@@ -79,7 +79,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
         [updateCard, undoChangesHandler, response, setIsEdit, setMessage],
     );
 
-
+    const availableReset = response.status !== 1 && response.status !== 6;
     return (
         <div className={cls.card}>
             <Component />
@@ -123,7 +123,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                         owner={user && user.id===state.worker}
                         change={changeStatusHandler}
                     />
-                    {response.status !== 1 && removeWorker
+                    {availableReset && removeWorker
                         ? (
                             <button
                                 className={cls.buttonToWork}
