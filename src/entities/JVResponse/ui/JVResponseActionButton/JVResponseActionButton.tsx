@@ -9,7 +9,7 @@ import {JVResponseCommentForm} from "../JVResponseCommentForm/JVResponseCommentF
 interface JVResponseActionButtonProps {
     id: number;
     status: number;
-    change: (id:number, response: number, comment?: string|null) => void;
+    change: (id:number, response: number, comment?: string|null, responsible?: string|null) => void;
     className?: string;
     owner?:boolean;
 }
@@ -74,6 +74,10 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                 {isOpenModal &&
                 <Modal onClose={onCloseModal} isOpen={isOpenModal}>
                     <>
+                        <div>
+                            <span>Ответственный для оформления кандидата</span>
+
+                        </div>
                         <JVResponseCommentForm
                             onClose={onCloseModal}
                             onSend={(comment) => (

@@ -18,6 +18,7 @@ import {getCountries} from "entities/Country/model/services/getCountries/getCoun
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 import {removeWorker} from "../../model/services/removeWorker/removeWorker";
 import {JVResponseInfoSchema} from "entities/JVResponse/model/types/JVResponseSchema";
+import {ChangeStatusParams} from "entities/JVResponse";
 
 
 interface JobVacancyResponseListProps {
@@ -70,8 +71,8 @@ export const JobVacancyResponsesFrame = memo((props: JobVacancyResponseListProps
     );
 
     const changeStatusHandler = useCallback(
-        async (id: number, status: number, comment:string|null = null) => {
-            const res =  await changeStatus(id, status, comment);
+        async (params: ChangeStatusParams) => {
+            const res =  await changeStatus(params);
             setIsLoading(true);
             getData();
             return res;

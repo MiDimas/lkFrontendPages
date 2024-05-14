@@ -22,6 +22,11 @@ export interface JVResponseSchema {
     workerName?: string;
     lastComment?: string;
     referenceName?: string;
+    responsible?: string;
+    responsibleCode?: string;
+    responsibleJobTitle?: string;
+    responsibleBirthday?: string;
+    candidate?: string;
 }
 export interface JVResponseInfoSchema extends ResponsesInfoStructure{
     totalCount?: number;

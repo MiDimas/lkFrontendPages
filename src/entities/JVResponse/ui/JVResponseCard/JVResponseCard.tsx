@@ -8,10 +8,11 @@ import {JVResponseEditButton} from "../JVResponseEditButton/JVResponseEditButton
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 import {validateUpdate} from "../../lib/validate/validateUpdate";
 import {usePopUpMsg} from "shared/lib/hooks/usePopUpMsg/usePopUpMsg";
+import {ChangeStatusParams} from "../../model/types/ActionsJVResponseSchema";
 
 interface JVResponseCardProps {
     response: JVResponseSchema;
-    changeStatus?: (id: number, status:number, comment?:string|null) => Promise<ResponsesStructure<null>>;
+    changeStatus?: (props: ChangeStatusParams)=>Promise<ResponsesStructure<null>>;
     user?: User;
     updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
     countries?: CountrySchema[];
@@ -36,9 +37,14 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
         id:number,
         status:number,
         comment: string|null=null,
+        responsible: string|null = null
     ) => {
         if(changeStatus) {
-            await changeStatus(id, status, comment);
+            await changeStatus({
+                id: id,
+                status: status,
+                additionalParams: responsible ? {comment, responsible} : {comment}
+            });
         }
     }, [changeStatus]);
 

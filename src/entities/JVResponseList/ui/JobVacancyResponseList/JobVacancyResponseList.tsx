@@ -1,5 +1,5 @@
 import cls from "./JobVacancyResponseList.module.css";
-import {JVResponseCard} from "entities/JVResponse";
+import {ChangeStatusParams, JVResponseCard} from "entities/JVResponse";
 import {JVResponseSchema} from "entities/JVResponse";
 import {classNames} from "shared/lib/classNames/classNames";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
@@ -8,7 +8,7 @@ interface JobVacancyResponseBlockListProps {
     isLoading: boolean;
     list: JVResponseSchema[];
     className?: string;
-    changeStatus?: (id: number, status:number, comment?:string|null)=>Promise<ResponsesStructure<null>>;
+    changeStatus?: (props:ChangeStatusParams)=>Promise<ResponsesStructure<null>>;
     updateCard?: (state:JVResponseSchema)=>Promise<ResponsesStructure<null>>;
     removeWorker?: (id: number) => Promise<ResponsesStructure<null>>;
     user?: User;
