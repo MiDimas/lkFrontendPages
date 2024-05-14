@@ -32,7 +32,11 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const {Component, setMessage} = usePopUpMsg(2000);
 
-    const changeStatusHandler = useCallback(async(id:number, status:number, comment: string|null=null) => {
+    const changeStatusHandler = useCallback(async(
+        id:number,
+        status:number,
+        comment: string|null=null,
+    ) => {
         if(changeStatus) {
             await changeStatus(id, status, comment);
         }

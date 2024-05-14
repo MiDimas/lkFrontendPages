@@ -6,6 +6,7 @@ export interface JVResponseSchema {
     birthDate?: string; //если есть хоть что то валидировать
     country?: number; // если осуществлялось изменения то записывать
     jobTitle: string; //обязательное поле
+    jobTitleCode?: string;
     status: number;
     worker?: number;
     comment?: string;

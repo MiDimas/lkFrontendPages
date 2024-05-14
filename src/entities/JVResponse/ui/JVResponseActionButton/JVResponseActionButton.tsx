@@ -73,11 +73,13 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                 </Dropdown>
                 {isOpenModal &&
                 <Modal onClose={onCloseModal} isOpen={isOpenModal}>
-                    <JVResponseCommentForm
-                        onClose={onCloseModal}
-                        onSend={(comment)=> (
-                            change(id, newStatus, comment)
-                        )} />
+                    <>
+                        <JVResponseCommentForm
+                            onClose={onCloseModal}
+                            onSend={(comment) => (
+                                change(id, newStatus, comment)
+                            )}/>
+                    </>
                 </Modal>
                 }
             </>
