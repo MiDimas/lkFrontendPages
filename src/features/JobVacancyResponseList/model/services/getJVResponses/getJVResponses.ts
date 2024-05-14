@@ -3,6 +3,7 @@ import axios from "axios";
 import {addQueryParams} from "shared/lib/url/addQueryParams/addQueryParams";
 import {JVResponseInfoSchema, JVResponseSchema} from "entities/JVResponse";
 import {dateFormatter} from "shared/lib/helpers/dateFormatter/dateFormatter";
+import {DEFAULT_RESPONSE} from "shared/lib/consts/response";
 
 
 export async function getJVResponses (props:GetJVResponsesParams): Promise<ResponsesStructure<
@@ -33,11 +34,6 @@ export async function getJVResponses (props:GetJVResponsesParams): Promise<Respo
         return response.data;
     }
     catch(e) {
-        return {
-            result:0,
-            desc: "Ошибка на стороне клиента",
-            data: [],
-            info: {count:0}
-        };
+        return DEFAULT_RESPONSE;
     }
 }

@@ -9,6 +9,7 @@ interface SearchValueOption {
 interface SearchInputProps {
     className?:string;
     onChange?: (value:string)=>void;
+    query?: string;
     value?: string;
     onSelect?: (value:string) => void;
     listOptions?: SearchValueOption[];
@@ -18,6 +19,7 @@ export const SearchInput = (props: SearchInputProps) => {
         className,
         onChange,
         onSelect,
+        query = "",
         value= "",
         listOptions = []
     } = props;
@@ -33,7 +35,7 @@ export const SearchInput = (props: SearchInputProps) => {
 
     return (
         <Combobox value={value} onChange={selectHandler}>
-            <Combobox.Input onChange={changeHandler} />
+            <Combobox.Input onChange={changeHandler} value={query}/>
             <Combobox.Options>
                 {listOptions.length>0 && listOptions.map((option:SearchValueOption) => (
                     <Combobox.Option key={option.id} value={option.value}>

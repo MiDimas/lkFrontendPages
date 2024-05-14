@@ -5,6 +5,7 @@ import {classNames} from "shared/lib/classNames/classNames";
 import {useModalState} from "shared/lib/hooks/useModalState/useModalState";
 import {Modal} from "shared/ui/Modal/Modal";
 import {JVResponseCommentForm} from "../JVResponseCommentForm/JVResponseCommentForm";
+import {SearchUser} from "entities/User/ui/SearchUser/SearchUser";
 
 interface JVResponseActionButtonProps {
     id: number;
@@ -76,7 +77,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                     <>
                         <div>
                             <span>Ответственный для оформления кандидата</span>
-
+                            <SearchUser />
                         </div>
                         <JVResponseCommentForm
                             onClose={onCloseModal}
