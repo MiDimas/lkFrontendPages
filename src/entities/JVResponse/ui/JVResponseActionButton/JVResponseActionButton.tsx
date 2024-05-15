@@ -6,6 +6,7 @@ import {useModalState} from "shared/lib/hooks/useModalState/useModalState";
 import {Modal} from "shared/ui/Modal/Modal";
 import {JVResponseCommentForm} from "../JVResponseCommentForm/JVResponseCommentForm";
 import {SearchUser} from "entities/User/ui/SearchUser/SearchUser";
+import {UserSchema} from "entities/User";
 
 interface JVResponseActionButtonProps {
     id: number;
@@ -27,6 +28,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
         onClose: onCloseModal
     } = useModalState(false);
     const [newStatus, setNewStatus] = useState<number>(status);
+    const [selected, setSelected] = useState<UserSchema>();
 
     const changeStatus = useCallback((status:number) => {
         onOpenModal();
@@ -76,8 +78,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                 <Modal onClose={onCloseModal} isOpen={isOpenModal}>
                     <>
                         <div>
-                            <span>Ответственный для оформления кандидата</span>
-                            <SearchUser />
+                            <SearchUser select={selected} setSelect={setSelected} />
                         </div>
                         <JVResponseCommentForm
                             onClose={onCloseModal}

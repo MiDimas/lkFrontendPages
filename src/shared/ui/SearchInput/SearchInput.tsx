@@ -1,26 +1,28 @@
 import {Combobox} from "@headlessui/react";
 import {ChangeEvent, ReactNode, useCallback} from "react";
 
-interface SearchValueOption {
+export interface SearchValueOption {
     node: ReactNode;
     id: string;
     value: string;
 }
-interface SearchInputProps {
+interface SearchInputProps<E extends object|string>{
     className?:string;
     onChange?: (value:string)=>void;
     query?: string;
-    value?: string;
+    selected?: E;
+    displaySelected?: (value:E)=>string;
     onSelect?: (value:string) => void;
     listOptions?: SearchValueOption[];
 }
-export const SearchInput = (props: SearchInputProps) => {
+export const SearchInput = <E extends object|string>(props: SearchInputProps<E>) => {
     const {
         className,
         onChange,
         onSelect,
         query = "",
-        value= "",
+        selected= "",
+        displaySelected,
         listOptions = []
     } = props;
     const changeHandler = useCallback(
@@ -34,11 +36,11 @@ export const SearchInput = (props: SearchInputProps) => {
     }, [onSelect]);
 
     return (
-        <Combobox value={value} onChange={selectHandler}>
-            <Combobox.Input onChange={changeHandler} value={query}/>
+        <Combobox value={selected} onChange={selectHandler}>
+            <Combobox.Input onChange={changeHandler} displayValue={displaySelected} />
             <Combobox.Options>
                 {listOptions.length>0 && listOptions.map((option:SearchValueOption) => (
-                    <Combobox.Option key={option.id} value={option.value}>
+                    <Combobox.Option key={option.id} value={option.value} >
                         {option.node}
                     </Combobox.Option>
                 ))}
