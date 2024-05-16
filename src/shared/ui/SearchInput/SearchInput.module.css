@@ -1,0 +1,32 @@
+.search {
+    position: relative;
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+}
+
+.options {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: white;
+    border-radius: 10px;
+    border: solid silver 1px;
+}
+
+.option {
+    list-style: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.activeOption {
+    background: #f1f1f1;
+}
+
+.selectedOption {
+    background: #1e95d0;
+    color: white;
+}

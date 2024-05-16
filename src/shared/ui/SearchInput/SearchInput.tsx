@@ -1,5 +1,7 @@
 import {Combobox} from "@headlessui/react";
-import {ChangeEvent, ReactNode, useCallback} from "react";
+import {ChangeEvent, Fragment, ReactNode, useCallback} from "react";
+import cls from "./SearchInput.module.css";
+import {classNames} from "shared/lib/classNames/classNames";
 
 export interface SearchValueOption {
     node: ReactNode;
@@ -36,15 +38,34 @@ export const SearchInput = <E extends object|string>(props: SearchInputProps<E>)
     }, [onSelect]);
 
     return (
-        <Combobox value={selected} onChange={selectHandler}>
-            <Combobox.Input onChange={changeHandler} displayValue={displaySelected} />
-            <Combobox.Options>
-                {listOptions.length>0 && listOptions.map((option:SearchValueOption) => (
-                    <Combobox.Option key={option.id} value={option.value} >
-                        {option.node}
-                    </Combobox.Option>
-                ))}
-            </Combobox.Options>
-        </Combobox>
+        <div className={cls.search}>
+            <Combobox value={selected} onChange={selectHandler}>
+                <Combobox.Input
+                    onChange={changeHandler}
+                    displayValue={displaySelected}
+                    className={cls.input}
+                />
+                <Combobox.Options className={cls.options}>
+                    {listOptions.length>0 ? listOptions.map((option:SearchValueOption) => (
+                        <Combobox.Option key={option.id} value={option.value} as={Fragment} >
+                            {
+                                ({active, selected}) => (
+                                    <div className={classNames(cls.option, {
+                                        [cls.activeOption]: active,
+                                        [cls.selectedOption]: selected
+                                    })}>
+                                        {option.node}
+                                    </div>
+                                )
+                            }
+                        </Combobox.Option>
+                    ))
+                        : <div className={cls.option}>Ничего не найдено введите имя или код 1с сотрудника</div>
+                    }
+
+                </Combobox.Options>
+            </Combobox>
+        </div>
+
     );
 };

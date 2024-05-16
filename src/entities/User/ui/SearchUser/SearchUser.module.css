@@ -1,0 +1,9 @@
+.searchUser {
+    width: 100%;
+}
+
+.label {
+    display: grid;
+    gap: 5px;
+    cursor: pointer;
+}

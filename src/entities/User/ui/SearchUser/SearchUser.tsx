@@ -3,6 +3,7 @@ import {SearchInput, SearchValueOption} from "shared/ui/SearchInput/SearchInput"
 import {useDebounce} from "shared/lib/hooks/useDebounce/useDebounce";
 import {getUser} from "../../api/getUser";
 import {UserSchema} from "../../model/types/UserSchema";
+import cls from "./SearchUser.module.css";
 
 interface SearchUserProps {
     className?: string;
@@ -50,14 +51,14 @@ export const SearchUser = (props: SearchUserProps) => {
     console.log(data);
     console.log(select);
     return (
-        <div>
-            <label>
-                Выберете сотрудника
+        <div className={cls.searchUser}>
+            <label className={cls.label}>
+                <span>Выберете сотрудника:</span>
                 <SearchInput<UserSchema>
                     onChange={searchQuery}
                     query={query}
                     listOptions={results}
-                    displaySelected={(value:UserSchema)=>value.name}
+                    displaySelected={(value:UserSchema)=>value && `${value.name} | ${value.code}`}
                     selected={select}
                     onSelect={selectHandler}
                 />
