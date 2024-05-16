@@ -38,7 +38,12 @@ export const SearchUser = (props: SearchUserProps) => {
     const results = useMemo<SearchValueOption[]>(() => {
         if(data?.data){
             return data?.data?.map((user) => ({
-                node: <div><span>{user.name}</span> <p>{user.jobTitle}</p></div>,
+                node: <div className={cls.user}>
+                    <span className={cls.name}>{user.name}</span>
+                    <span className={cls.code}>{user.code}</span>
+                    <span className={cls.birth}>{user.birthday}</span>
+                    <span className={cls.job}>{user.jobTitle}</span>
+                </div>,
                 value: user.code,
                 id: user.code
             }));
