@@ -5,13 +5,15 @@ import cls from "./JVResponseCommentForm.module.css";
 interface JVResponseCommentFormProps {
     onSend?:(comment:string|null)=>void;
     onClose?:()=>void;
-    className?: string
+    className?: string;
+    approveDisabled?: boolean;
 }
 export const JVResponseCommentForm = (props: JVResponseCommentFormProps) => {
     const {
         onSend,
         className,
-        onClose
+        onClose,
+        approveDisabled
     } = props;
     const commentRef = useRef<HTMLTextAreaElement>(null);
     const sendHandler = useCallback(async()=> {
@@ -38,7 +40,7 @@ export const JVResponseCommentForm = (props: JVResponseCommentFormProps) => {
             <span>Комментарий</span>
             <textarea ref={commentRef} className={cls.textArea}/>
             <div className={cls.buttonBlock}>
-                <button className={cls.button} onClick={sendHandler}>Подтвердить</button>
+                <button className={cls.button} onClick={sendHandler} disabled={approveDisabled}>Подтвердить</button>
                 <button className={cls.button} onClick={closeHandler}>Отмена</button>
             </div>
         </div>

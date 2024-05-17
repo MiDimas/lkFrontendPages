@@ -31,9 +31,11 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
     const [selected, setSelected] = useState<UserSchema>();
 
     const changeStatus = useCallback((status:number) => {
-        onOpenModal();
         setNewStatus(status);
+        onOpenModal();
     }, [onOpenModal]);
+
+    const isExport = newStatus === 6;
 
     if(status === 1) {
         return (<button
@@ -43,7 +45,6 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
             В работу
         </button>);
     }
-
     else if((status===2 ||  status===3 || status===4 || status===7) && owner ) {
         return (
             <>
@@ -75,16 +76,30 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                     Результат
                 </Dropdown>
                 {isOpenModal &&
-                <Modal onClose={onCloseModal} isOpen={isOpenModal}>
+                <Modal onClose={onCloseModal} isOpen={isOpenModal} className={cls.modal}>
                     <>
-                        <div>
-                            <SearchUser select={selected} setSelect={setSelected} />
-                        </div>
+                        { newStatus === 6 &&
+                            <>
+                                <h4>Экспорт кандидата в 1С</h4>
+                                <SearchUser
+                                    select={selected}
+                                    setSelect={setSelected}
+                                    label={"Выберите ответственного"} />
+                            </>
+                        }
                         <JVResponseCommentForm
                             onClose={onCloseModal}
-                            onSend={(comment) => (
-                                change(id, newStatus, comment)
-                            )}/>
+                            onSend={(comment) => {
+                                if(isExport && !!selected) {
+                                    change(id, newStatus, comment, selected.code);
+                                }
+                                else{
+                                    change(id, newStatus, comment);
+                                }
+                            }
+                            }
+                            approveDisabled={isExport && !selected}
+                        />
                     </>
                 </Modal>
                 }

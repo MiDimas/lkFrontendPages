@@ -4,17 +4,20 @@ import {useDebounce} from "shared/lib/hooks/useDebounce/useDebounce";
 import {getUser} from "../../api/getUser";
 import {UserSchema} from "../../model/types/UserSchema";
 import cls from "./SearchUser.module.css";
+import {classNames} from "shared/lib/classNames/classNames";
 
 interface SearchUserProps {
     className?: string;
     select?: UserSchema;
     setSelect?:(value?:UserSchema)=>void;
+    label?: string;
 }
 export const SearchUser = (props: SearchUserProps) => {
     const {
         className,
         select,
-        setSelect
+        setSelect,
+        label = "Выберите сотрудника"
     } = props;
     const [query, setQuery] = useState("");
     const [data, setData] = useState<ResponsesStructure<UserSchema[]>>();
@@ -56,14 +59,14 @@ export const SearchUser = (props: SearchUserProps) => {
     console.log(data);
     console.log(select);
     return (
-        <div className={cls.searchUser}>
+        <div className={classNames(cls.searchUser, {}, [className])}>
             <label className={cls.label}>
-                <span>Выберете сотрудника:</span>
+                <span>{label}:</span>
                 <SearchInput<UserSchema>
                     onChange={searchQuery}
                     query={query}
                     listOptions={results}
-                    displaySelected={(value:UserSchema)=>value && `${value.name} | ${value.code}`}
+                    displaySelected={(value:UserSchema)=>value && `${value.name}`}
                     selected={select}
                     onSelect={selectHandler}
                 />

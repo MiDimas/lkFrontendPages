@@ -22,3 +22,9 @@
     cursor: pointer;
     padding: 10px;
 }
+
+.modal {
+    display: grid;
+    gap: 10px
+}
+

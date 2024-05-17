@@ -11,14 +11,16 @@ export async function changeStatus (
             additionalParams
         } = params;
         const {
-            comment=null
+            comment=null,
+            responsible
         } = additionalParams;
         const response = await axios.patch<ResponsesStructure<null>>(
             `${__API__}/api/job-vacancy-response`,
             {
                 id,
                 status: status,
-                comment: comment
+                comment: comment,
+                responsible
             }
         );
         console.log(response.data);
