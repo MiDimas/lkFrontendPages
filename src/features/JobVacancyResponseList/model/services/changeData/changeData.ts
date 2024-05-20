@@ -18,6 +18,7 @@ export async function changeData (
                 birthDate: state.birthDate,
                 country: state.country,
                 jobTitle: state.jobTitle,
+                jobTitleCode: state.jobTitleCode,
                 comment: comment
             }
         );

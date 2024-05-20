@@ -16,6 +16,7 @@ interface SearchInputProps<E extends object|string>{
     displaySelected?: (value:E)=>string;
     onSelect?: (value:string) => void;
     listOptions?: SearchValueOption[];
+    notFound?: string;
 }
 export const SearchInput = <E extends object|string>(props: SearchInputProps<E>) => {
     const {
@@ -25,7 +26,8 @@ export const SearchInput = <E extends object|string>(props: SearchInputProps<E>)
         query = "",
         selected= "",
         displaySelected,
-        listOptions = []
+        listOptions = [],
+        notFound = "Ничего не найдено введите имя или код 1с сотрудника"
     } = props;
     const changeHandler = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +45,7 @@ export const SearchInput = <E extends object|string>(props: SearchInputProps<E>)
                 <Combobox.Input
                     onChange={changeHandler}
                     displayValue={displaySelected}
-                    className={cls.input}
+                    className={classNames(cls.input, {}, [className])}
                 />
                 <Combobox.Options className={cls.options}>
                     {listOptions.length>0 ? listOptions.map((option:SearchValueOption) => (
@@ -60,7 +62,7 @@ export const SearchInput = <E extends object|string>(props: SearchInputProps<E>)
                             }
                         </Combobox.Option>
                     ))
-                        : <div className={cls.option}>Ничего не найдено введите имя или код 1с сотрудника</div>
+                        : <div className={cls.option}>{notFound}</div>
                     }
 
                 </Combobox.Options>

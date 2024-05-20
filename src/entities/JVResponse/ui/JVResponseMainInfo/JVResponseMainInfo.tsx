@@ -9,9 +9,11 @@ import {validateFio} from "../../lib/validate/validateFio";
 import {validateJobTitle} from "../../lib/validate/validateJobTitle";
 import {validateEmail} from "../../lib/validate/validateEmail";
 import {validatePhone} from "../../lib/validate/validatePhone";
+import {JobTitleSchema, SearchJobTitle} from "entities/JobTitle";
 interface JVRCardMainInfo {
     fio: string;
     jobTitle: string;
+    jobTitleCode?: string;
     email?: string;
     phone?: string;
     categoryName?: string;
@@ -43,7 +45,8 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
         email,
         phone,
         categoryName,
-        statusName
+        statusName,
+        jobTitleCode
     } = state;
 
     const [valid, setValid] = useState(initialValid);
@@ -59,12 +62,15 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
         [setState],
     );
     const jobTitleEdit = useCallback(
-        (jobTitle: string) => {
-            setState?.((prev) => ({...prev, jobTitle}));
-            setValid((prev) => ({
-                ...prev,
-                jobTitle: validateJobTitle(jobTitle),
-            }));
+        (jobTitle?: JobTitleSchema) => {
+            if(jobTitle){
+                setState?.((prev) => ({...prev,
+                    jobTitle: jobTitle.name, jobTitleCode: jobTitle.code}));
+                setValid((prev) => ({
+                    ...prev,
+                    jobTitle: validateJobTitle(jobTitle.name),
+                }));
+            }
         }, [setState]
     );
     const emailEdit = useCallback(
@@ -115,11 +121,10 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
             <div className={cls.jobTitle}>
                 {canEdit
                     ? (
-                        <Input
-                            value={jobTitle}
-                            onChange={jobTitleEdit}
+                        <SearchJobTitle
+                            select={{name:jobTitle, code:jobTitleCode??""}}
+                            setSelect={jobTitleEdit}
                             className={classNames(cls.input, {[cls.warn]: !valid.jobTitle}, [])}
-                            placeholder="Должность"
                         />)
                     : <div>{jobTitle}</div>
                 }

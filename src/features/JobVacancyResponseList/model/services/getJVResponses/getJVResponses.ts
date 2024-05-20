@@ -22,6 +22,7 @@ export async function getJVResponses (props:GetJVResponsesParams): Promise<Respo
                 }
             }
         );
+        console.log(response.data);
         if(response.data.result === 1){
             response.data.data?.forEach(({birthDate, createdAt, updatedAt}, index) => {
                 if (response.data.data){
