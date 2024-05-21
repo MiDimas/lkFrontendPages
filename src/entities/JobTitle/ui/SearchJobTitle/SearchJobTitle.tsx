@@ -8,6 +8,7 @@ import cls from "./SearchJobTitle.module.css";
 
 interface SearchJobTitleProps {
     className?: string;
+    classNameInput?: string;
     select?: JobTitleSchema;
     setSelect?:(value?:JobTitleSchema)=>void;
     label?: string;
@@ -17,6 +18,7 @@ interface SearchJobTitleProps {
 export const SearchJobTitle = (props: SearchJobTitleProps) => {
     const {
         className,
+        classNameInput,
         select,
         setSelect,
         label
@@ -63,7 +65,7 @@ export const SearchJobTitle = (props: SearchJobTitleProps) => {
         selected={select}
         onSelect={selectHandler}
         notFound={"Должностей не найдено, попробуйте другое название"}
-        className={cls.input}
+        className={classNames(cls.input, {}, [classNameInput])}
     />;
     return (
         <div className={classNames(cls.searchUser, {}, [className])}>

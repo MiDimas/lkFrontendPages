@@ -7,7 +7,7 @@ import {validateDate} from "./validateDate";
 
 export const validateUpdate = (state: JVResponseSchema) => {
     const validFio = validateFio(state.fio);
-    const validJobTitle = validateJobTitle(state.jobTitle);
+    const validJobTitle = validateJobTitle(state.jobTitle, state.jobTitleCode);
     const validEmail = validateEmail(state.email, state.phone);
     const validPhone = validatePhone(state.phone, state.phone);
     const validDate = validateDate(state.birthDate);

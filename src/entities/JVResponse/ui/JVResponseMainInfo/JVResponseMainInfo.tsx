@@ -48,7 +48,7 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
         statusName,
         jobTitleCode
     } = state;
-
+    initialValid.jobTitle = !!jobTitleCode;
     const [valid, setValid] = useState(initialValid);
 
     const fioEdit = useCallback(
@@ -68,7 +68,7 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
                     jobTitle: jobTitle.name, jobTitleCode: jobTitle.code}));
                 setValid((prev) => ({
                     ...prev,
-                    jobTitle: validateJobTitle(jobTitle.name),
+                    jobTitle: validateJobTitle(jobTitle.name, jobTitle.code),
                 }));
             }
         }, [setState]
@@ -124,7 +124,7 @@ export const JVResponseMainInfo = memo((props: JVResponseMainInfoProps) => {
                         <SearchJobTitle
                             select={{name:jobTitle, code:jobTitleCode??""}}
                             setSelect={jobTitleEdit}
-                            className={classNames(cls.input, {[cls.warn]: !valid.jobTitle}, [])}
+                            classNameInput={classNames(cls.input, {[cls.warn]: !valid.jobTitle}, [])}
                         />)
                     : <div>{jobTitle}</div>
                 }

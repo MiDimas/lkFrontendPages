@@ -57,6 +57,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
             if(updateCard) {
                 if(JSON.stringify(response) !== JSON.stringify(state)){
                     if(!validateUpdate(state)){
+                        console.log(state);
                         setMessage({
                             text: "Не заполнены или неправильно, заполнены обязательные поля!",
                             severity: "warning"
@@ -107,7 +108,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                     setState={setState}
                 />
                 <div  className={cls.buttonBlock}>
-                    {user?.id && user.id===state.worker && response.status < 5
+                    {user?.id && user.id===state.worker && response.status !==5 && response.status!==6
                         ? (
                             <JVResponseEditButton
                                 isEdit={isEdit}
