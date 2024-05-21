@@ -57,7 +57,6 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
             if(updateCard) {
                 if(JSON.stringify(response) !== JSON.stringify(state)){
                     if(!validateUpdate(state)){
-                        console.log(state);
                         setMessage({
                             text: "Не заполнены или неправильно, заполнены обязательные поля!",
                             severity: "warning"
@@ -79,6 +78,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                         severity: "success"
                     });
                     setIsEdit(false);
+                    Object.assign(response, state);
                     return;
                 }
                 setMessage({
@@ -99,6 +99,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                     state={{
                         fio: state.fio,
                         jobTitle: state.jobTitle,
+                        jobTitleCode: state.jobTitleCode,
                         email: state.email,
                         phone: state.phone,
                         categoryName: state.categoryName,
