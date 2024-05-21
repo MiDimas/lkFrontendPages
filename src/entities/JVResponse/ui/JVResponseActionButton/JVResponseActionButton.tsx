@@ -7,6 +7,7 @@ import {Modal} from "shared/ui/Modal/Modal";
 import {JVResponseCommentForm} from "../JVResponseCommentForm/JVResponseCommentForm";
 import {SearchUser} from "entities/User/ui/SearchUser/SearchUser";
 import {UserSchema} from "entities/User";
+import {Reflection} from "shared/ui/Reflection/Reflection";
 
 interface JVResponseActionButtonProps {
     id: number;
@@ -29,7 +30,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
     } = useModalState(false);
     const [newStatus, setNewStatus] = useState<number>(status);
     const [selected, setSelected] = useState<UserSchema>();
-
+    const [isLoading, setIsLoading] =useState<boolean>(false);
     const changeStatus = useCallback((status:number) => {
         setNewStatus(status);
         onOpenModal();
@@ -89,17 +90,22 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                         }
                         <JVResponseCommentForm
                             onClose={onCloseModal}
-                            onSend={(comment) => {
+                            onSend={async (comment) => {
+                                setIsLoading(true);
                                 if(isExport && !!selected) {
-                                    change(id, newStatus, comment, selected.code);
+                                    await change(id, newStatus, comment, selected.code);
                                 }
                                 else{
-                                    change(id, newStatus, comment);
+                                    await change(id, newStatus, comment);
                                 }
+                                setIsLoading(false);
                             }
                             }
-                            approveDisabled={isExport && !selected}
+                            approveDisabled={(isExport && !selected) || isLoading}
                         />
+                        {isLoading &&
+                            <Reflection />
+                        }
                     </>
                 </Modal>
                 }

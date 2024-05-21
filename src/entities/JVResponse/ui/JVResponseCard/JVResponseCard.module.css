@@ -25,6 +25,7 @@
 
 .modal {
     display: grid;
-    gap: 10px
+    gap: 10px;
+    overflow: hidden;
 }
 
