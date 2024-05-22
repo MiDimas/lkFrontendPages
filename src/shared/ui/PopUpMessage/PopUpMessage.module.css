@@ -1,6 +1,6 @@
 .background{
     background-color: rgba(0,0,0,0.5);
-    width: 100vw;
+    width: 100%;
     height: 100%;
     position: absolute;
     z-index: 9;
@@ -23,15 +23,15 @@
     padding: 10px;
 }
 .success {
-    color: #88ff70;
+    color: #88ff70!important;
     background-color: #77a677;
 }
 .warning {
-    color: #f1ff70;
+    color: #f1ff70!important;
     background-color: #a6a577;
 }
 .error{
-    color: #ffc1c1;
+    color: #ffc1c1!important;
     background-color: #a6260b;
 }
 .message {

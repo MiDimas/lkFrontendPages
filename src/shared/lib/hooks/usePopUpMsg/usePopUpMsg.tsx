@@ -3,7 +3,7 @@ import {PopUpMessage, Severity} from "shared/ui/PopUpMessage/PopUpMessage";
 
 export interface MessageStructure {
     text: string;
-    severity: Severity;
+    severity?: Severity;
 }
 export function usePopUpMsg (time: number) {
     const [message, setMessage] = useState<MessageStructure>({
