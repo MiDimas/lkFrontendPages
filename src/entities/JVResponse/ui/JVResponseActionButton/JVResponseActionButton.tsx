@@ -104,7 +104,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                             approveDisabled={(isExport && !selected) || isLoading}
                         />
                         {isLoading &&
-                            <Reflection />
+                            <Reflection radius={10}/>
                         }
                     </>
                 </Modal>

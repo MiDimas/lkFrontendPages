@@ -1,5 +1,5 @@
 import {Menu} from "@headlessui/react";
-import {ReactNode, useMemo} from "react";
+import {ReactNode} from "react";
 import {classNames} from "shared/lib/classNames/classNames";
 import cls from "./Dropdown.module.css";
 export interface DropdownItem {

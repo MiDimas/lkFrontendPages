@@ -1,12 +1,12 @@
 import {useCallback, useMemo} from "react";
 import cls from "./PaginationMenu.module.css";
 import {classNames} from "shared/lib/classNames/classNames";
-interface PaginationMenu {
+interface PaginationMenuProps {
     lastPage?: number;
     onChangePage?: (page?: number)=> void;
     selectedPage?: number;
 }
-export function PaginationMenu (props: PaginationMenu) {
+export function PaginationMenu (props: PaginationMenuProps) {
     const {
         lastPage,
         onChangePage,

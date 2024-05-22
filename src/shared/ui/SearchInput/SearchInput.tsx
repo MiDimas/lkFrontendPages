@@ -11,7 +11,6 @@ export interface SearchValueOption {
 interface SearchInputProps<E extends object|string>{
     className?:string;
     onChange?: (value:string)=>void;
-    query?: string;
     selected?: E;
     displaySelected?: (value:E)=>string;
     onSelect?: (value:string) => void;
@@ -23,11 +22,10 @@ export const SearchInput = <E extends object|string>(props: SearchInputProps<E>)
         className,
         onChange,
         onSelect,
-        query = "",
         selected= "",
         displaySelected,
         listOptions = [],
-        notFound = "Ничего не найдено введите имя или код 1с сотрудника"
+        notFound = "Ничего не найдено введите имя или код 1с сотрудника",
     } = props;
     const changeHandler = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {

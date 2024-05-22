@@ -19,14 +19,12 @@ export const SearchUser = (props: SearchUserProps) => {
         setSelect,
         label = "Выберите сотрудника"
     } = props;
-    const [query, setQuery] = useState("");
     const [data, setData] = useState<ResponsesStructure<UserSchema[]>>();
     const searchDeb = useDebounce<[search:string]>((search:string) => {
         getUser(search).then(data => setData(data));
     }, {delay:400});
 
     const searchQuery = useCallback((search:string)=> {
-        setQuery(search);
         searchDeb(search);
     }, [searchDeb]);
 
@@ -64,7 +62,6 @@ export const SearchUser = (props: SearchUserProps) => {
                 <span>{label}:</span>
                 <SearchInput<UserSchema>
                     onChange={searchQuery}
-                    query={query}
                     listOptions={results}
                     displaySelected={(value:UserSchema)=>value && `${value.name}`}
                     selected={select}

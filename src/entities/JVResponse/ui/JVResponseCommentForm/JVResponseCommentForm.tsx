@@ -36,7 +36,7 @@ export const JVResponseCommentForm = (props: JVResponseCommentFormProps) => {
         }
     }, [onClose]);
     return (
-        <div className={classNames(cls.form, )}>
+        <div className={classNames(cls.form, {}, [className])}>
             <span>Комментарий</span>
             <textarea ref={commentRef} className={cls.textArea}/>
             <div className={cls.buttonBlock}>

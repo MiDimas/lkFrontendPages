@@ -23,14 +23,12 @@ export const SearchJobTitle = (props: SearchJobTitleProps) => {
         setSelect,
         label
     } = props;
-    const [query, setQuery] = useState("");
     const [data, setData] = useState<ResponsesStructure<JobTitleSchema[]>>();
     const searchDeb = useDebounce<[name:string]>((name:string) => {
         getJobTitle(name).then(data => setData(data));
     }, {delay:400});
 
     const searchQuery = useCallback((name:string)=> {
-        setQuery(name);
         searchDeb(name);
     }, [searchDeb]);
 
@@ -59,7 +57,6 @@ export const SearchJobTitle = (props: SearchJobTitleProps) => {
 
     const inputElement = <SearchInput<JobTitleSchema>
         onChange={searchQuery}
-        query={query}
         listOptions={results}
         displaySelected={(value:JobTitleSchema)=>value && `${value.name}`}
         selected={select}

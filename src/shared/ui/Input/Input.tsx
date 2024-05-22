@@ -1,12 +1,10 @@
 import {
     ChangeEventHandler,
     DetailedHTMLProps,
-    Dispatch, forwardRef,
+    forwardRef,
     InputHTMLAttributes,
     memo,
-    SetStateAction,
     useCallback,
-    useState
 } from "react";
 import cls from "./Input.module.css";
 import {classNames} from "shared/lib/classNames/classNames";
