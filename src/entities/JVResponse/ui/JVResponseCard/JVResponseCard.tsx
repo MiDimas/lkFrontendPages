@@ -1,6 +1,6 @@
 import {JVResponseSchema} from "../../model/types/JVResponseSchema";
 import cls from "./JVResponseCard.module.css";
-import {memo, useCallback, useState} from "react";
+import {memo, useCallback, useContext, useState} from "react";
 import {JVResponseMainInfo} from "../JVResponseMainInfo/JVResponseMainInfo";
 import {JVResponseActionButton} from "../JVResponseActionButton/JVResponseActionButton";
 import {JVResponseAdditionalInfo} from "../JVResponseAdditionalInfo/JVResponseAdditionalInfo";
@@ -9,6 +9,7 @@ import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 import {validateUpdate} from "../../lib/validate/validateUpdate";
 import {usePopUpMsg} from "shared/lib/hooks/usePopUpMsg/usePopUpMsg";
 import {ChangeStatusParams} from "../../model/types/ActionsJVResponseSchema";
+import {PopUpMessageContext} from "shared/lib/context/PopUpMessageContext";
 
 interface JVResponseCardProps {
     response: JVResponseSchema;
@@ -31,7 +32,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     const [state, setState] = useState(response);
     const [addVisible, setAddVisible] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
-    const {Component, setMessage} = usePopUpMsg(2000);
+    const { setMessage} = useContext(PopUpMessageContext);
 
     const changeStatusHandler = useCallback(async(
         id:number,
@@ -40,13 +41,15 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
         responsible: string|null = null
     ) => {
         if(changeStatus) {
-            await changeStatus({
+            const res = await changeStatus({
                 id: id,
                 status: status,
                 additionalParams: responsible ? {comment, responsible} : {comment}
             });
+            setMessage?.({severity: res.result ? "success" : "error", text: res.desc});
+
         }
-    }, [changeStatus]);
+    }, [changeStatus, setMessage]);
 
     const undoChangesHandler = useCallback( () => {
         setState(response);
@@ -57,7 +60,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
             if(updateCard) {
                 if(JSON.stringify(response) !== JSON.stringify(state)){
                     if(!validateUpdate(state)){
-                        setMessage({
+                        setMessage?.({
                             text: "Не заполнены или неправильно, заполнены обязательные поля!",
                             severity: "warning"
                         });
@@ -66,14 +69,14 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                     const res = await updateCard(state);
                     console.log(res);
                     if(!res.result) {
-                        setMessage({
+                        setMessage?.({
                             text: res.desc,
                             severity: "error"
                         });
                         undoChangesHandler();
                         return;
                     }
-                    setMessage({
+                    setMessage?.({
                         text: res.desc,
                         severity: "success"
                     });
@@ -81,7 +84,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                     Object.assign(response, state);
                     return;
                 }
-                setMessage({
+                setMessage?.({
                     text: "Не обнаружено никаких изменений", severity: "warning"
                 });
 
@@ -93,7 +96,6 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
     const availableReset = response.status !== 1 && response.status !== 6;
     return (
         <div className={cls.card}>
-            <Component />
             <div className={cls.content}>
                 <JVResponseMainInfo
                     state={{

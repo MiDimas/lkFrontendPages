@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef, useCallback} from "react";
 import {PopUpMessage, Severity} from "shared/ui/PopUpMessage/PopUpMessage";
 
-interface MessageStructure {
+export interface MessageStructure {
     text: string;
     severity: Severity;
 }
