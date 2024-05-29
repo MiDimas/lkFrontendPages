@@ -4,3 +4,9 @@ export const DEFAULT_RESPONSE:ResponsesStructure<[]> = {
     data: [],
     info: {count:0}
 };
+export const DEFAULT_RESPONSE_OBJECT:ResponsesStructure<object> = {
+    result:0,
+    desc: "Ошибка на стороне клиента",
+    data: undefined,
+    info: {count:0}
+};

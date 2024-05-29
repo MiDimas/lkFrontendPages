@@ -1,6 +1,13 @@
 .table{
     display: grid;
     text-align: center;
+    gap: 10px;
+}
+.blockTable {
+    width: 100%;
+}
+.blockTable>table{
+    width: 100%;
 }
 .new {
     font-size: 1.5rem;
