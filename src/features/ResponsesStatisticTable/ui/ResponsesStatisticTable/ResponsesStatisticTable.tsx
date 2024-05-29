@@ -9,7 +9,7 @@ import {
 import {getAllStatistic} from "../../api/getAllStatistic/getAllStatistic";
 import cls from "./ResponsesStatisticTable.module.css";
 
-type RowsTablesStatistic = Row<"0" | "2" | "3" | "4" | "5" | "6" | "1" | "7">[];
+type RowsTablesStatistic = Row<"0" | "2" | "3" | "4" | "5" | "6" | "1" | "7" |  "10">[];
 interface ResponsesStatisticTableProps {
     user?:User;
 }
@@ -73,7 +73,7 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
             }
             const statisticParse: OptionalRecord<string, number> = JSON.parse(statistic);
             rows.push({cells: {"0":iName, ...statisticParse,
-                "1": Object.values(statisticParse).reduce((prev =0, cur=0) => (prev + cur))
+                "10": Object.values(statisticParse).reduce((prev =0, cur=0) => (prev + cur))
             }});
             return;
         });
@@ -118,7 +118,8 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
                 <Table
                     cols={[
                         {id:"0", name:"Идентификатор"},
-                        {id:"1", name:"Всего"},
+                        {id:"10", name:"Всего"},
+                        {id:"1", name:"Новые"},
                         {id:"2", name:"В работе"},
                         {id:"3", name:"Не дозвон"},
                         {id:"7", name:"Сообщение"},
@@ -128,7 +129,8 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
                     ]}
                     columnClassNames={{
                         "0": cls.worker,
-                        "1": cls.total,
+                        "10": cls.total,
+                        "1": cls.newResp,
                         "2": cls.inWork,
                         "3": cls.notAvailable,
                         "7": cls.message,
