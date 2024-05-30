@@ -1,7 +1,6 @@
 import {haveRole} from "shared/lib/localStorage/roles";
 import {ResponsesStatisticTable} from "features/ResponsesStatisticTable";
 import {Page} from "widgets/Page";
-import {DateSelector} from "entities/Date";
 
 export const ResponsesStatisticPage = () => {
     if(typeof __PHPDATA__ !== "undefined"){

@@ -1,0 +1,32 @@
+.toggle {
+    width: 60px;
+    height: 30px;
+    border-radius: 50px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    background-color: #ffbfbf;
+    transition: 0.4s all ease-in-out;
+    padding: 2px;
+    box-sizing: content-box;
+
+}
+.toggle::after {
+    transform: translateX(0);
+    content: '';
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: #ffffff;
+    transition: 0.4s all ease-in-out;
+
+}
+
+.toggle.on{
+    background-color: #77a677;
+}
+.toggle.on::after{
+    transform: translateX(30px);
+}

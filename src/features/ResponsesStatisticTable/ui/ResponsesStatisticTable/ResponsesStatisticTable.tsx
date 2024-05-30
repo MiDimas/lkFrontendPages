@@ -1,5 +1,5 @@
 import {useInitialEffect} from "shared/lib/hooks/useInitialEffect/useInitialEffect";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {
     ResponsesStatisticHRSchema,
     ResponsesStatisticIdentifiersSchema,
@@ -12,6 +12,10 @@ import {
 import {
     ResponsesStatisticIdentifierTable
 } from "../ResponsesStatisticIdentifierTable/ResponsesStatisticIdentifierTable";
+import {DateSelector} from "entities/Date";
+import {DateSchema} from "entities/Date/model/types/DateSchema";
+import {RequestStatisticParams} from "../../model/types/requestStatisticParams";
+import {Toggle} from "shared/ui/Toggle/Toggle";
 
 
 interface ResponsesStatisticTableProps {
@@ -23,11 +27,13 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
     } = props;
     const [statisticListHR, setStatisticHR] = useState<ResponsesStatisticHRSchema[]>();
     const [statisticListIdentifier, setStatisticIdentifier] = useState<ResponsesStatisticIdentifiersSchema[]>();
-    const [isLoading, setIsLoading] = useState(false);
+    const [date, setDate] = useState<DateSchema>();
+    const [isFiltered, setIsFiltered] = useState<boolean>();
+    const [isLoading, setIsLoading] = useState(true);
 
-    const loadStatistic = useCallback(async () => {
+    const loadStatistic = useCallback(async (params:RequestStatisticParams ={}) => {
         setIsLoading(true);
-        const res = await getAllStatistic();
+        const res = await getAllStatistic(params);
         if(res.result){
             if (res.data?.hr?.result) {
                 setStatisticHR(res.data.hr.data);
@@ -44,15 +50,30 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
             loadStatistic();
         }
     );
+    useEffect(() => {
+        if(isFiltered){
+            loadStatistic({startDate: date});
+        }
+    }, [date, loadStatistic, isFiltered]);
 
 
-    if(isLoading) {
-        return  <div>Loading ...</div>;
-    }
     return (
         <div className={cls.table}>
-            <ResponsesStatisticHRTable response={statisticListHR} />
-            <ResponsesStatisticIdentifierTable response={statisticListIdentifier} />
+            <div className={cls.filters}>
+                <DateSelector onChange={setDate} values={date}/>
+                <label className={cls.label}>
+                    <span>Включить фильтр по месяцам</span>
+                    <Toggle onChange={setIsFiltered} value={isFiltered}/>
+                </label>
+            </div>
+            {
+                !isLoading
+                    ? <>
+                        <ResponsesStatisticHRTable response={statisticListHR} />
+                        <ResponsesStatisticIdentifierTable response={statisticListIdentifier} />
+                    </>
+                    :<div>Loading...</div>
+            }
         </div>
 
     );

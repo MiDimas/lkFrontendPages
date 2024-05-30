@@ -3,40 +3,14 @@
     text-align: center;
     gap: 10px;
 }
-.blockTable {
-    width: 100%;
+.filters {
+    display: grid;
+    justify-items: center;
+    gap: 5px;
 }
-.blockTable>table{
-    width: 100%;
-}
-.new {
-    font-size: 1.5rem;
-    font-weight: bolder;
-}
-.worker {
-    background-color: #ffffff;
-}
-.inWork{
-    background-color: #ececc2;
-}
-.notAvailable {
-    background-color: #f5e6bf;
-}
-.message {
-    background-color: #f5ecbf;
-}
-.thinking {
-    background-color: #ebfdf8;
-}
-.reject {
-    background-color: #fff0eb;
-}
-.success {
-    background-color: #efffe5;
-}
-.total {
-    background-color: #89c3e0;
-}
-.newResp{
-    background-color: #7cc0a8;
+.label {
+    width: 200px;
+    display: grid;
+    grid-auto-flow:column;
+    align-items: center;
 }
