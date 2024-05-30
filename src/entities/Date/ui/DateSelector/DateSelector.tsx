@@ -9,9 +9,10 @@ interface DateSelectorProps {
     className?: string;
     values?: DateSchema;
     onChange?: Dispatch<SetStateAction<DateSchema|undefined>>;
+    deactivate?: boolean;
 }
 
-const startYear = 2023;
+const startYear = 2024;
 const endYear = new Date().getFullYear();
 const endMonth = new Date().getMonth()+1;
 const years:SelectOption<number>[] = [...Array(endYear-startYear+1)].map((_,i)=> ({
@@ -26,6 +27,7 @@ export const DateSelector = memo((props: DateSelectorProps) => {
     const {
         className,
         values,
+        deactivate,
         onChange } = props;
     useInitialEffect(
         () => {
@@ -51,7 +53,7 @@ export const DateSelector = memo((props: DateSelectorProps) => {
     if(values) {
 
         return(
-            <div className={classNames(cls.date, {}, [className])}>
+            <div className={classNames(cls.date, {[cls.deactive]: deactivate}, [className])}>
                 <Select options={years} value={values.year} className={cls.select}
                     onChange={(value)=> setYear(Number(value))}/>
                 <Select options={months} value={values.month} className={cls.select}

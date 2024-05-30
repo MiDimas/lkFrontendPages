@@ -56,14 +56,19 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
         }
     }, [date, loadStatistic, isFiltered]);
 
-
+    const onTurnFilter = useCallback((value:boolean)=> {
+        if(!value){
+            loadStatistic();
+        }
+        setIsFiltered(value);
+    }, [loadStatistic]);
     return (
         <div className={cls.table}>
             <div className={cls.filters}>
-                <DateSelector onChange={setDate} values={date}/>
+                <DateSelector onChange={setDate} values={date} deactivate={!isFiltered}/>
                 <label className={cls.label}>
-                    <span>Включить фильтр по месяцам</span>
-                    <Toggle onChange={setIsFiltered} value={isFiltered}/>
+                    <span>Фильтр по месяцам: {isFiltered? "включен" : "выключен"}</span>
+                    <Toggle onChange={onTurnFilter} value={isFiltered}/>
                 </label>
             </div>
             {
