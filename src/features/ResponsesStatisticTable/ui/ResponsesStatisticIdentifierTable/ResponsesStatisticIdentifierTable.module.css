@@ -1,0 +1,34 @@
+.identifierTable{
+    width: 100%;
+}
+.head {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+.identifier {
+    background-color: #ffffff;
+}
+.total {
+    background-color: #89c3e0;
+}
+.new{
+    background-color: #7cc0a8;
+}
+.inWork{
+    background-color: #ececc2;
+}
+.notAvailable {
+    background-color: #f5e6bf;
+}
+.message {
+    background-color: #f5ecbf;
+}
+.thinking {
+    background-color: #ebfdf8;
+}
+.reject {
+    background-color: #fff0eb;
+}
+.success {
+    background-color: #efffe5;
+}

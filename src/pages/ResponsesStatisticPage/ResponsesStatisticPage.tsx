@@ -17,7 +17,6 @@ export const ResponsesStatisticPage = () => {
     else if (__DEV__) {
         return (
             <Page>
-                <DateSelector />
                 { haveRole(["10"])
                     ? <ResponsesStatisticTable user={{id: 555, firstName:"Димас"}} />
                     : <div>У вас недостаточно прав</div>

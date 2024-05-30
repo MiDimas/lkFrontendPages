@@ -1,0 +1,31 @@
+.hrTable{
+    width: 100%;
+}
+.new {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+.worker {
+    background-color: #ffffff;
+}
+.total {
+    background-color: #89c3e0;
+}
+.inWork{
+    background-color: #ececc2;
+}
+.notAvailable {
+    background-color: #f5e6bf;
+}
+.message {
+    background-color: #f5ecbf;
+}
+.thinking {
+    background-color: #ebfdf8;
+}
+.reject {
+    background-color: #fff0eb;
+}
+.success {
+    background-color: #efffe5;
+}
