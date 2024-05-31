@@ -37,13 +37,14 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
         id:number,
         status:number,
         comment: string|null=null,
-        responsible: string|null = null
+        responsible: string|null = null,
+        responsibleSec: string|null = null
     ) => {
         if(changeStatus) {
             const res = await changeStatus({
                 id: id,
                 status: status,
-                additionalParams: responsible ? {comment, responsible} : {comment}
+                additionalParams: responsible ? {comment, responsible, responsibleSec} : {comment}
             });
             setMessage?.({severity: res.result ? "success" : "error", text: res.desc});
 

@@ -26,6 +26,10 @@ export interface JVResponseSchema {
     responsibleCode?: string;
     responsibleJobTitle?: string;
     responsibleBirthday?: string;
+    responsibleSec?: string; //доп ответственный
+    responsibleSecCode?: string;
+    responsibleSecJobTitle?: string;
+    responsibleSecBirthday?: string;
     candidate?: string;
 }
 export interface JVResponseInfoSchema extends ResponsesInfoStructure{

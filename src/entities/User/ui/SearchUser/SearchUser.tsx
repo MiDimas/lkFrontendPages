@@ -54,8 +54,6 @@ export const SearchUser = (props: SearchUserProps) => {
         }
     }, [data]);
 
-    console.log(data);
-    console.log(select);
     return (
         <div className={classNames(cls.searchUser, {}, [className])}>
             <label className={cls.label}>

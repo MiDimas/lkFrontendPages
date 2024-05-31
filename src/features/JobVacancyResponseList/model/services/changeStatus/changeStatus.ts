@@ -12,7 +12,8 @@ export async function changeStatus (
         } = params;
         const {
             comment=null,
-            responsible
+            responsible,
+            responsibleSec
         } = additionalParams;
         const response = await axios.patch<ResponsesStructure<null>>(
             `${__API__}/api/job-vacancy-response`,
@@ -20,7 +21,8 @@ export async function changeStatus (
                 id,
                 status: status,
                 comment: comment,
-                responsible
+                responsible,
+                responsibleSec
             }
         );
         console.log(response.data);

@@ -12,7 +12,11 @@ import {Reflection} from "shared/ui/Reflection/Reflection";
 interface JVResponseActionButtonProps {
     id: number;
     status: number;
-    change: (id:number, response: number, comment?: string|null, responsible?: string|null) => void;
+    change: (id:number,
+        response: number,
+        comment?: string|null,
+        responsible?: string|null,
+        responsibleSec?: string|null) => void;
     className?: string;
     owner?:boolean;
 }
@@ -30,6 +34,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
     } = useModalState(false);
     const [newStatus, setNewStatus] = useState<number>(status);
     const [selected, setSelected] = useState<UserSchema>();
+    const [selectedSec, setSelectedSec] = useState<UserSchema>();
     const [isLoading, setIsLoading] =useState<boolean>(false);
     const changeStatus = useCallback((status:number) => {
         setNewStatus(status);
@@ -85,7 +90,11 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                                 <SearchUser
                                     select={selected}
                                     setSelect={setSelected}
-                                    label={"Выберите ответственного"} />
+                                    label={"*Выберите ответственного"} />
+                                <SearchUser
+                                    select={selectedSec}
+                                    setSelect={setSelectedSec}
+                                    label={"Выберите доп. ответственного"} />
                             </>
                         }
                         <JVResponseCommentForm
@@ -93,7 +102,7 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
                             onSend={async (comment) => {
                                 setIsLoading(true);
                                 if(isExport && !!selected) {
-                                    await change(id, newStatus, comment, selected.code);
+                                    await change(id, newStatus, comment, selected.code, selectedSec?.code);
                                 }
                                 else{
                                     await change(id, newStatus, comment);

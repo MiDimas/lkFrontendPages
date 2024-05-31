@@ -7,4 +7,5 @@ export interface ChangeStatusParams {
 interface ChangeStatusAdditionalParams {
     comment?: string | null;
     responsible?: string;
+    responsibleSec?: string| null;
 }

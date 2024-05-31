@@ -3,11 +3,6 @@
     grid-auto-flow: column;
     gap: 5px;
 }
-.select {
-    font-size: 1.2rem;
-    padding: 5px 10px;
-    text-align: center;
-}
 .deactive {
     opacity: 0.5;
 }

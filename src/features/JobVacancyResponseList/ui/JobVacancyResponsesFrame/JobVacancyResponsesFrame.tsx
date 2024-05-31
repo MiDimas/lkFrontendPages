@@ -38,9 +38,6 @@ export const JobVacancyResponsesFrame = memo((props: JobVacancyResponseListProps
     );
     const [statuses, setStatuses] = useState<JVRStatusSchema[]>();
     const [countries, setCountries] = useState<CountrySchema[]>();
-    console.log(user);
-    console.log(info);
-
 
     const getData = useCallback(
         async () => {

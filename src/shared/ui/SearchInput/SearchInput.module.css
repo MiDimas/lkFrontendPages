@@ -9,6 +9,7 @@
 
 .options {
     position: absolute;
+    z-index: 1;
     left: -5%;
     top: 100%;
     background-color: white;
