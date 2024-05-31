@@ -28,20 +28,16 @@ export const ResponsesStatisticTable = (props:ResponsesStatisticTableProps) => {
     const [statisticListHR, setStatisticHR] = useState<ResponsesStatisticHRSchema[]>();
     const [statisticListIdentifier, setStatisticIdentifier] = useState<ResponsesStatisticIdentifiersSchema[]>();
     const [date, setDate] = useState<DateSchema>();
-    const [isFiltered, setIsFiltered] = useState<boolean>();
+    const [isFiltered, setIsFiltered] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(true);
 
     const loadStatistic = useCallback(async (params:RequestStatisticParams ={}) => {
         setIsLoading(true);
         const res = await getAllStatistic(params);
-        if(res.result){
-            if (res.data?.hr?.result) {
-                setStatisticHR(res.data.hr.data);
-            }
-            if (res.data?.identifiers?.result) {
-                setStatisticIdentifier(res.data.identifiers.data);
-            }
-        }
+        setStatisticHR(res.data?.hr?.data);
+        setStatisticIdentifier(res.data?.identifiers?.data);
+
+
         setIsLoading(false);
     }, [setStatisticHR]);
 
