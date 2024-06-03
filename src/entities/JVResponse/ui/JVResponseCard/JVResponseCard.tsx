@@ -154,6 +154,7 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                     visible={addVisible}
                     canEdit={isEdit}
                     state={{
+                        id: response.id,
                         workerName: state.workerName,
                         birthDate: state.birthDate,
                         country: state.country,

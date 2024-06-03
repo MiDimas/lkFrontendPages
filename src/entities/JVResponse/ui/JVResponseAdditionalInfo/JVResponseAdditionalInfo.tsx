@@ -7,8 +7,12 @@ import {CountrySelect} from "entities/Country/ui/CountrySelect/CountrySelect";
 import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 import {dateMask} from "shared/lib/helpers/masks/dateMask";
 import {validateDate} from "../../lib/validate/validateDate";
+import {useModalState} from "shared/lib/hooks/useModalState/useModalState";
+import {Modal} from "shared/ui/Modal/Modal";
+import {JVResponseOperations} from "../JVResponseOperations/JVResponseOperations";
 
 interface JVRCardAdditionalInfo {
+    id?: number;
     birthDate?: string;
     country?: number;
     countryName?: string;
@@ -41,6 +45,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
         countries
     } = props;
     const {
+        id ,
         birthDate = "",
         country,
         countryName,
@@ -56,6 +61,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
     const birthRef = useRef<HTMLInputElement>(null);
     const [bPos, setBPos] = useState(0);
     const [validBirth, setValidBirth] = useState(true);
+    const {isOpen, onOpen, onClose} = useModalState();
     const normalizedCountry = useMemo<Record<number, string>>(() => {
         const obj:Record<number, string> = {0: ""};
         countries?.map(({id, name}) => {
@@ -155,7 +161,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
                 <div>Идентификатор:</div>
                 <div>{identifierName || "Отсутствует"}</div>
             </div>
-            <div className={cls.message}>
+            <div className={cls.message} onClick={onOpen}>
                 <div>Последний комментарий по отклику:</div>
                 <div className={cls.newline}>{lastComment}</div>
             </div>
@@ -171,6 +177,11 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
                 <div>Создано: {createdDate || "--.--.----"}</div>
                 <div>Обновлено: {updatedDate || "--.--.----"}</div>
             </div>
+            {id && isOpen &&
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <JVResponseOperations responseId={id} />
+                </Modal>
+            }
         </div>
     );
 });
