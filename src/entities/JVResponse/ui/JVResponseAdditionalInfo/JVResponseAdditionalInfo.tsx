@@ -178,7 +178,7 @@ export const JVResponseAdditionalInfo = memo((props: JVResponseAdditionalInfoPro
                 <div>Обновлено: {updatedDate || "--.--.----"}</div>
             </div>
             {id && isOpen &&
-                <Modal isOpen={isOpen} onClose={onClose}>
+                <Modal isOpen={isOpen} onClose={onClose} className={cls.modal}>
                     <JVResponseOperations responseId={id} />
                 </Modal>
             }

@@ -58,3 +58,8 @@
 .newline{
     white-space: pre-line;
 }
+
+.modal {
+    max-width: 85%;
+    margin: auto;
+}
