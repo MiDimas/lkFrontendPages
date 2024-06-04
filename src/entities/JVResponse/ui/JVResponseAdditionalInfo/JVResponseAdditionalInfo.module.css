@@ -45,6 +45,7 @@
 }
 .message {
     grid-area: e;
+    cursor: pointer;
 }
 .date {
     grid-area: d;
@@ -60,6 +61,5 @@
 }
 
 .modal {
-    max-width: 85%;
     margin: auto;
 }
