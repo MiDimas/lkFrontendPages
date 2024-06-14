@@ -3,6 +3,9 @@ import {ResponsesStatisticHRSchema} from "../../model/types/ResponsesStatisticSc
 import {Row, Table} from "shared/ui/Table/Table";
 import cls from "./ResponsesStatisticHRTable.module.css";
 import {classNames} from "shared/lib/classNames/classNames";
+import {
+    fullJVQueryParamsString
+} from "features/JobVacancyResponseList/model/services/loadJVQueryParams/fullJVQueryParams";
 
 interface ResponsesStatisticHRTableProps {
     className?: string;
@@ -37,7 +40,9 @@ export const ResponsesStatisticHRTable = (props: ResponsesStatisticHRTableProps)
                     .map((value) => {
                         const newValue: [string, ReactElement] = [
                             value[0],
-                            <a key={value[0]} href={`${__API__}/job-vacancy-response?status=${value[0]}&worker=${hr}`}>
+                            <a key={value[0]} href={fullJVQueryParamsString({
+                                status:Number(value[0]), worker: hr
+                            })}>
                                 {value[1]}
                             </a>
                         ];
@@ -46,7 +51,7 @@ export const ResponsesStatisticHRTable = (props: ResponsesStatisticHRTableProps)
                     })
             );
             const linkDefault = (content:string|number|undefined)=>(
-                <a href={`${__API__}/job-vacancy-response?status=0&worker=${hr}`}>{content || "---"}</a>
+                <a href={fullJVQueryParamsString({status: 0, worker: hr})}>{content || "---"}</a>
             );
             rows.push({cells: {"0":linkDefault(firstname), ...statisticWithLink,
                 "1": linkDefault(
@@ -61,7 +66,7 @@ export const ResponsesStatisticHRTable = (props: ResponsesStatisticHRTableProps)
     return (
         <div className={classNames(cls.main, {}, [className])}>
             <div className={cls.new}>
-                <a href={`${__API__}/job-vacancy-response`}>Новых откликов: {newResponses}</a>
+                <a href={fullJVQueryParamsString({})}>Новых откликов: {newResponses}</a>
             </div>
             <Table
                 cols={[
