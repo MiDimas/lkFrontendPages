@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useState} from "react";
+import {ReactElement, useCallback, useMemo, useState} from "react";
 import cls from "./Table.module.css";
 import {classNames} from "shared/lib/classNames/classNames";
 
@@ -9,7 +9,7 @@ interface Column<T extends string | number> {
 }
 type ColumnClasses<T extends string | number> = OptionalRecord<T, string>
 export interface Row<T extends string|number> {
-    cells?: OptionalRecord<T, string|number>;
+    cells?: OptionalRecord<T, string|number|ReactElement>;
 }
 interface TableProps<T extends string | number> {
     className?: string;

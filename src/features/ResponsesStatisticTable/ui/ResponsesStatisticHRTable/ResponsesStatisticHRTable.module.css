@@ -29,3 +29,7 @@
 .success {
     background-color: #efffe5;
 }
+a{
+    text-decoration: none;
+    color:var(--textColor, black);
+}

@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {ReactElement, useMemo, useState} from "react";
 import {ResponsesStatisticHRSchema} from "../../model/types/ResponsesStatisticSchema";
 import {Row, Table} from "shared/ui/Table/Table";
 import cls from "./ResponsesStatisticHRTable.module.css";
@@ -16,10 +16,10 @@ export const ResponsesStatisticHRTable = (props: ResponsesStatisticHRTableProps)
     } = props;
     const [newResponses, setNewResponses] =useState<number>(0);
 
-
+    console.log(response);
     const rowsListHR = useMemo<RowsTablesStatistic | undefined>(() => {
         const rows:RowsTablesStatistic = [];
-        response?.map(({firstname, statistic}) => {
+        response?.map(({firstname, statistic, hr}) => {
             if(firstname==="Новые отклики"){
                 if(statistic){
                     const parseNew:{"1":number} = JSON.parse(statistic);
@@ -32,16 +32,37 @@ export const ResponsesStatisticHRTable = (props: ResponsesStatisticHRTableProps)
                 return;
             }
             const statisticParse: OptionalRecord<string, number> = JSON.parse(statistic);
-            rows.push({cells: {"0":firstname, ...statisticParse,
-                "1": Object.values(statisticParse).reduce((prev =0, cur=0) => (prev + cur))
+            const statisticWithLink: OptionalRecord<string, ReactElement> = Object.fromEntries(
+                Object.entries(statisticParse)
+                    .map((value) => {
+                        const newValue: [string, ReactElement] = [
+                            value[0],
+                            <a key={value[0]} href={`${__API__}/job-vacancy-response?status=${value[0]}&worker=${hr}`}>
+                                {value[1]}
+                            </a>
+                        ];
+
+                        return newValue;
+                    })
+            );
+            const linkDefault = (content:string|number|undefined)=>(
+                <a href={`${__API__}/job-vacancy-response?status=0&worker=${hr}`}>{content || "---"}</a>
+            );
+            rows.push({cells: {"0":linkDefault(firstname), ...statisticWithLink,
+                "1": linkDefault(
+                    Object.values(statisticParse).reduce((prev =0, cur=0) => (prev + cur))
+                )
             }});
+
             return;
         });
         return rows;
     }, [response]);
     return (
         <div className={classNames(cls.main, {}, [className])}>
-            <div className={cls.new}>Новых откликов: {newResponses}</div>
+            <div className={cls.new}>
+                <a href={`${__API__}/job-vacancy-response`}>Новых откликов: {newResponses}</a>
+            </div>
             <Table
                 cols={[
                     {id:"0", name:"Сотрудник"},
