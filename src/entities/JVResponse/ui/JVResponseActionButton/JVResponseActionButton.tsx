@@ -8,6 +8,7 @@ import {JVResponseCommentForm} from "../JVResponseCommentForm/JVResponseCommentF
 import {SearchUser} from "entities/User/ui/SearchUser/SearchUser";
 import {UserSchema} from "entities/User";
 import {Reflection} from "shared/ui/Reflection/Reflection";
+import {ValidateExportResponse} from "../../lib/validate/validateExport";
 
 interface JVResponseActionButtonProps {
     id: number;
@@ -19,6 +20,7 @@ interface JVResponseActionButtonProps {
         responsibleSec?: string|null) => void;
     className?: string;
     owner?:boolean;
+    validExport?: (status: number) => boolean;
 }
 export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) => {
     const {
@@ -26,7 +28,8 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
         status,
         change,
         className,
-        owner
+        owner,
+        validExport
     } = props;
     const {isOpen: isOpenModal,
         onOpen: onOpenModal,
@@ -37,9 +40,12 @@ export const JVResponseActionButton = memo((props: JVResponseActionButtonProps) 
     const [selectedSec, setSelectedSec] = useState<UserSchema>();
     const [isLoading, setIsLoading] =useState<boolean>(false);
     const changeStatus = useCallback((status:number) => {
+        if(!validExport?.(status)){
+            return;
+        }
         setNewStatus(status);
         onOpenModal();
-    }, [onOpenModal]);
+    }, [onOpenModal, validExport]);
 
     const isExport = newStatus === 6;
 

@@ -9,6 +9,7 @@ import {CountrySchema} from "entities/Country/model/types/CountrySchema";
 import {validateUpdate} from "../../lib/validate/validateUpdate";
 import {ChangeStatusParams} from "../../model/types/ActionsJVResponseSchema";
 import {PopUpMessageContext} from "shared/lib/context/PopUpMessageContext";
+import {validateExport} from "../../lib/validate/validateExport";
 
 interface JVResponseCardProps {
     response: JVResponseSchema;
@@ -136,6 +137,16 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                         status={response.status}
                         owner={user && user.id===state.worker}
                         change={changeStatusHandler}
+                        validExport={(status:number): boolean => {
+                            if (status === 6){
+                                const valid = validateExport(response);
+                                if(!valid.result && valid.message){
+                                    setMessage?.({severity: "warning", text: valid.message});
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }}
                     />
                     {availableReset && removeWorker
                         ? (
