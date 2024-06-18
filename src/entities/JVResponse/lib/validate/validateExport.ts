@@ -18,7 +18,7 @@ export function validateExport (state: JVResponseSchema): ValidateExportResponse
     } = state;
     const defaultMsg = " Необходимо исправить перед экспортом.";
     if(!validateStrictFio(fio)){
-        return {result: false,  message: "Некоректный формат Фамилии Имени и Отчества."+defaultMsg};
+        return {result: false,  message: "Некоректный формат ФИО."+defaultMsg};
     }
     if (!validatePhone(phone)){
         return {result: false, message: "Некорректный номер телефона."+defaultMsg};

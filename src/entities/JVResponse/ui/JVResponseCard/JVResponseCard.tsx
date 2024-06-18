@@ -140,8 +140,10 @@ export const JVResponseCard = memo ((props: JVResponseCardProps) => {
                         validExport={(status:number): boolean => {
                             if (status === 6){
                                 const valid = validateExport(response);
-                                if(!valid.result && valid.message){
-                                    setMessage?.({severity: "warning", text: valid.message});
+                                if(!valid.result){
+                                    if(valid.message) {
+                                        setMessage?.({severity: "warning", text: valid.message});
+                                    }
                                     return false;
                                 }
                             }
