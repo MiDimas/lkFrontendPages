@@ -1,0 +1,6 @@
+.modal {
+    align-content: start;
+    overflow: auto;
+    max-height: 100vh;
+    max-width: 100vw;
+}
