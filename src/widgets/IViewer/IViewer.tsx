@@ -1,6 +1,7 @@
 import {Modal} from "shared/ui/Modal/Modal";
 import cls from "./IViewer.module.css";
 import {useCallback, useEffect, useLayoutEffect, useRef, useState} from "react";
+import {useInitialEffect} from "shared/lib/hooks/useInitialEffect/useInitialEffect";
 
 
 interface IViewerProps {
@@ -21,8 +22,11 @@ export const IViewer = (props: IViewerProps) => {
     const [ sizes , setSizes] = useState<OptionalRecord<string, number>>({});
     const [cofs, setCofs] = useState({});
     const [sizeCorrection, setSizeCorrection] = useState(0);
-    const [wheelChange, setWheelChange] = useState(0);
+    const [wheelChange, setWheelChange] = useState(false);
     const [lastPositionScroll, setLastPositionScroll] = useState<{x:number; y:number;}>({x: 0, y:0});
+    const [lastPositionCursor, setLastPositionCursor] = useState<{x:number; y:number;}>({x: 0, y:0});
+    const [startScroll, setStartScroll] = useState<{x:number; y:number;}>({x: 0, y:0});
+    const [initScroll, setInitScroll] = useState(false);
 
     const ref = useRef<HTMLDivElement>(null);
 
@@ -53,17 +57,17 @@ export const IViewer = (props: IViewerProps) => {
     const changeScroll = useCallback( (ev: WheelEvent) => {
         if(ev.ctrlKey){
             ev.preventDefault();
+            if(!initScroll && ref.current){
+                setInitScroll(true);
+                setStartScroll({x: ref.current.scrollWidth, y:ref.current.scrollHeight});
+            }
             setSizeCorrection(() => - ev.deltaY);
-            const delta = Math.round(ev.deltaY/100);
-            setWheelChange(prev => {
-                if((prev>10 && delta>0) || (prev<-10 && delta<0)){
-                    return prev;
-                }
-                return Math.round(prev + ev.deltaY/100);
-            });
-            setLastPositionScroll({x: ev.clientX, y: ev.clientY});
+            setWheelChange(prev => !prev);
+            setLastPositionCursor({x: ev.clientX, y: ev.clientY});
+            setLastPositionScroll({x: ref.current?.scrollLeft ?? 0, y: ref.current?.scrollTop ?? 0});
+            console.log(ev);
         }
-    }, []);
+    }, [initScroll]);
 
     const changeTouch = useCallback((ev:TouchEvent) => {
         console.log(ev);
@@ -82,22 +86,6 @@ export const IViewer = (props: IViewerProps) => {
         };
     }, [changeScroll, changeTouch]);
 
-    useEffect (()  => {
-        if(sizes["width0"]){
-            const widthObj = sizes["width0"];
-            if(ref.current){
-                const w = window.innerWidth;
-                const h = window.innerHeight;
-                console.log(wheelChange);
-                const x  = Math.round(-((w/2) - lastPositionScroll.x));
-                const y = Math.round(-((h/2) - lastPositionScroll.y));
-                console.log({x,y, obj: ref.current.scrollHeight});
-                ref.current.scrollBy(x>50|| x<-50 ? x : 0, y );
-            }
-        }
-        // eslint-disable-next-line
-    }, [sizes, lastPositionScroll]);
-
     useEffect(()=> {
         setSizes(prevState => {
             const newObj = Object.fromEntries(Object.entries(prevState).map(([key , value]) => {
@@ -113,8 +101,59 @@ export const IViewer = (props: IViewerProps) => {
             ));
             return newObj;
         });
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     },   [wheelChange, setSizes]);
+
+    useEffect (()  => {
+        requestAnimationFrame( () => {
+
+            if(ref.current){
+                // const w = window.innerWidth;
+                // const h = window.innerHeight;
+                // const correctionW = startScroll.x < ref.current.scrollWidth ? startScroll.x - ref.current.scrollWidth : 0;
+                // const correctionH = startScroll.y < ref.current.scrollHeight ? startScroll.y - ref.current.scrollHeight : 0;
+                // console.log(correctionH);
+                // const x  = Math.round(-((w/2) - lastPositionScroll.x) - (correctionW /10));
+                // const y = Math.round(-((h/2) - lastPositionScroll.y) - (correctionH/10));
+                // console.log({x,y, obj: ref.current.scrollHeight});
+                // ref.current.scrollBy(x>50|| x<-50 ? x : 0, y>50 || y<-50 ? y : 0 );
+
+                // const correctionW = ref.current.scrollWidth / startScroll.x;
+                // const correctionH = ref.current.scrollHeight / startScroll.y;
+                // console.log(startScroll);
+                // console.log(lastPositionScroll);
+                // console.log(ref.current.scrollHeight, ref.current.scrollWidth);
+                // console.log(lastPositionScroll.y * correctionH);
+                // const correctionToClientH = ref.current.clientHeight / 2;
+                // const correctionToClientW = ref.current.clientWidth / 2;
+
+                // ref.current.scrollTo(lastPositionScroll.x * correctionW - correctionToClientW,
+                //     lastPositionScroll.y*correctionH - correctionToClientH);
+                const correctionW = ref.current.scrollWidth / startScroll.x;
+                const correctionH = ref.current.scrollHeight/ startScroll.y;
+                const newScrollX = lastPositionScroll.x *correctionW;
+                const newScrollY = lastPositionScroll.y *correctionH;
+                const correctionScrollX = newScrollX - lastPositionScroll.x;
+                const correctionScrollY = newScrollY - lastPositionScroll.y;
+                const halfW = ref.current.clientWidth / 2;
+                const halfH = ref.current.clientHeight / 2;
+                const isUp = sizeCorrection>0;
+                const correctionCursorX  = lastPositionCursor.x - halfW;
+                const correctionCursorY  = lastPositionCursor.y - halfH;
+                console.log({oldScroll: startScroll,
+                    newScroll: {x: ref.current.scrollWidth, y:ref.current.scrollHeight}});
+                const finalCorrectionX = correctionScrollX + correctionCursorX;
+                const finalCorrectionY = correctionScrollY + correctionCursorY;
+                console.log(finalCorrectionX, finalCorrectionY);
+                if(correctionW<1.9 && correctionH<1.9 && correctionW > 0.55 && correctionH > 0.55){
+                    ref.current.scrollBy( isUp ? finalCorrectionX : correctionCursorX,
+                        isUp ? finalCorrectionY : correctionCursorY);
+                }
+            }
+        });
+
+        // eslint-disable-next-line
+    }, [ lastPositionScroll]);
     if(isOpen){
         return (
             <Modal isOpen={isOpen} onClose={onClose} className={cls.modal} ref={ref}>
@@ -126,6 +165,7 @@ export const IViewer = (props: IViewerProps) => {
                             key={src + index}
                             width={sizes[`width${index}`]}
                             height={sizes[`height${index}`]}
+                            className={cls.image}
                         />
                     ))
                 }
