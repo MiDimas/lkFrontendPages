@@ -16,7 +16,7 @@ export const MyTicketsPage = () => {
     else if (__DEV__) {
         return (
             <Page>
-                <MyTicketsFrame user={{id: 555, firstName:"Димас"}}/>
+                <MyTicketsFrame user={{id: 427, firstName:"Димас"}}/>
 
             </Page>
         );

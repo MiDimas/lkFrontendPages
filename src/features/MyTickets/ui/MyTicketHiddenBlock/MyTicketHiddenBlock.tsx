@@ -1,6 +1,7 @@
-import {GetMyTicketsParams, MyTicketsDirection, MyTicketsSort} from "../../model/types/MyTicketsSchema";
+import {GetMyTicketsParams} from "../../model/types/MyTicketsSchema";
 import {Dispatch, SetStateAction, useCallback, useMemo} from "react";
 import {Select, SelectOption} from "shared/ui/Select/Select";
+import {BaseTicketSort, TicketsDirection} from "entities/Tickets/model/types/GetTicketsSchema";
 
 interface MyTicketHiddenBlockProps{
     params: GetMyTicketsParams;
@@ -13,7 +14,7 @@ export function MyTicketHiddenBlock(props: MyTicketHiddenBlockProps) {
         setParams
     } = props;
 
-    const sortOptions: SelectOption<MyTicketsSort>[] = useMemo(()=> ([
+    const sortOptions: SelectOption<BaseTicketSort>[] = useMemo(()=> ([
         {
             value: "ticket_date",
             content: "По дате билета"
@@ -31,7 +32,7 @@ export function MyTicketHiddenBlock(props: MyTicketHiddenBlockProps) {
     const sortValue = params.sort;
 
     const changeSort = useCallback(
-        (select?: MyTicketsSort) => {
+        (select?: BaseTicketSort) => {
             setParams((prevState) => {
                 if(prevState.sort !== select){
                     return(
@@ -43,7 +44,7 @@ export function MyTicketHiddenBlock(props: MyTicketHiddenBlockProps) {
         }, [setParams]
     );
 
-    const directionOptions: SelectOption<MyTicketsDirection>[] = useMemo(()=> ([
+    const directionOptions: SelectOption<TicketsDirection>[] = useMemo(()=> ([
         {
             value: "DESC",
             content: "По убыванию"
@@ -57,7 +58,7 @@ export function MyTicketHiddenBlock(props: MyTicketHiddenBlockProps) {
     const directionValue = params.direction;
 
     const changeDirection = useCallback(
-        (select?: MyTicketsDirection) => {
+        (select?: TicketsDirection) => {
             setParams((prevState)=>  {
                 if(prevState.direction !== select){
                     return {...prevState, direction: select, page:1};

@@ -1,6 +1,6 @@
 import {objectValuesToString} from "shared/lib/helpers/typeCorrection/objectValuesToString";
 import {initQueryParams} from "./initQueryParams";
-import {GetTicketsParams} from "../../types/MyTicketsSchema";
+import {GetTicketsParams} from "entities/Tickets/model/types/GetTicketsSchema";
 
 export function fullJVQueryParamsString (
     params: GetTicketsParams,

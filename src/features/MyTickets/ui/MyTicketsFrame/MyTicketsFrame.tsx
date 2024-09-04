@@ -1,27 +1,61 @@
-import {useEffect, useState} from "react";
+import {memo, useCallback, useEffect, useMemo, useState} from "react";
 import {PaginationMenu} from "shared/ui/PaginationMenu/PaginationMenu";
 import {MyTicketHiddenBlock} from "../MyTicketHiddenBlock/MyTicketHiddenBlock";
 import {loadQueryParams} from "../../model/services/queryParams/loadQueryParams";
 import {GetMyTicketsParams} from "../../model/types/MyTicketsSchema";
 import {addQueryParams} from "shared/lib/url/addQueryParams/addQueryParams";
+import {useGetMyTicketsHandler} from "../../api/useGetMyTicketsHandler/useGetMyTicketsHandler";
+import {TicketInfoSchema, TicketSchema} from "entities/Tickets/model/types/TicketSchema";
 
 interface MyTicketsProps {
-    user?: User;
+    user: User;
 }
-export function MyTicketsFrame(props: MyTicketsProps) {
+export const MyTicketsFrame = memo((props: MyTicketsProps) => {
     const [params, setParams] = useState<GetMyTicketsParams>(
         loadQueryParams(new URLSearchParams(window.location.search))
     );
+    const {user} = props;
+    const [data, setData] = useState<TicketSchema[]>();
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] =  useState<string>();
+    const [info, setInfo]  = useState<TicketInfoSchema>();
+    const getTickets =  useGetMyTicketsHandler({
+        userData: user,
+        setData,
+        setIsLoading,
+        setError,
+        setInfo
+    });
     useEffect(() => {
         addQueryParams(params);
-    }, [params]);
+        getTickets(params);
+    }, [getTickets, params]);
+
+    const onChangePage = useCallback((page?: number) => {
+        if(!page) return;
+        setParams((prevState)=> {
+            if(prevState.page ===page){
+                return prevState;
+            }
+            return {
+                ...prevState,
+                page: page
+            };
+        });
+    }, []);
+
     return (
         <div>
             <MyTicketHiddenBlock params={params} setParams={setParams}/>
             <div>
                 here will be a window with tickets
             </div>
-            <PaginationMenu lastPage={10} selectedPage={2}/>
+            <PaginationMenu lastPage={info?.pagesCount}
+                selectedPage={params.page}
+                onChangePage={onChangePage}
+            />
         </div>
     );
-}
+});
+
+MyTicketsFrame.displayName = "MyTicketFrame";

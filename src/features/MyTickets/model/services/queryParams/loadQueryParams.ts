@@ -1,5 +1,6 @@
-import {GetMyTicketsParams, MyTicketsDirection, MyTicketsSort} from "../../types/MyTicketsSchema";
+import {GetMyTicketsParams} from "../../types/MyTicketsSchema";
 import {initQueryParams} from "./initQueryParams";
+import {BaseTicketSort, TicketsDirection, TicketsSort} from "entities/Tickets/model/types/GetTicketsSchema";
 
 export function loadQueryParams (
     searchParams: URLSearchParams,
@@ -8,8 +9,8 @@ export function loadQueryParams (
     const status = Number(searchParams.get("status"));
     // const limit = Number(searchParams.get("limit"));
 
-    const sort = searchParams.get("sort") as MyTicketsSort | undefined;
-    const direction = searchParams.get("direction") as MyTicketsDirection | undefined;
+    const sort = searchParams.get("sort") as BaseTicketSort | undefined;
+    const direction = searchParams.get("direction") as TicketsDirection | undefined;
 
     const finalObj:GetMyTicketsParams = {
         page: isNaN(page) || !page ? initQueryParams.page : page,
