@@ -14,13 +14,14 @@ export function TicketCard(props: TicketCardProps){
 
 
     return (
-        <DropdownCard hideContent={
-
-            (<Card>
-                <div>{ticket.boarding_pass}</div>
-            </Card>)
-
-        }>
+        <DropdownCard 
+            hideContent={
+                (<Card>
+                    <div>{ticket.boarding_pass}</div>
+                </Card>)
+            }
+            buttonPosition={"left"}
+        >
             <Card className={classNames(cls.card, {}, [className])}>
                 {ticket.city_name &&  <div><span>Город: </span>{ticket.city_name}</div>}
                 {ticket.region_name &&  <div><span>Участок: </span>{ticket.region_name}</div>}

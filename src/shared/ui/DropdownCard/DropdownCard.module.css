@@ -1,0 +1,39 @@
+.dd_card{
+    display: grid;
+}
+
+.button {
+    cursor: pointer;
+    border: none;
+    background-color: #1e95d0;
+    padding: 10px;
+    color: white;
+}
+
+.full {
+    justify-self: stretch;
+}
+
+.start {
+    justify-self: start;
+}
+
+.end {
+    justify-self: end;
+}
+
+.center {
+    justify-self: center;
+}
+
+.button:active {
+    background-color: #1976a4;
+}
+
+.content {
+
+}
+
+.hideContent {
+
+}
