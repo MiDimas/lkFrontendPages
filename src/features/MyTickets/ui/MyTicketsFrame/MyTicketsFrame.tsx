@@ -6,6 +6,7 @@ import {GetMyTicketsParams} from "../../model/types/MyTicketsSchema";
 import {addQueryParams} from "shared/lib/url/addQueryParams/addQueryParams";
 import {useGetMyTicketsHandler} from "../../api/useGetMyTicketsHandler/useGetMyTicketsHandler";
 import {TicketInfoSchema, TicketSchema} from "entities/Tickets/model/types/TicketSchema";
+import {TicketsList} from "entities/Tickets";
 
 interface MyTicketsProps {
     user: User;
@@ -48,7 +49,10 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
         <div>
             <MyTicketHiddenBlock params={params} setParams={setParams}/>
             <div>
-                here will be a window with tickets
+                {data
+                    ? <TicketsList tickets={data} />
+                    : <div>Ошибка получения данных</div>
+                }
             </div>
             <PaginationMenu lastPage={info?.pagesCount}
                 selectedPage={params.page}
