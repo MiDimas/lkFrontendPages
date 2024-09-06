@@ -1,5 +1,5 @@
 .Card {
-    padding: 10px;
     border-radius: 10px;
-    background-color: #d9d9d9;
+    background-color: #e3e8e8;
+    overflow: auto;
 }

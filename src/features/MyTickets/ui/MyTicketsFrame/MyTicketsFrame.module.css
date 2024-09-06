@@ -1,0 +1,10 @@
+.main{
+    height: calc(var(--vh, 1vh) * 100 - 100px);
+    overflow: auto;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+.content {
+    padding: 20px;
+    overflow: auto;
+}

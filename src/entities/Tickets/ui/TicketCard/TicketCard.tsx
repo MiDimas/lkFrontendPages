@@ -3,6 +3,7 @@ import {Card} from "shared/ui/Card/Card";
 import {classNames} from "shared/lib/classNames/classNames";
 import cls from "./TicketCard.module.css";
 import {DropdownCard} from "shared/ui/DropdownCard/DropdownCard";
+import {TicketMainInfo} from "../TicketMainInfo/TicketMainInfo";
 
 interface TicketCardProps{
     ticket: TicketSchema;
@@ -14,18 +15,18 @@ export function TicketCard(props: TicketCardProps){
 
 
     return (
-        <DropdownCard 
+        <DropdownCard className={cls.card}
             hideContent={
-                (<Card>
-                    <div>{ticket.boarding_pass}</div>
-                </Card>)
+                <div>{ticket.boarding_pass}</div>
             }
-            buttonPosition={"left"}
+            buttonPosition={"end"}
+            buttonBlock={
+                <div> button  </div>
+            }
         >
-            <Card className={classNames(cls.card, {}, [className])}>
-                {ticket.city_name &&  <div><span>Город: </span>{ticket.city_name}</div>}
-                {ticket.region_name &&  <div><span>Участок: </span>{ticket.region_name}</div>}
-            </Card>
+            <TicketMainInfo
+                {...ticket}
+            />
         </DropdownCard>
     );
 }

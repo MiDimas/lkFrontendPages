@@ -1,10 +1,17 @@
-import {Disclosure} from "@headlessui/react";
+import {Disclosure, Transition} from "@headlessui/react";
 import {ReactNode, useCallback} from "react";
 import {Card} from "shared/ui/Card/Card";
 import cls from "./DropdownCard.module.css";
 import {classNames} from "shared/lib/classNames/classNames";
 
-type DropdownCardButtonPosition = "left" | "center" | "right" | "full";
+type DropdownCardButtonPosition = "start" | "center" | "end" | "full";
+
+const mapGrid: Record<DropdownCardButtonPosition, string> = {
+    "start": cls.area_end,
+    "center": cls.area_up,
+    "end": cls.area_start,
+    "full": cls.area_up
+};
 
 interface DropdownCardProps{
     button?: "card" | "underContent" | "none"
@@ -12,6 +19,8 @@ interface DropdownCardProps{
     hideContent?: ReactNode;
     defaultOpen?: boolean;
     buttonPosition?: DropdownCardButtonPosition
+    className?:string;
+    buttonBlock?: ReactNode;
 }
 export const DropdownCard = (props: DropdownCardProps) => {
     const {
@@ -20,27 +29,35 @@ export const DropdownCard = (props: DropdownCardProps) => {
         hideContent,
         defaultOpen,
         buttonPosition= "full",
+        buttonBlock,
+        className
     } = props;
-    const positionCls = `button_${buttonPosition}`;
-    console.log(buttonPosition);
-    console.log([cls[buttonPosition]]);
-    console.log(cls[positionCls]);
     const renderPanel = useCallback((hideContent: ReactNode)=> {
         if(hideContent){
             return (
-                <div className={cls.hide_content}>
+                <Transition
+                    enter="transition duration-100 ease-out"
+                    leave="transition duration-100 ease-out"
+                    enterFrom="transform scale-95"
+                    enterTo="transform scale-100"
+                    leaveFrom="transform scale-100"
+                    leaveTo="transform scale-95"
+                >
                     <Disclosure.Panel>{hideContent}</Disclosure.Panel>
-                </div>
+                </Transition>
             );
         }
     }, []);
     if (button === "underContent") {
         return (
             <Disclosure defaultOpen={defaultOpen}>
-                <Card className={classNames(cls.dd_card, {}, [cls[positionCls]])}>
+                <Card className={classNames(cls.dd_card, {}, [mapGrid[buttonPosition],className])}>
                     <div className={cls.content}>
                         {children}
                     </div>
+                    {buttonBlock && (
+                        <div className={cls.blockBtn}>{buttonBlock}</div>
+                    )}
                     {hideContent ?
                         <Disclosure.Button className={
                             classNames(cls.button, {}, [cls[buttonPosition]])}>
@@ -56,7 +73,7 @@ export const DropdownCard = (props: DropdownCardProps) => {
     else if (button === "card") {
         return (
             <Disclosure>
-                <Card className={classNames(cls.dd_card, {}, [])}>
+                <Card className={classNames(cls.dd_card, {}, [className])}>
                     <Disclosure.Button as={"div"} className={cls.content}>
                         {children}
                     </Disclosure.Button>
@@ -68,7 +85,7 @@ export const DropdownCard = (props: DropdownCardProps) => {
     else {
         return (
             <Disclosure>
-                <Card>
+                <Card className={classNames(cls.dd_card, {}, [className])}>
                     <div className={cls.content}>{children}</div>
                     {renderPanel(hideContent)}
                 </Card>

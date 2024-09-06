@@ -1,5 +1,28 @@
 .dd_card{
     display: grid;
+    transition:all 0.3s ease;
+}
+.area_start{
+    grid-template-areas:
+            "main main"
+            "but butdrop"
+            "hid hid"
+    ;
+}
+.area_end{
+    grid-template-areas:
+            "main main"
+            "butdrop but"
+            "hid hid"
+    ;
+}
+.area_up{
+    grid-template-areas:
+            "main main"
+            "but but"
+            "butdrop butdrop"
+            "hid hid"
+    ;
 }
 
 .button {
@@ -8,6 +31,7 @@
     background-color: #1e95d0;
     padding: 10px;
     color: white;
+    grid-area: butdrop
 }
 
 .full {
@@ -31,9 +55,13 @@
 }
 
 .content {
+    grid-area: main;
+}
 
+.blockBtn {
+    grid-area: but;
 }
 
 .hideContent {
-
+    grid-area: hid;
 }

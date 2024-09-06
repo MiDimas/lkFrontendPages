@@ -24,10 +24,14 @@ export async function getTickets(props:  GetTicketsParams):Promise<ResponsesStru
                 boarding_upload
             },  index)=> {
                 if (response.data.data){
-                    response.data.data[index].ticket_date = dateFormatter(ticket_date);
-                    response.data.data[index].date_update = dateFormatter(date_update);
-                    if(boarding_update)response.data.data[index].boarding_update = dateFormatter(boarding_update);
-                    if(boarding_upload) response.data.data[index].boarding_upload = dateFormatter(boarding_upload);
+                    response.data.data[index].ticket_date = dateFormatter(ticket_date, false);
+                    response.data.data[index].date_update = dateFormatter(date_update, false);
+                    if(boarding_update){
+                        response.data.data[index].boarding_update = dateFormatter(boarding_update, false);
+                    }
+                    if(boarding_upload){
+                        response.data.data[index].boarding_upload = dateFormatter(boarding_upload, false);
+                    }
                 }
             });
         }

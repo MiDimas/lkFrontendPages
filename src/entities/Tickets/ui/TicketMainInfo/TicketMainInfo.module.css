@@ -1,0 +1,53 @@
+.main{
+    display: grid;
+    grid-template-areas:
+            "dt dt"
+            "rg st"
+            "rg st";
+    gap: 10px;
+}
+
+.date_info {
+    background-color: #1e95d0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+    color: white;
+    grid-area: dt;
+}
+
+.date {
+    display: grid;
+    height: 100%;
+
+}
+
+.update {
+    display: grid;
+    justify-self: end;
+    text-align: end;
+}
+
+.region_info {
+    display: grid;
+    grid-area: rg;
+    padding: 5px;
+}
+
+.status_info {
+    grid-area: st;
+    text-align: end;
+    justify-self: end;
+    padding: 5px;
+}
+.title {
+    font-size: 0.9rem;
+}
+.value {
+
+}
+.date_info .value {
+    color: #c5e8b1;
+    align-self: end;
+}

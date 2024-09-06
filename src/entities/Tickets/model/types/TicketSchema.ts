@@ -1,6 +1,7 @@
 export interface TicketSchema {
     id: number;
     profile_id: number;
+    profile_name?:string;
     status: number;
     city?: string;
     region?: string;
@@ -14,7 +15,7 @@ export interface TicketSchema {
     approve?: number;
     boarding_upload?: string;
     boarding_update?: string;
-    status_name?: string;
+    status_name: string;
 }
 
 export interface TicketInfoSchema extends ResponsesInfoStructure{

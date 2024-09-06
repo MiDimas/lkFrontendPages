@@ -7,6 +7,7 @@ import {addQueryParams} from "shared/lib/url/addQueryParams/addQueryParams";
 import {useGetMyTicketsHandler} from "../../api/useGetMyTicketsHandler/useGetMyTicketsHandler";
 import {TicketInfoSchema, TicketSchema} from "entities/Tickets/model/types/TicketSchema";
 import {TicketsList} from "entities/Tickets";
+import cls from "./MyTicketsFrame.module.css";
 
 interface MyTicketsProps {
     user: User;
@@ -46,9 +47,9 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
     }, []);
 
     return (
-        <div>
+        <div className={cls.main}>
             <MyTicketHiddenBlock params={params} setParams={setParams}/>
-            <div>
+            <div className={cls.content}>
                 {data
                     ? <TicketsList tickets={data} />
                     : <div>Ошибка получения данных</div>
