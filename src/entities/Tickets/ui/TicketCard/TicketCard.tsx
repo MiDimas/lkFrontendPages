@@ -23,6 +23,7 @@ export function TicketCard(props: TicketCardProps){
             buttonBlock={
                 <div> button  </div>
             }
+            classNameButtonBlock={cls.button_block}
         >
             <TicketMainInfo
                 {...ticket}

@@ -6,12 +6,6 @@ import {classNames} from "shared/lib/classNames/classNames";
 
 type DropdownCardButtonPosition = "start" | "center" | "end" | "full";
 
-const mapGrid: Record<DropdownCardButtonPosition, string> = {
-    "start": cls.area_end,
-    "center": cls.area_up,
-    "end": cls.area_start,
-    "full": cls.area_up
-};
 
 interface DropdownCardProps{
     button?: "card" | "underContent" | "none"
@@ -20,6 +14,7 @@ interface DropdownCardProps{
     defaultOpen?: boolean;
     buttonPosition?: DropdownCardButtonPosition
     className?:string;
+    classNameButtonBlock?:string;
     buttonBlock?: ReactNode;
 }
 export const DropdownCard = (props: DropdownCardProps) => {
@@ -30,7 +25,8 @@ export const DropdownCard = (props: DropdownCardProps) => {
         defaultOpen,
         buttonPosition= "full",
         buttonBlock,
-        className
+        className,
+        classNameButtonBlock
     } = props;
     const renderPanel = useCallback((hideContent: ReactNode)=> {
         if(hideContent){
@@ -51,20 +47,23 @@ export const DropdownCard = (props: DropdownCardProps) => {
     if (button === "underContent") {
         return (
             <Disclosure defaultOpen={defaultOpen}>
-                <Card className={classNames(cls.dd_card, {}, [mapGrid[buttonPosition],className])}>
+                <Card className={classNames(cls.dd_card, {}, [className])}>
                     <div className={cls.content}>
                         {children}
                     </div>
                     {buttonBlock && (
-                        <div className={cls.blockBtn}>{buttonBlock}</div>
+                        <div className={classNames(cls.blockBtn, {},  [classNameButtonBlock])}>
+                            {buttonBlock}
+                            {hideContent ?
+                                <Disclosure.Button className={
+                                    classNames(cls.button, {}, [cls[buttonPosition]])}>
+                                    Подробнее
+                                </Disclosure.Button>
+                                : null
+                            }
+                        </div>
                     )}
-                    {hideContent ?
-                        <Disclosure.Button className={
-                            classNames(cls.button, {}, [cls[buttonPosition]])}>
-                            more
-                        </Disclosure.Button>
-                        : null
-                    }
+
                     {renderPanel(hideContent)}
                 </Card>
             </Disclosure>
