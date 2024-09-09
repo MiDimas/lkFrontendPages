@@ -10,6 +10,8 @@ interface UseRequestHandlerProps<
     setInfo?: (info: I) => void;
     setError?: (error: string) => void;
     setIsLoading?: (isLoading: boolean) => void;
+    onSuccess?: () => void;
+    onError?: ()=>void;
     request?: (param: P) => Promise<ResponsesStructure<D,I>>
 }
 
@@ -24,7 +26,9 @@ export function useRequest<
         setData,
         setInfo,
         setError,
-        setIsLoading
+        setIsLoading,
+        onError,
+        onSuccess
     } = props;
     console.log("init");
     const myTicketsHandler = useCallback(async(params: P)=>  {
@@ -34,13 +38,15 @@ export function useRequest<
         if(!data) return;
         if(data.result && data.data){
             setData?.(data.data);
+            onSuccess?.();
         }
         else if (data.result === 0) {
             setError?.(data.desc);
+            onError?.();
         }
         if(data.info){
             setInfo?.(data.info);
         }
-    }, [request, setData, setInfo, setError, setIsLoading]);
+    }, [request, setData, setInfo, setError, setIsLoading, onError, onSuccess]);
     return myTicketsHandler;
 }

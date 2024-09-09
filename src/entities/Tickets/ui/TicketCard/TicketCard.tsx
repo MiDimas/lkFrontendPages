@@ -4,6 +4,8 @@ import {classNames} from "shared/lib/classNames/classNames";
 import cls from "./TicketCard.module.css";
 import {DropdownCard} from "shared/ui/DropdownCard/DropdownCard";
 import {TicketMainInfo} from "../TicketMainInfo/TicketMainInfo";
+import {useContext} from "react";
+import {BPContext} from "../../model/services/BPContext";
 
 interface TicketCardProps{
     ticket: TicketSchema;
@@ -12,7 +14,7 @@ interface TicketCardProps{
 
 export function TicketCard(props: TicketCardProps){
     const { ticket, className } = props;
-
+    const { setTicketId } = useContext(BPContext);
 
     return (
         <DropdownCard className={cls.card}
@@ -21,7 +23,7 @@ export function TicketCard(props: TicketCardProps){
             }
             buttonPosition={"end"}
             buttonBlock={
-                <div> button  </div>
+                <div onClick={() => setTicketId?.(ticket.id)}> button  </div>
             }
             classNameButtonBlock={cls.button_block}
         >
