@@ -1,3 +1,9 @@
 .modal{
 
 }
+.form {
+    display: grid;
+}
+.info{
+    display:grid;
+}

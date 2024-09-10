@@ -28,8 +28,8 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
     const [info, setInfo]  = useState<TicketInfoSchema>();
     const [isLoadingModal, setIsLoadingModal] = useState(false);
 
-    const [selectTicket, setSelectTicket] = useState<number|null>(null);
-    
+    const [selectTicket, setSelectTicket] = useState<number>();
+    const [dataSelectTicket, setDataSelectTicket] = useState<TicketSchema>();
     const {onOpen, isOpen, onClose} = useModalState(false);
     
     const {Component: Popup, setMessage} = usePopUpMsg(1000);
@@ -46,6 +46,17 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
         getTickets(params);
     }, [getTickets, params]);
 
+    useEffect(() => {
+        if (data?.length && selectTicket){
+            for (const value of data){
+                if(value.id === selectTicket) {
+                    setDataSelectTicket(value);
+                    break;
+                }
+            }
+        }
+    }, [selectTicket, data]);
+
     const onChangePage = useCallback((page?: number) => {
         if(!page) return;
         setParams((prevState)=> {
@@ -59,12 +70,30 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
         });
     }, []);
 
+    const updateTicket = useCallback((ticketId: number, newState: Partial<TicketSchema>) => {
+        setData(prevState=> {
+            if(prevState?.length){
+                for(let item=0; item< prevState.length; item++){
+                    const value = prevState[item];
+                    if (value.id === ticketId){
+                        prevState[item] = {...value, ...newState};
+                        console.log("updated", item);
+                        break;
+                    }
+                }
+                prevState = [...prevState];
+            }
+            return prevState;
+        });
+    }, [setData]);
+
     const sendTicketsBP = useSendMyTicketBP({
         onCloseModal: onClose,
         userData: user,
         setError,
         setMessage: msg => setMessage({text:msg, severity: "success"}),
-        setIsLoading: setIsLoadingModal
+        setIsLoading: setIsLoadingModal,
+        updateTicket
     });
 
     const onOpenTicketBPLoad = useCallback((id: number) => {
@@ -74,7 +103,7 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
 
     const onCloseTicketBPLoad = useCallback(() => {
         onClose();
-        setSelectTicket(null);
+        setSelectTicket(undefined);
     }, [onClose, setSelectTicket]);
 
 
@@ -93,9 +122,16 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
                 selectedPage={params.page}
                 onChangePage={onChangePage}
             />
-            <TicketBPLoadModal isOpen={isOpen}
+            <TicketBPLoadModal
+                isLoading={isLoadingModal}
+                isOpen={isOpen}
                 onClose={onCloseTicketBPLoad}
+                ticketId={selectTicket}
+                ticketInfo={dataSelectTicket}
+                userId={user.id}
+                onSend={sendTicketsBP}
             />
+            <Popup />
         </div>
     );
 });

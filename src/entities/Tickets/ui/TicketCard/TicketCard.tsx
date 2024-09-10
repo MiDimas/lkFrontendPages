@@ -23,7 +23,11 @@ export function TicketCard(props: TicketCardProps){
             }
             buttonPosition={"end"}
             buttonBlock={
-                <div onClick={() => setTicketId?.(ticket.id)}> button  </div>
+                ticket.status===1 
+                    ? (<button className={cls.button} onClick={() => setTicketId?.(ticket.id)}>
+                        Пиркрепить посадочный
+                    </button>)
+                    : null
             }
             classNameButtonBlock={cls.button_block}
         >
