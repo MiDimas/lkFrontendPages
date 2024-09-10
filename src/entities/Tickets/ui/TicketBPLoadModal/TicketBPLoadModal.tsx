@@ -4,6 +4,7 @@ import {FileLoader} from "shared/ui/FileLoader/FileLoader";
 import {TicketSchema} from "../../model/types/TicketSchema";
 import {SendTicketBPParams} from "../../model/types/SendTicketBPSchema";
 import {useCallback, useEffect, useState} from "react";
+import {Button} from "shared/ui/Button/Button";
 
 interface TicketBPLoadModalProps {
     ticketId?: number;
@@ -63,8 +64,8 @@ export const TicketBPLoadModal = (props: TicketBPLoadModalProps) => {
                     ? <div>Loading...</div>
                     :<><FileLoader setFile={setFile}/>
                         {file &&
-                        <button onClick={()=> onSendHandler(file)}>send it
-                        </button>}
+                        <Button onClick={()=> onSendHandler(file)}>send it
+                        </Button>}
                     </>
                 }
             </div>

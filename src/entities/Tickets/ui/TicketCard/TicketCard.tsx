@@ -1,11 +1,10 @@
 import {TicketSchema} from "../../model/types/TicketSchema";
-import {Card} from "shared/ui/Card/Card";
-import {classNames} from "shared/lib/classNames/classNames";
 import cls from "./TicketCard.module.css";
 import {DropdownCard} from "shared/ui/DropdownCard/DropdownCard";
 import {TicketMainInfo} from "../TicketMainInfo/TicketMainInfo";
 import {useContext} from "react";
 import {BPContext} from "../../model/services/BPContext";
+import {Button} from "shared/ui/Button/Button";
 
 interface TicketCardProps{
     ticket: TicketSchema;
@@ -24,9 +23,9 @@ export function TicketCard(props: TicketCardProps){
             buttonPosition={"end"}
             buttonBlock={
                 ticket.status===1 
-                    ? (<button className={cls.button} onClick={() => setTicketId?.(ticket.id)}>
+                    ? (<Button onClick={() => setTicketId?.(ticket.id)}>
                         Пиркрепить посадочный
-                    </button>)
+                    </Button>)
                     : null
             }
             classNameButtonBlock={cls.button_block}
