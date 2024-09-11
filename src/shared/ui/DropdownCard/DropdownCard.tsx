@@ -31,7 +31,7 @@ export const DropdownCard = (props: DropdownCardProps) => {
     const renderPanel = useCallback((hideContent: ReactNode)=> {
         if(hideContent){
             return (
-                <Transition
+                <Transition className={cls.hideContent}
                     enter="transition duration-100 ease-out"
                     leave="transition duration-100 ease-out"
                     enterFrom="transform scale-95"
@@ -51,18 +51,17 @@ export const DropdownCard = (props: DropdownCardProps) => {
                     <div className={cls.content}>
                         {children}
                     </div>
-                    {buttonBlock && (
-                        <div className={classNames(cls.blockBtn, {},  [classNameButtonBlock])}>
-                            {buttonBlock}
-                            {hideContent ?
-                                <Disclosure.Button className={
-                                    classNames(cls.button, {}, [cls[buttonPosition]])}>
-                                    Подробнее
-                                </Disclosure.Button>
-                                : null
-                            }
-                        </div>
-                    )}
+                    <div className={classNames(cls.blockBtn, {},  [classNameButtonBlock])}>
+                        {buttonBlock}
+                        {hideContent ?
+                            <Disclosure.Button className={
+                                classNames(cls.button, {}, [cls[buttonPosition]])}>
+                                Подробнее
+                            </Disclosure.Button>
+                            : null
+                        }
+                    </div>
+
 
                     {renderPanel(hideContent)}
                 </Card>

@@ -5,6 +5,33 @@
 }
 .button_block{
     display: grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr;
+    grid-auto-columns:1fr;
     align-items: end;
+    grid-auto-flow: column;
+}
+
+.boarding_info{
+    display:grid;
+    max-width: 100%;
+    grid-template-columns: 100px 1fr;
+    align-items: end;
+    justify-content: space-between;
+}
+
+.image{
+    max-width: 100%;
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+    object-fit: cover!important;
+    cursor: pointer;
+}
+
+.boarding_dates{
+    justify-self:end;
+}
+.modalImage {
+    width:  100%;
+    height: calc(80 * var(--vh, 1vh));
 }

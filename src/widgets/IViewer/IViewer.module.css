@@ -1,3 +1,7 @@
+
+.mainEl {
+    transition: all 0.3s ease;
+}
 .modal {
     align-content: start;
     justify-content: start;
@@ -8,4 +12,7 @@
 }
 .image {
     justify-self: start;
+}
+.zoomable{
+
 }
