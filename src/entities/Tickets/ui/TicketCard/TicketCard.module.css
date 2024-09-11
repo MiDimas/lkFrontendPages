@@ -14,22 +14,25 @@
 .boarding_info{
     display:grid;
     max-width: 100%;
-    grid-template-columns: 100px 1fr;
-    align-items: end;
-    justify-content: space-between;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    gap: 10px
 }
 
 .image{
     max-width: 100%;
-    height: 100px;
-    width: 100px;
-    border-radius: 50px;
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
     object-fit: cover!important;
     cursor: pointer;
+    padding: 10px;
+    justify-self: start;
 }
 
 .boarding_dates{
-    justify-self:end;
+    justify-self:start;
+    padding: 10px
 }
 .modalImage {
     width:  100%;

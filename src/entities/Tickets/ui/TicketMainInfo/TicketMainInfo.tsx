@@ -38,22 +38,28 @@ export const TicketMainInfo = (props: TicketMainInfoProps) => {
                     <span className={cls.value}>{date_update}</span>
                 </div>
             </div>
-            <div className={cls.region_info}>
-                {city_name && (
-                    <div>
-                        <span className={cls.title}>Город: </span>
-                        <span className={cls.value}>{city_name}</span>
-                    </div>
-                )}
-                {region_name && (
-                    <div>
-                        <span className={cls.title}>Участок: </span>
-                        <span className={cls.value}>{region_name}</span>
-                    </div>
-                )}
-            </div>
-            <div className={cls.status_info}>
-                <TicketStatus status={status}>{status_name}</TicketStatus>
+            <div className={cls.details}>
+                <div className={cls.region_info}>
+                    {city_name && (
+                        <div>
+                            <span className={cls.title}>Город: </span>
+                            <span className={cls.value}>{city_name}</span>
+                        </div>
+                    )}
+                    {region_name && (
+                        <div>
+                            <span className={cls.title}>Участок: </span>
+                            <span className={cls.value}>{region_name}</span>
+                        </div>
+                    )}
+                </div>
+                <div className={cls.status_info}>
+                    <TicketStatus status={status}>{status_name}</TicketStatus>
+                </div>
+                <div className={cls.price}>
+                    <span className={cls.title}>Ценность билета: </span>
+                    <span className={cls.value}>{price}</span>
+                </div>
             </div>
         </div>
     );

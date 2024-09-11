@@ -6,7 +6,6 @@ import {useContext} from "react";
 import {BPContext} from "../../model/services/BPContext";
 import {Button} from "shared/ui/Button/Button";
 import {AppImage} from "shared/ui/Image/AppImage";
-// import {IViewer} from "widgets/IViewer/IViewer";
 import {Modal} from "shared/ui/Modal/Modal";
 import {IViewerOld} from "widgets/IViewerOld/IViewerOld.jsx";
 import {useModalState} from "shared/lib/hooks/useModalState/useModalState";

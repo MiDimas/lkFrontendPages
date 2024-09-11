@@ -2,8 +2,7 @@
     display: grid;
     grid-template-areas:
             "dt dt"
-            "rg st"
-            "rg st";
+            "det det";
     gap: 10px;
 }
 
@@ -21,6 +20,13 @@
     display: grid;
     height: 100%;
 
+}
+
+.details{
+    display: grid;
+    grid-area: det;
+    grid-template-areas: "rg st"
+                        "rg price"
 }
 
 .update {
@@ -50,4 +56,9 @@
 .date_info .value {
     color: #c5e8b1;
     align-self: end;
+}
+.price{
+    justify-self: end;
+    grid-area: price;
+    text-align: end;
 }
