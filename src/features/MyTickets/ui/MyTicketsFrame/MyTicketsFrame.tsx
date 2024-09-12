@@ -113,7 +113,7 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
             <MyTicketHiddenBlock params={params} setParams={setParams}/>
             <div className={cls.content}>
                 <BPContext.Provider value={{setTicketId: onOpenTicketBPLoad}}>
-                    <TicketsList tickets={data} isLoading={true} error={error}/>
+                    <TicketsList tickets={data} isLoading={isLoading} error={error}/>
                 </BPContext.Provider>
             </div>
             <div className={cls.pageBtns}>

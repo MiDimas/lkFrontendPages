@@ -10,7 +10,7 @@ interface TicketsListProps {
     isLoading?: boolean;
     error?:  string;
 }
-const listLoaders = [1,2,3];
+const listLoaders = [1,2,3,4,5,6];
 
 export const TicketsList = memo((props: TicketsListProps) => {
     const {

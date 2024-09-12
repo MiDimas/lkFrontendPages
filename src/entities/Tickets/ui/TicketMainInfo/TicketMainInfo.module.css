@@ -38,14 +38,14 @@
 .region_info {
     display: grid;
     grid-area: rg;
-    padding: 5px;
+    padding: 5px 5px 5px 10px;
 }
 
 .status_info {
     grid-area: st;
     text-align: end;
     justify-self: end;
-    padding: 5px;
+    padding: 5px 10px 5px 5px;
 }
 .title {
     font-size: 0.9rem;
@@ -61,4 +61,5 @@
     justify-self: end;
     grid-area: price;
     text-align: end;
+    padding: 10px;
 }
