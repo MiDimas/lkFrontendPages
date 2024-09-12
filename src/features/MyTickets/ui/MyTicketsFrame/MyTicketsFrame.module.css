@@ -8,3 +8,10 @@
     padding: 20px;
     overflow: auto;
 }
+.pageBtns {
+    text-align: center;
+    padding-top:  10px;
+    padding-bottom: 5px;
+    display: grid;
+    justify-content: center;
+}

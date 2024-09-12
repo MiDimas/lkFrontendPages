@@ -4,7 +4,7 @@ import {Select, SelectOption} from "shared/ui/Select/Select";
 import {BaseTicketSort, TicketsDirection} from "entities/Tickets/model/types/GetTicketsSchema";
 import {myTicketSortOptions} from "../../model/consts/sortOptions";
 import {ticketDirectionOptions} from "../../model/consts/directionOptions";
-
+import cls from "./MyTicketHiddenBlock.module.css";
 interface MyTicketHiddenBlockProps{
     params: GetMyTicketsParams;
     setParams: Dispatch<SetStateAction<GetMyTicketsParams>>
@@ -54,8 +54,8 @@ export function MyTicketHiddenBlock(props: MyTicketHiddenBlockProps) {
 
 
     return (
-        <div>
-            <div>
+        <div className={cls.container}>
+            <div className={cls.element}>
                 <span>Сортировать по:</span>
                 <Select
                     options={sortOptions}
@@ -63,7 +63,7 @@ export function MyTicketHiddenBlock(props: MyTicketHiddenBlockProps) {
                     onChange={changeSort}
                 />
             </div>
-            <div>
+            <div className={cls.element}>
                 <Select
                     options={directionOptions}
                     value={directionValue}

@@ -32,12 +32,12 @@ export const DropdownCard = (props: DropdownCardProps) => {
         if(hideContent){
             return (
                 <Transition className={cls.hideContent}
-                    enter="transition duration-100 ease-out"
-                    leave="transition duration-100 ease-out"
-                    enterFrom="transform scale-95"
-                    enterTo="transform scale-100"
-                    leaveFrom="transform scale-100"
-                    leaveTo="transform scale-95"
+                    enter={cls.enter}
+                    leave={cls.leave}
+                    enterFrom={cls.enterFrom}
+                    enterTo={cls.enterTo}
+                    leaveFrom={cls.leaveFrom}
+                    leaveTo={cls.leaveTo}
                 >
                     <Disclosure.Panel>{hideContent}</Disclosure.Panel>
                 </Transition>

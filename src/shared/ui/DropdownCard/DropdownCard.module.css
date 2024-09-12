@@ -46,3 +46,27 @@
 .hideContent {
     grid-area: hid;
 }
+
+.enter {
+    transition: all 0.3s ease;
+}
+.enterFrom{
+    transform: scaleY(0.9);
+    opacity: 0;
+}
+.enterTo {
+    transform: scaleY(1);
+    opacity: 1;
+}
+.leave{
+    transition: all 0.2s ease;
+}
+.leaveFrom{
+    transform: scaleY(1);
+    opacity: 1;
+}
+.leaveTo{
+    transform: scaleY(0.5);
+    opacity: 0;
+
+}

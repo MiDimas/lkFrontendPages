@@ -118,10 +118,14 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
                     : <div>Ошибка получения данных</div>
                 }
             </div>
-            <PaginationMenu lastPage={info?.pagesCount}
-                selectedPage={params.page}
-                onChangePage={onChangePage}
-            />
+            <div className={cls.pageBtns}>
+                <PaginationMenu
+
+                    lastPage={info?.pagesCount}
+                    selectedPage={params.page}
+                    onChangePage={onChangePage}
+                />
+            </div>
             <TicketBPLoadModal
                 isLoading={isLoadingModal}
                 isOpen={isOpen}

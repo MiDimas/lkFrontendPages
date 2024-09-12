@@ -5,12 +5,14 @@ interface PaginationMenuProps {
     lastPage?: number;
     onChangePage?: (page?: number)=> void;
     selectedPage?: number;
+    className?: string;
 }
 export function PaginationMenu (props: PaginationMenuProps) {
     const {
         lastPage,
         onChangePage,
-        selectedPage
+        selectedPage,
+        className
     } = props;
     const renderButton = useCallback(
         (num: number, selected:boolean=false) => (
@@ -60,7 +62,7 @@ export function PaginationMenu (props: PaginationMenuProps) {
         return null;
     }
     return (
-        <div>
+        <div className={className}>
             {listBtns}
         </div>
     );
