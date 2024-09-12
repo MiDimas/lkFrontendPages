@@ -8,7 +8,7 @@
     pointer-events: none;
 }
 
-.reflection:before {
+.before {
     content: "";
     position: absolute;
     top: 0;
@@ -16,7 +16,6 @@
     width: 80%;
     height: 100%;
     display: block;
-    background: linear-gradient(to right, transparent 0%, #fff 50%, transparent 100%);
     animation: load 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 

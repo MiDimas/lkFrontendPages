@@ -106,17 +106,15 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
         setSelectTicket(undefined);
     }, [onClose, setSelectTicket]);
 
+    
 
     return (
         <div className={cls.main}>
             <MyTicketHiddenBlock params={params} setParams={setParams}/>
             <div className={cls.content}>
-                {data
-                    ? <BPContext.Provider value={{setTicketId: onOpenTicketBPLoad}}>
-                        <TicketsList tickets={data} />
-                    </BPContext.Provider>
-                    : <div>Ошибка получения данных</div>
-                }
+                <BPContext.Provider value={{setTicketId: onOpenTicketBPLoad}}>
+                    <TicketsList tickets={data} isLoading={true} error={error}/>
+                </BPContext.Provider>
             </div>
             <div className={cls.pageBtns}>
                 <PaginationMenu
