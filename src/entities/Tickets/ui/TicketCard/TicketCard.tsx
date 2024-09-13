@@ -21,7 +21,7 @@ export function TicketCard(props: TicketCardProps){
     const {isOpen, onOpen, onClose} = useModalState();
 
     const boardingInfo = (<div className={cls.boarding_info}>
-        <AppImage className={cls.image} src={__API__+ticket.boarding_pass} onClick={onOpen} />
+        <AppImage className={cls.image} src={ticket.boarding_pass} onClick={onOpen} />
         
         <div className={cls.boarding_dates}>
             <div>Посадочный загружен: {ticket.boarding_upload}</div>
