@@ -3,7 +3,7 @@ import {useCallback} from "react";
 
 interface UseRequestHandlerProps<
     P extends object,
-    D extends object,
+    D extends object|null,
     I extends ResponsesInfoStructure,
 > {
     setData?: (data: D) => void;
@@ -17,7 +17,7 @@ interface UseRequestHandlerProps<
 
 export function useRequest<
     P extends object,
-    D extends object,
+    D extends object|null,
     I extends ResponsesInfoStructure,
 >(
     props: UseRequestHandlerProps<P, D, I>) {

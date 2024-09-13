@@ -1,5 +1,5 @@
 import {useRequest} from "shared/lib/hooks/useRequest/useRequest";
-import {useCallback} from "react";
+import {Dispatch, SetStateAction, useCallback} from "react";
 import {SendTicketBPParams} from "entities/Tickets/model/types/SendTicketBPSchema";
 import {sendTicketBP} from "entities/Tickets/api/sendTicketBP/sendTicketBP";
 import {TicketSchema} from "entities/Tickets/model/types/TicketSchema";
@@ -11,6 +11,7 @@ interface SendMyTicketsBPHandlerProps {
     setIsLoading?: (isLoading: boolean) => void;
     onCloseModal?: () => void;
     updateTicket?: (ticketId: number, newTicket: Partial<TicketSchema>) => void;
+    setData?: Dispatch<SetStateAction<TicketSchema[]|undefined>>;
 }
 
 
@@ -21,23 +22,39 @@ export const useSendMyTicketBP = (props: SendMyTicketsBPHandlerProps) => {
         setIsLoading,
         setMessage,
         onCloseModal,
-        updateTicket
+        updateTicket,
+        setData
     } = props;
     const {id} = userData;
-    const onSuccess = useCallback((params?:SendTicketBPParams) => {
+    const onSuccess = useCallback(() => {
         setMessage?.("Успешная отправка");
-        if(params?.ticket){
-            updateTicket?.(params.ticket, {status_name: "на рассмотрении", status: 2});
-        }
         onCloseModal?.();
-    }, [setMessage, onCloseModal, updateTicket]);
-    return useRequest<SendTicketBPParams, object, ResponsesInfoStructure>({
+    }, [setMessage, onCloseModal]);
+
+    const setDataHandler = useCallback((ticket?:TicketSchema|null)=> {
+        if(ticket){
+            setData?.((prev) => {
+                if(prev?.length){
+                    for (let i=0; i<prev.length; i++){
+                        if(prev[i].id === ticket.id){
+                            prev[i] = ticket;
+                            prev = [...prev];
+                            break;
+                        }
+                    }
+                }
+                return prev;
+            });
+        }
+    }, [setData]);
+    return useRequest<SendTicketBPParams, TicketSchema|null, ResponsesInfoStructure>({
         request: useCallback((param: SendTicketBPParams) => (sendTicketBP({...param,
             userId:id,
         })), [id]),
         setError,
         setIsLoading,
-        onSuccess
+        onSuccess,
+        setData: setDataHandler
     });
 
 };

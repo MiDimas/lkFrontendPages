@@ -70,22 +70,6 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
         });
     }, []);
 
-    const updateTicket = useCallback((ticketId: number, newState: Partial<TicketSchema>) => {
-        setData(prevState=> {
-            if(prevState?.length){
-                for(let item=0; item< prevState.length; item++){
-                    const value = prevState[item];
-                    if (value.id === ticketId){
-                        prevState[item] = {...value, ...newState};
-                        console.log("updated", item);
-                        break;
-                    }
-                }
-                prevState = [...prevState];
-            }
-            return prevState;
-        });
-    }, [setData]);
 
     const sendTicketsBP = useSendMyTicketBP({
         onCloseModal: onClose,
@@ -93,7 +77,7 @@ export const MyTicketsFrame = memo((props: MyTicketsProps) => {
         setError,
         setMessage: msg => setMessage({text:msg, severity: "success"}),
         setIsLoading: setIsLoadingModal,
-        updateTicket
+        setData
     });
 
     const onOpenTicketBPLoad = useCallback((id: number) => {
