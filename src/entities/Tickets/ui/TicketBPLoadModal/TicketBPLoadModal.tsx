@@ -5,6 +5,7 @@ import {TicketSchema} from "../../model/types/TicketSchema";
 import {SendTicketBPParams} from "../../model/types/SendTicketBPSchema";
 import {useCallback, useEffect, useState} from "react";
 import {Button} from "shared/ui/Button/Button";
+import {Skeleton} from "shared/ui/Skeleton/Skeleton";
 
 interface TicketBPLoadModalProps {
     ticketId?: number;
@@ -55,13 +56,15 @@ export const TicketBPLoadModal = (props: TicketBPLoadModalProps) => {
             className={cls.modal}
         >
             <div className={cls.form} >
+                <h4 className={cls.title}>Загрузка посадочного</h4>
                 <div className={cls.info}>
-                    <span>Загрузить посадочный для билета: {ticketTo}</span>
+                    <span>Для билета: {ticketTo}</span>
                     <span>От: {ticketDate}</span>
                     <span>Ценность: {ticketPrice}</span>
                 </div>
+
                 {isLoading
-                    ? <div>Loading...</div>
+                    ? <Skeleton width={"100%"}/>
                     :<><FileLoader setFile={setFile}/>
                         {file &&
                         <Button onClick={()=> onSendHandler(file)}>send it

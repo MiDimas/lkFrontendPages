@@ -10,7 +10,6 @@ interface SendMyTicketsBPHandlerProps {
     setError?: (error: string) => void;
     setIsLoading?: (isLoading: boolean) => void;
     onCloseModal?: () => void;
-    updateTicket?: (ticketId: number, newTicket: Partial<TicketSchema>) => void;
     setData?: Dispatch<SetStateAction<TicketSchema[]|undefined>>;
 }
 
@@ -22,7 +21,6 @@ export const useSendMyTicketBP = (props: SendMyTicketsBPHandlerProps) => {
         setIsLoading,
         setMessage,
         onCloseModal,
-        updateTicket,
         setData
     } = props;
     const {id} = userData;
