@@ -2,3 +2,8 @@
     display: grid;
     gap: 5px;
 }
+.not_found {
+    text-align: center;
+    font-size: 1.3rem;
+    color: #A6260B;
+}

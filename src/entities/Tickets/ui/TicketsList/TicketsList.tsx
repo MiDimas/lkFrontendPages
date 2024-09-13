@@ -25,13 +25,13 @@ export const TicketsList = memo((props: TicketsListProps) => {
     }
     if(!tickets){
         return (<div className={classNames(cls.list, {}, [])}>
-            Ошибка получения данных {error}
+            <div className={cls.not_found}>Ошибка получения данных {error}</div>
         </div>);
     }
     if (!tickets.length) {
         return (
             <div className={classNames(cls.list, {}, [])}>
-                Отсутствуют билеты
+                <div className={cls.not_found}>Билеты отсутствуют</div>
             </div>
         );
     }
